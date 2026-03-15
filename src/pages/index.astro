@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { generateWebSiteSchema, generateOrganizationSchema } from '../utils/seo';
+import { generateExcerpt, cleanWpContent } from '../utils/content';
+import postsData from '../data/posts.json';
+
+// Conteo dinámico de categorías desde posts.json
+const categoryDefs = [
+  { name: 'Tiendas Chinas', slug: 'tiendas-chinas', dbName: 'Tiendas Chinas' },
+  { name: 'Ropa', slug: 'ropa', dbName: 'Ropa' },
+  { name: 'Accesorios', slug: 'accesorios', dbName: 'Accesorios' },
+  { name: 'Tecnología', slug: 'tecnologia', dbName: 'Tecnología' },
+  { name: 'Calzado', slug: 'calzado', dbName: 'Calzado' },
+  { name: 'Deporte', slug: 'deporte', dbName: 'Deporte' },
+  { name: 'Blog', slug: 'blog', dbName: 'Blog' },
+  { name: 'Xiaomi', slug: 'xiaomi', dbName: 'Xiaomi' },
+];
+
+const categories = categoryDefs.map(cat => ({
+  ...cat,
+  count: (postsData as any[]).filter((p: any) => p.categories?.includes(cat.dbName)).length,
+})).sort((a, b) => b.count - a.count);
+
+const latestPosts = postsData.slice(0, 12);
+
+const schema = [generateWebSiteSchema(), generateOrganizationSchema()];
+---
+
+<Base
+  title="De Compras por China - Tu guía para comprar en tiendas chinas"
+  description="Guías, análisis y consejos para comprar en AliExpress, Shein, TEMU y otras tiendas chinas. Ropa, tecnología, calzado, accesorios y mucho más."
+  schema={schema}
+>
+  <section class="hero">
+    <div class="container">
+      <h1>De Compras por China</h1>
+      <p>Tu guía de referencia para comprar en AliExpress, Shein, TEMU y las mejores tiendas chinas. Análisis, reseñas y consejos para ahorrar.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <h2 class="mt-2" style="font-size:1.5rem;font-weight:700">Categorías</h2>
+    <div class="card-grid" style="padding-top:1rem">
+      {categories.map((cat) => (
+        <a href={`/categoria/${cat.slug}`} class="cat-card">
+          <h3>{cat.name}</h3>
+          <p>{cat.count} artículos</p>
+        </a>
+      ))}
+    </div>
+
+    <h2 class="mt-2" style="font-size:1.5rem;font-weight:700">Últimos artículos</h2>
+    <div class="card-grid">
+      {latestPosts.map((post: any) => (
+        <ArticleCard
+          title={post.title}
+          slug={post.slug}
+          excerpt={post.seoDescription || post.excerpt || generateExcerpt(cleanWpContent(post.body || ''), 120)}
+          featuredImage={post.featuredImage}
+          date={post.date}
+        />
+      ))}
+    </div>
+
+    <div class="text-center mt-2 mb-2">
+      <a href="/blog" class="cta-button">Ver todos los artículos</a>
+    </div>
+  </div>
+</Base>

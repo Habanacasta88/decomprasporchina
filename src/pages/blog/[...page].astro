@@ -1,0 +1,139 @@
+---
+import Base from '../../layouts/Base.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { generateExcerpt, cleanWpContent } from '../../utils/content';
+import postsData from '../../data/posts.json';
+
+const POSTS_PER_PAGE = 24;
+const totalPages = Math.ceil(postsData.length / POSTS_PER_PAGE);
+
+export function getStaticPaths() {
+  const perPage = 24;
+  const total = Math.ceil(postsData.length / perPage);
+  const paths = [];
+
+  // /blog (page 1)
+  paths.push({
+    params: { page: undefined },
+    props: { currentPage: 1, totalPages: total },
+  });
+
+  // /blog/2, /blog/3, etc.
+  for (let i = 2; i <= total; i++) {
+    paths.push({
+      params: { page: String(i) },
+      props: { currentPage: i, totalPages: total },
+    });
+  }
+
+  return paths;
+}
+
+const { currentPage, totalPages: tp } = Astro.props;
+const start = (currentPage - 1) * POSTS_PER_PAGE;
+const paginatedPosts = postsData.slice(start, start + POSTS_PER_PAGE);
+
+const prevUrl = currentPage > 1 ? (currentPage === 2 ? '/blog' : `/blog/${currentPage - 1}`) : undefined;
+const nextUrl = currentPage < tp ? `/blog/${currentPage + 1}` : undefined;
+---
+
+<Base
+  title={`Blog${currentPage > 1 ? ` - Página ${currentPage}` : ''} - De Compras por China`}
+  description="Todos los artículos sobre cómo cambiar pilas y baterías de llaves de coche, auriculares, relojes y dispositivos electrónicos."
+  prevUrl={prevUrl}
+  nextUrl={nextUrl}
+>
+  <div class="container">
+    <Breadcrumbs items={[{ name: 'Blog', url: '/blog' }]} />
+
+    <header class="article-header">
+      <h1>Todos los artículos</h1>
+      <p style="color:#666">{postsData.length} guías sobre cambio de pilas y baterías</p>
+    </header>
+
+    {currentPage === 1 && (
+      <div style="margin:1rem 0 1.5rem">
+        <input
+          type="search"
+          id="blogSearch"
+          placeholder="Buscar artículos… (ej: CR2032, Audi A3, reloj)"
+          style="width:100%;padding:.65rem 1rem;border:1.5px solid #d0d8e8;border-radius:8px;font-size:1rem;box-sizing:border-box"
+          autocomplete="off"
+        />
+        <div id="blogSearchResults" style="display:none;margin-top:1rem"></div>
+      </div>
+    )}
+
+    <div class="card-grid">
+      {paginatedPosts.map((post: any) => (
+        <ArticleCard
+          title={post.title}
+          slug={post.slug}
+          excerpt={post.seoDescription || post.excerpt || generateExcerpt(cleanWpContent(post.body || ''), 120)}
+          featuredImage={post.featuredImage}
+          date={post.date}
+        />
+      ))}
+    </div>
+
+    {tp > 1 && (
+      <nav class="pagination" aria-label="Paginación">
+        {currentPage > 1 && (
+          <a href={currentPage === 2 ? '/blog' : `/blog/${currentPage - 1}`} class="pagination-btn">&laquo; Anterior</a>
+        )}
+        <span class="pagination-info">Página {currentPage} de {tp}</span>
+        {currentPage < tp && (
+          <a href={`/blog/${currentPage + 1}`} class="pagination-btn">Siguiente &raquo;</a>
+        )}
+      </nav>
+    )}
+  </div>
+
+  {currentPage === 1 && (
+    <script>
+      const input = document.getElementById('blogSearch');
+      const resultsEl = document.getElementById('blogSearchResults');
+      const grid = document.querySelector('.card-grid');
+      const pagination = document.querySelector('.pagination');
+      let posts = [];
+
+      const urlQ = new URLSearchParams(location.search).get('q') || '';
+      if (urlQ && input) {
+        (input as HTMLInputElement).value = urlQ;
+        loadAndFilter(urlQ);
+      }
+
+      input && input.addEventListener('input', () => loadAndFilter((input as HTMLInputElement).value));
+
+      async function loadAndFilter(q: string) {
+        if (posts.length === 0) {
+          try { posts = await (await fetch('/search-index.json')).json(); } catch(e) {}
+        }
+        const term = q.toLowerCase().trim();
+        if (term.length < 2) {
+          if (resultsEl) (resultsEl as HTMLElement).style.display = 'none';
+          if (grid) (grid as HTMLElement).style.display = '';
+          if (pagination) (pagination as HTMLElement).style.display = '';
+          return;
+        }
+        const matches = (posts as any[]).filter((p: any) =>
+          p.title.toLowerCase().includes(term) || p.excerpt.toLowerCase().includes(term)
+        );
+        if (grid) (grid as HTMLElement).style.display = 'none';
+        if (pagination) (pagination as HTMLElement).style.display = 'none';
+        if (resultsEl) {
+          (resultsEl as HTMLElement).style.display = 'block';
+          if (matches.length === 0) {
+            resultsEl.innerHTML = '<p style="color:#666">Sin resultados para "' + q + '"</p>';
+          } else {
+            resultsEl.innerHTML = '<p style="color:#666;margin-bottom:1rem">' + matches.length + ' resultados</p><div class="card-grid">' +
+              matches.slice(0, 24).map((p: any) =>
+                '<a href="/' + p.slug + '/" class="article-card"><h3 style="font-size:1rem;margin:0 0 .4rem">' + p.title + '</h3><p style="font-size:.85rem;color:#666;margin:0">' + p.excerpt + '</p></a>'
+              ).join('') + '</div>';
+          }
+        }
+      }
+    </script>
+  )}
+</Base>

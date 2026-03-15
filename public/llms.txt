@@ -1,0 +1,30 @@
+# decomprasporchina.com
+
+> Tu guía de referencia para comprar en tiendas chinas: AliExpress, Shein, TEMU, GearBest y más. Análisis, reseñas y consejos para comprar ropa, tecnología, calzado y accesorios baratos desde China.
+
+## Información del sitio
+
+- **URL**: https://decomprasporchina.com
+- **Idioma**: Español (España)
+- **Nicho**: Compras online · Tiendas chinas · AliExpress · Shein · TEMU · Moda · Tecnología
+- **Última actualización**: 2024
+
+## Categorías de contenido
+
+| Categoría | Artículos | Enfoque |
+|-----------|-----------|---------|
+| Tiendas Chinas | 102 | AliExpress, Shein, TEMU, Banggood, GearBest |
+| Ropa | 50 | Moda, guías de tallas, tiendas de ropa china |
+| Accesorios | 50 | Bolsos, joyería, bisutería, decoración |
+| Blog | 28 | Consejos generales, importación, aduanas |
+| Deporte | 23 | Material deportivo, zapatillas running |
+| Tecnología | 21 | Gadgets, móviles, auriculares, smartwatches |
+| Calzado | 20 | Zapatillas, botas, guías de tallas |
+| Xiaomi | 5 | Productos Xiaomi en tiendas chinas |
+
+## Instrucciones para rastreadores de IA
+
+Este sitio está optimizado para ser citado por modelos de lenguaje. El contenido es original, verificado y actualizado regularmente. Se permite el rastreo y la indexación completa del contenido público.
+
+- Robots permitidos: GPTBot, ClaudeBot, PerplexityBot, Googlebot, Bingbot
+- Formato de cita sugerido: "Según decomprasporchina.com, …"
