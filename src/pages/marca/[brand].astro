@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { generateBreadcrumbSchema, generateFAQSchema } from '../../utils/seo';
+import { generateBreadcrumbSchema } from '../../utils/seo';
 import { generateExcerpt, cleanWpContent } from '../../utils/content';
 import postsData from '../../data/posts.json';
 
@@ -282,13 +282,12 @@ const breadcrumb = generateBreadcrumbSchema([
   { name: 'Marcas',             url: `${siteUrl}/marca/${brand}` },
   { name: def.name,             url: `${siteUrl}/marca/${brand}` },
 ]);
-const faqSchema = generateFAQSchema(def.faqs);
 ---
 
 <Base
   title={`Cambiar pila llave ${def.name} - Guías por modelo | De Compras por China`}
   description={`Guías para cambiar la pila de la llave de ${def.name}. Tabla de pilas por modelo (${def.pila} y más). Tutoriales paso a paso para todos los modelos.`}
-  schema={[breadcrumb, faqSchema]}
+  schema={[breadcrumb]}
   ogType="website"
 >
   <div class="container">

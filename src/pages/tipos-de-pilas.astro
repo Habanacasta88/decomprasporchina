@@ -1,8 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { generateFAQSchema } from '../utils/seo';
-
 const siteUrl = 'https://decomprasporchina.com';
 
 const batteries = [
@@ -75,7 +73,6 @@ const faqs = [
   { question: 'Dónde puedo comprar estas pilas', answer: 'En cualquier ferretería, supermercado, tienda de electrónica o en Amazon. Las CR2032 son las más fáciles de encontrar.' },
 ];
 
-const faqSchema = generateFAQSchema(faqs);
 const tableSchema = {
   '@context': 'https://schema.org',
   '@type': 'Table',
@@ -86,7 +83,7 @@ const tableSchema = {
 <Base
   title="Tipos de Pilas para Llaves de Coche - Guía Completa CR2032, CR2025, CR2016"
   description="Guía completa de todos los tipos de pilas de botón para llaves de coche: CR2032, CR2025, CR2016, CR1616, CR1632 y CR2450. Qué coche usa cada pila y dónde comprarlas."
-  schema={[faqSchema]}
+  schema={[tableSchema]}
 >
   <div class="container">
     <Breadcrumbs items={[

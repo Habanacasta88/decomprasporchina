@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { generateBreadcrumbSchema, generateFAQSchema } from '../../utils/seo';
+import { generateBreadcrumbSchema } from '../../utils/seo';
 
 type BatterySpec = {
   type: string;
@@ -120,13 +120,12 @@ const breadcrumb = generateBreadcrumbSchema([
   { name: 'Comparar pilas', url: `${siteUrl}/comparar/${slug}/` },
   { name: `${comp.a.type} vs ${comp.b.type}`, url: `${siteUrl}/comparar/${slug}/` },
 ]);
-const faqSchema = generateFAQSchema(comp.faqs);
 ---
 
 <Base
   title={comp.title}
   description={comp.description}
-  schema={[breadcrumb, faqSchema]}
+  schema={[breadcrumb]}
 >
   <div class="container">
     <Breadcrumbs items={[

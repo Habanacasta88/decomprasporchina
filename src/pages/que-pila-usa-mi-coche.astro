@@ -2,8 +2,6 @@
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { carBatteries, brands } from '../data/car-batteries';
-import { generateFAQSchema } from '../utils/seo';
-
 // Build brand → models map for JS
 const brandModels: Record<string, { modelo: string; slug: string; pila: string }[]> = {};
 for (const entry of carBatteries) {
@@ -22,16 +20,15 @@ for (const entry of carBatteries) {
 
 const sortedBrands = [...brands].sort((a, b) => brandNames[a].localeCompare(brandNames[b]));
 
-const faqSchema = generateFAQSchema([
+const faqs = [
   { question: '¿Cómo sé qué pila necesita la llave de mi coche?', answer: 'Usa el configurador de esta página: selecciona tu marca y modelo y te diremos exactamente qué pila necesitas. Alternativamente, abre la carcasa de tu llave y verás el número impreso en la pila actual (normalmente CR2032, CR2025 o CR2016).' },
   { question: '¿Todas las llaves de coche usan la misma pila?', answer: 'No. Aunque la CR2032 es la más común, muchas llaves usan CR2025 (Renault, Mercedes) o CR2016 (Honda, Mazda). Usa este configurador o consulta el manual del vehículo para saber cuál necesita la tuya.' },
-]);
+];
 ---
 
 <Base
   title="¿Qué pila usa mi coche? Buscador por marca y modelo | De Compras por China"
   description="Encuentra qué pila necesita la llave de tu coche. Selecciona marca y modelo y te decimos el tipo exacto: CR2032, CR2025, CR2016 y más."
-  schema={[faqSchema]}
 >
   <div class="container" style="max-width:700px">
     <Breadcrumbs items={[{ name: '¿Qué pila usa mi coche?', url: '/que-pila-usa-mi-coche/' }]} />
@@ -67,10 +64,10 @@ const faqSchema = generateFAQSchema([
 
     <section class="faq-section" style="margin-top:3rem" aria-label="Preguntas frecuentes">
       <h2 class="faq-heading">Preguntas frecuentes</h2>
-      {faqSchema.mainEntity.map((faq: any, i: number) => (
+      {faqs.map((faq, i) => (
         <details class="faq-item" open={i === 0}>
-          <summary class="faq-question">{faq.name}</summary>
-          <div class="faq-answer"><p>{faq.acceptedAnswer.text}</p></div>
+          <summary class="faq-question">{faq.question}</summary>
+          <div class="faq-answer"><p>{faq.answer}</p></div>
         </details>
       ))}
     </section>

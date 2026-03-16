@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { carBatteries } from '../../data/car-batteries';
-import { generateBreadcrumbSchema, generateFAQSchema, generateHowToSchema } from '../../utils/seo';
+import { generateBreadcrumbSchema } from '../../utils/seo';
 
 export function getStaticPaths() {
   return carBatteries.map((entry) => ({
@@ -25,36 +25,20 @@ const breadcrumb = generateBreadcrumbSchema([
   { name: entry.modelo, url: pageUrl },
 ]);
 
-const howto = generateHowToSchema({
-  title: `Cómo cambiar la pila de la llave ${entry.marca} ${entry.modelo}`,
-  description: `Instrucciones paso a paso para cambiar la pila ${pilaNombre} de la llave del ${entry.marca} ${entry.modelo}.`,
-  url: pageUrl,
-  steps: [
-    `Consigue una pila ${pilaNombre} de litio 3V (disponible en Amazon, ferreterías o supermercados).`,
-    `Localiza la ranura o botón de apertura en la carcasa del mando de tu ${entry.marca} ${entry.modelo}.`,
-    `Usa una moneda o destornillador plano para abrir suavemente la carcasa por la ranura lateral.`,
-    `Retira la pila ${pilaNombre} usada. Anota la orientación (el lado + suele quedar hacia arriba).`,
-    `Inserta la pila nueva ${pilaNombre} respetando la polaridad indicada en el compartimento.`,
-    `Cierra la carcasa presionando hasta escuchar un clic y prueba el mando desde 5 metros.`,
-  ],
-});
-
 const faqs = [
   {
     question: `¿Qué pila necesita la llave del ${entry.marca} ${entry.modelo}?`,
-    answer: `La llave del ${entry.marca} ${entry.modelo}${entry.anos ? ` (${entry.anos})` : ''} usa la pila ${pilaNombre} de litio, 3 voltios. ${entry.notas ? entry.notas + '.' : ''} Puedes comprarla en cualquier ferretería, supermercado o en Amazon.`,
+    answer: `La llave del ${entry.marca} ${entry.modelo}${entry.anos ? ` (${entry.anos})` : ''} usa la pila ${entry.pila} de litio, 3 voltios. ${entry.notas ? entry.notas + '.' : ''} Puedes comprarla en cualquier ferretería, supermercado o en Amazon.`,
   },
   {
     question: `¿Puedo cambiar yo mismo la pila de la llave ${entry.marca} ${entry.modelo}?`,
-    answer: `Sí. El cambio de pila de la llave ${entry.marca} ${entry.modelo} es sencillo y no requiere visitar el concesionario. Solo necesitas una pila ${pilaNombre} nueva y un destornillador plano o moneda. El proceso lleva menos de 5 minutos.`,
+    answer: `Sí. El cambio de pila de la llave ${entry.marca} ${entry.modelo} es sencillo y no requiere visitar el concesionario. Solo necesitas una pila ${entry.pila} nueva y un destornillador plano o moneda. El proceso lleva menos de 5 minutos.`,
   },
   {
-    question: `¿Cuánto dura la pila ${pilaNombre} de la llave del ${entry.marca} ${entry.modelo}?`,
-    answer: `La pila ${pilaNombre} de la llave del ${entry.marca} ${entry.modelo} dura entre 2 y 4 años con uso normal. Señales de batería baja: el alcance del mando se reduce, necesitas presionar el botón varias veces, o aparece el aviso "batería baja" en el cuadro de instrumentos.`,
+    question: `¿Cuánto dura la pila ${entry.pila} de la llave del ${entry.marca} ${entry.modelo}?`,
+    answer: `La pila ${entry.pila} de la llave del ${entry.marca} ${entry.modelo} dura entre 2 y 4 años con uso normal. Señales de batería baja: el alcance del mando se reduce, necesitas presionar el botón varias veces, o aparece el aviso "batería baja" en el cuadro de instrumentos.`,
   },
 ];
-
-const faqSchema = generateFAQSchema(faqs);
 
 const title = `Pila llave ${entry.marca} ${entry.modelo}: ${pilaNombre}${entry.anos ? ` (${entry.anos})` : ''} | Guía completa`;
 const description = `La llave del ${entry.marca} ${entry.modelo} usa la pila ${pilaNombre} (3V). Guía paso a paso para cambiarla tú mismo en menos de 5 minutos. Sin ir al concesionario.`;
@@ -63,7 +47,7 @@ const description = `La llave del ${entry.marca} ${entry.modelo} usa la pila ${p
 <Base
   title={title}
   description={description}
-  schema={[breadcrumb, howto, faqSchema]}
+  schema={[breadcrumb]}
   ogType="article"
 >
   <div class="container">
