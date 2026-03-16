@@ -2,7 +2,6 @@
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import TableOfContents from '../components/TableOfContents.astro';
-import AffiliateCTA from '../components/AffiliateCTA.astro';
 import { resolveYoastTitle, resolveYoastDescription, generateArticleSchema } from '../utils/seo';
 import { cleanWpContent, extractHeadings, addHeadingIds, generateExcerpt, extractFAQs, addInternalLinks } from '../utils/content';
 import pagesData from '../data/pages.json';
@@ -143,10 +142,6 @@ const canonicalUrl = isDuplicate ? `${siteUrl}/${canonicalSlug}` : undefined;
       {!isLegal && <TableOfContents headings={headings} />}
 
       <div class="article-content" set:html={htmlContent} />
-
-      {entry.type === 'post' && !isLegal && (
-        <AffiliateCTA title={entry.title} categories={entry.categories} />
-      )}
 
       {faqs.length >= 1 && !isLegal && (
         <section class="faq-section" aria-label="Preguntas frecuentes">

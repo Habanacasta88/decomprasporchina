@@ -167,22 +167,12 @@ export function generateExcerpt(html: string, maxLength = 160): string {
 
 /**
  * Add automatic internal links to first mentions of key terms in the HTML.
- * - Battery types → /tipos-de-pilas/ (with anchor)
- * - Car brands → their category page
  * Only links the FIRST occurrence per term, never inside existing <a> or headings.
  * Pass currentSlug to avoid linking to the page's own category.
  */
 export function addInternalLinks(html: string, currentSlug: string): string {
   // Terms to auto-link: [regex to match text, url, link text to use]
-  const linkTargets: { pattern: RegExp; url: string }[] = [
-    // Battery types → tipos-de-pilas guide
-    { pattern: /\bCR2032\b/i,  url: '/tipos-de-pilas/#cr2032' },
-    { pattern: /\bCR2025\b/i,  url: '/tipos-de-pilas/#cr2025' },
-    { pattern: /\bCR2016\b/i,  url: '/tipos-de-pilas/#cr2016' },
-    { pattern: /\bCR1632\b/i,  url: '/tipos-de-pilas/#cr1632' },
-    { pattern: /\bCR2450\b/i,  url: '/tipos-de-pilas/#cr2450' },
-    { pattern: /\bCR1616\b/i,  url: '/tipos-de-pilas/#cr1616' },
-  ];
+  const linkTargets: { pattern: RegExp; url: string }[] = [];
 
   let result = html;
 
