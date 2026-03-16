@@ -1,5 +1,27 @@
 export function resolveYear(text: string): string {
-  return text.replace(/%%currentyear%%/g, new Date().getFullYear().toString());
+  const year = new Date().getFullYear().toString();
+  return text
+    .replace(/%%currentyear%%/g, year)
+    .replace(/%%year%%/g, year)
+    .replace(/%%page%%/g, '')
+    .replace(/%%sep%%/g, '–')
+    .trim();
+}
+
+export function resolveYoastTitle(seoTitle: string, fallbackTitle: string): string {
+  // If the seoTitle is entirely a Yoast template pattern, use the fallback
+  if (/^%%title%%/.test(seoTitle.trim()) || seoTitle.trim() === '') {
+    return resolveYear(fallbackTitle);
+  }
+  return resolveYear(seoTitle);
+}
+
+export function resolveYoastDescription(seoDesc: string, fallback: string): string {
+  if (!seoDesc) return fallback;
+  // Replace %%excerpt%% with fallback text
+  const resolved = seoDesc.replace(/%%excerpt%%/g, fallback).replace(/%%year%%/g, new Date().getFullYear().toString()).trim();
+  // Strip leading emoji-only content if it resolves to just an emoji
+  return resolved.replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\s]+$/u, fallback) || fallback;
 }
 
 export function stripEmojis(text: string): string {
@@ -28,61 +50,61 @@ export function generateArticleSchema(opts: {
   dateModified: string;
   author?: string;
 }) {
+  // Normalize dates to ISO 8601 (replace space separator with T)
+  const pub = opts.datePublished?.replace(' ', 'T') || '';
+  const mod = opts.dateModified?.replace(' ', 'T') || pub;
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': opts.url,
+    },
     headline: opts.title,
     description: opts.description,
+    inLanguage: 'es-ES',
     url: opts.url,
     ...(opts.image && { image: opts.image }),
-    datePublished: opts.datePublished,
-    dateModified: opts.dateModified,
+    datePublished: pub,
+    dateModified: mod,
     author: {
       '@type': 'Organization',
       name: opts.author || 'De Compras por China',
+      url: 'https://decomprasporchina.com',
     },
     publisher: {
       '@type': 'Organization',
       name: 'De Compras por China',
       url: 'https://decomprasporchina.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://decomprasporchina.com/favicon.svg',
+        width: 512,
+        height: 512,
+      },
     },
   };
 }
 
-export function generateHowToSchema(opts: {
-  title: string;
+export function generateItemListSchema(opts: {
+  name: string;
   description: string;
   url: string;
-  image?: string;
-  steps: string[];
+  items: { title: string; slug: string; position: number }[];
 }) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'HowTo',
-    name: opts.title,
+    '@type': 'ItemList',
+    name: opts.name,
     description: opts.description,
     url: opts.url,
-    ...(opts.image && { image: opts.image }),
-    step: opts.steps.map((text, i) => ({
-      '@type': 'HowToStep',
-      position: i + 1,
-      name: text.length > 80 ? text.substring(0, 80) + '…' : text,
-      text,
-    })),
-  };
-}
-
-export function generateFAQSchema(faqs: { question: string; answer: string }[]) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
+    numberOfItems: opts.items.length,
+    itemListElement: opts.items.map((item) => ({
+      '@type': 'ListItem',
+      position: item.position,
+      name: item.title,
+      url: `https://decomprasporchina.com/${item.slug}`,
     })),
   };
 }
@@ -111,8 +133,14 @@ export function generateOrganizationSchema() {
     '@type': 'Organization',
     name: 'De Compras por China',
     url: 'https://decomprasporchina.com',
-    logo: 'https://decomprasporchina.com/favicon.svg',
-    description: 'Guías y tutoriales sobre cómo cambiar pilas y baterías en todo tipo de dispositivos.',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://decomprasporchina.com/favicon.svg',
+      width: 512,
+      height: 512,
+    },
+    description: 'Tu guía de referencia para comprar en AliExpress, Shein, TEMU y las mejores tiendas chinas. Análisis, reseñas y consejos en español.',
+    inLanguage: 'es-ES',
     sameAs: [],
   };
 }

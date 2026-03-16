@@ -3,8 +3,8 @@ import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import AffiliateCTA from '../components/AffiliateCTA.astro';
-import { resolveYear, generateArticleSchema, generateHowToSchema, generateFAQSchema, generateBreadcrumbSchema } from '../utils/seo';
-import { cleanWpContent, extractHeadings, addHeadingIds, generateExcerpt, extractHowToSteps, extractFAQs, addInternalLinks } from '../utils/content';
+import { resolveYoastTitle, resolveYoastDescription, generateArticleSchema } from '../utils/seo';
+import { cleanWpContent, extractHeadings, addHeadingIds, generateExcerpt, extractFAQs, addInternalLinks } from '../utils/content';
 import pagesData from '../data/pages.json';
 import postsData from '../data/posts.json';
 
@@ -23,8 +23,9 @@ const linkedContent = entry.type === 'post' ? addInternalLinks(cleaned, entry.sl
 const htmlContent = addHeadingIds(linkedContent);
 const headings = extractHeadings(cleaned);
 
-const seoTitle = entry.seoTitle ? resolveYear(entry.seoTitle) : entry.title;
-const seoDesc = entry.seoDescription || entry.excerpt || generateExcerpt(cleaned, 160);
+const seoTitle = resolveYoastTitle(entry.seoTitle || '', entry.title);
+const seoDescFallback = generateExcerpt(cleaned, 160);
+const seoDesc = resolveYoastDescription(entry.seoDescription || '', entry.excerpt || seoDescFallback);
 
 const siteUrl = 'https://decomprasporchina.com';
 const articleSchema = generateArticleSchema({
@@ -45,34 +46,11 @@ const formattedModified = new Date(entry.modified).toLocaleDateString('es-ES', {
 
 const isLegal = entry.slug === 'politica-de-cookies' || entry.slug === 'politica-de-privacidad';
 
-// HowTo Schema — extract ordered list steps (min 3 steps)
-const howToSteps = entry.type === 'post' && !isLegal ? extractHowToSteps(cleaned) : [];
-const howToSchema = howToSteps.length >= 3 ? generateHowToSchema({
-  title: seoTitle,
-  description: seoDesc,
-  url: `${siteUrl}/${entry.slug}`,
-  image: entry.featuredImage ? `${siteUrl}${entry.featuredImage}` : undefined,
-  steps: howToSteps,
-}) : null;
-
-// FAQ Schema — extract question headings (min 1 FAQ)
+// FAQ data for visual rendering (no JSON-LD — restricted to gov/healthcare)
 const faqs = entry.type === 'post' && !isLegal ? extractFAQs(cleaned) : [];
-const faqSchema = faqs.length >= 1 ? generateFAQSchema(faqs) : null;
 
-// BreadcrumbList schema
-const breadcrumbSchema = entry.type === 'post' ? generateBreadcrumbSchema([
-  { name: 'Inicio', url: siteUrl },
-  { name: 'Blog',   url: `${siteUrl}/blog` },
-  { name: seoTitle, url: `${siteUrl}/${entry.slug}` },
-]) : null;
-
-// Compose all schemas
-const schemas = [
-  articleSchema,
-  ...(breadcrumbSchema ? [breadcrumbSchema] : []),
-  ...(howToSchema ? [howToSchema] : []),
-  ...(faqSchema ? [faqSchema] : []),
-];
+// Compose schemas — BreadcrumbList is injected by Breadcrumbs.astro component
+const schemas = [articleSchema];
 
 // Detect duplicate posts by title — noindex all but the first occurrence
 const duplicateSlugs = new Set([

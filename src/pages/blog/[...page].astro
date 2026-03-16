@@ -40,7 +40,7 @@ const nextUrl = currentPage < tp ? `/blog/${currentPage + 1}` : undefined;
 
 <Base
   title={`Blog${currentPage > 1 ? ` - Página ${currentPage}` : ''} - De Compras por China`}
-  description="Todos los artículos sobre cómo cambiar pilas y baterías de llaves de coche, auriculares, relojes y dispositivos electrónicos."
+  description="Todos los artículos sobre compras en tiendas chinas: AliExpress, Shein, TEMU y más. Guías, reseñas y consejos para ahorrar comprando desde China."
   prevUrl={prevUrl}
   nextUrl={nextUrl}
 >
@@ -49,7 +49,7 @@ const nextUrl = currentPage < tp ? `/blog/${currentPage + 1}` : undefined;
 
     <header class="article-header">
       <h1>Todos los artículos</h1>
-      <p style="color:#666">{postsData.length} guías sobre cambio de pilas y baterías</p>
+      <p style="color:#666">{postsData.length} artículos sobre tiendas chinas y compras online</p>
     </header>
 
     {currentPage === 1 && (
@@ -57,7 +57,7 @@ const nextUrl = currentPage < tp ? `/blog/${currentPage + 1}` : undefined;
         <input
           type="search"
           id="blogSearch"
-          placeholder="Buscar artículos… (ej: CR2032, Audi A3, reloj)"
+          placeholder="Buscar artículos… (ej: AliExpress, Shein, TEMU, ropa china)"
           style="width:100%;padding:.65rem 1rem;border:1.5px solid #d0d8e8;border-radius:8px;font-size:1rem;box-sizing:border-box"
           autocomplete="off"
         />

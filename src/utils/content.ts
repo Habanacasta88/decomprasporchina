@@ -182,12 +182,6 @@ export function addInternalLinks(html: string, currentSlug: string): string {
     { pattern: /\bCR1632\b/i,  url: '/tipos-de-pilas/#cr1632' },
     { pattern: /\bCR2450\b/i,  url: '/tipos-de-pilas/#cr2450' },
     { pattern: /\bCR1616\b/i,  url: '/tipos-de-pilas/#cr1616' },
-    // Brand categories — only link if not already on that brand's page
-    ...(!currentSlug.includes('audi')        ? [{ pattern: /\bAudi\b/i,        url: '/categoria/audi/' }]         : []),
-    ...(!currentSlug.includes('renault')     ? [{ pattern: /\bRenault\b/i,     url: '/categoria/renault/' }]      : []),
-    ...(!currentSlug.includes('volkswagen') && !currentSlug.includes('-vw-')
-        ? [{ pattern: /\bVolkswagen\b/i,     url: '/categoria/volkswagen/' }]  : []),
-    ...(!currentSlug.includes('mercedes')    ? [{ pattern: /\bMercedes\b/i,    url: '/categoria/mercedes-benz/' }]: []),
   ];
 
   let result = html;

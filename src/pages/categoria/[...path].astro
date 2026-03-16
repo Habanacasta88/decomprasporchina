@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { generateExcerpt, cleanWpContent } from '../../utils/content';
+import { generateItemListSchema } from '../../utils/seo';
 import postsData from '../../data/posts.json';
 
 export function getStaticPaths() {
@@ -93,13 +94,26 @@ const paginatedPosts = allCatPosts.slice(start, start + POSTS_PER_PAGE);
 
 const prevUrl = currentPage > 1 ? (currentPage === 2 ? `/categoria/${slug}` : `/categoria/${slug}/${currentPage - 1}`) : undefined;
 const nextUrl = currentPage < totalPages ? `/categoria/${slug}/${currentPage + 1}` : undefined;
+
+const siteUrl = 'https://decomprasporchina.com';
+const itemListSchema = currentPage === 1 ? generateItemListSchema({
+  name: catLabel,
+  description: categoryDescriptions[slug!] || `Artículos sobre ${catLabel} en tiendas chinas.`,
+  url: `${siteUrl}/categoria/${slug}`,
+  items: allCatPosts.slice(0, 24).map((post: any, i: number) => ({
+    title: post.title,
+    slug: post.slug,
+    position: i + 1,
+  })),
+}) : null;
 ---
 
 <Base
   title={`${catLabel}${currentPage > 1 ? ` - Página ${currentPage}` : ''} - De Compras por China`}
-  description={`Guías sobre cómo cambiar la pila y batería en ${catLabel.toLowerCase()}. ${allCatPosts.length} artículos disponibles.`}
+  description={categoryDescriptions[slug!] || `Descubre los mejores artículos sobre ${catLabel.toLowerCase()} en tiendas chinas. ${allCatPosts.length} guías disponibles.`}
   prevUrl={prevUrl}
   nextUrl={nextUrl}
+  schema={itemListSchema ? [itemListSchema] : undefined}
 >
   <div class="container">
     <Breadcrumbs items={[

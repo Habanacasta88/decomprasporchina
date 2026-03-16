@@ -37,7 +37,10 @@ const siteUrl = 'https://decomprasporchina.com';
 const fullCanonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
 const resolvedOgImage = ogImage
   ? (ogImage.startsWith('http') ? ogImage : siteUrl + ogImage)
-  : siteUrl + '/og-default.svg';
+  : siteUrl + '/og-default.jpg';
+const ogImageType = resolvedOgImage.endsWith('.png') ? 'image/png'
+  : resolvedOgImage.endsWith('.svg') ? 'image/svg+xml'
+  : 'image/jpeg';
 const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 ---
 
@@ -66,6 +69,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={resolvedOgImage} />
 
   <!-- Open Graph article metadata -->
   {articlePublished && <meta property="article:published_time" content={articlePublished} />}
@@ -75,7 +79,7 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
   <!-- OG image dimensions (1200×630 standard) -->
   <meta property="og:image:width"  content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:type"   content="image/svg+xml" />
+  <meta property="og:image:type"   content={ogImageType} />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
