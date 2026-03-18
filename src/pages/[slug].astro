@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import TableOfContents from '../components/TableOfContents.astro';
+import AdUnit from '../components/AdUnit.astro';
 import { resolveYoastTitle, resolveYoastDescription, generateArticleSchema } from '../utils/seo';
 import { cleanWpContent, extractHeadings, addHeadingIds, generateExcerpt, extractFAQs, addInternalLinks } from '../utils/content';
 import pagesData from '../data/pages.json';
@@ -50,6 +51,28 @@ const faqs = entry.type === 'post' && !isLegal ? extractFAQs(cleaned) : [];
 
 // Compose schemas — BreadcrumbList is injected by Breadcrumbs.astro component
 const schemas = [articleSchema];
+
+// AdSense slot IDs — update with your actual slot IDs from AdSense dashboard
+const AD_SLOT_AFTER_P1 = '3241664850';
+const AD_SLOT_AFTER_P3 = '3241664850';
+
+// Split HTML at the Nth closing </p> tag for ad injection
+function splitAtParagraph(html: string, n: number): [string, string] {
+  let count = 0;
+  let idx = 0;
+  while (idx < html.length) {
+    const end = html.indexOf('</p>', idx);
+    if (end === -1) break;
+    count++;
+    if (count === n) return [html.slice(0, end + 4), html.slice(end + 4)];
+    idx = end + 4;
+  }
+  return [html, ''];
+}
+
+const isPost = entry.type === 'post' && !isLegal;
+const [contentPart1, contentRest1] = isPost ? splitAtParagraph(htmlContent, 1) : [htmlContent, ''];
+const [contentPart2, contentPart3] = isPost && contentRest1 ? splitAtParagraph(contentRest1, 2) : [contentRest1, ''];
 
 // Slugs to noindex (duplicate content)
 const duplicateSlugs = new Set<string>([]);
@@ -115,7 +138,13 @@ const canonicalUrl = isDuplicate ? `${siteUrl}/${canonicalSlug}` : undefined;
 
         {headings.length < 3 && !isLegal && <TableOfContents headings={headings} />}
 
-        <div class="article-content" set:html={htmlContent} />
+        <div class="article-content">
+          <div set:html={contentPart1} />
+          {isPost && <AdUnit slot={AD_SLOT_AFTER_P1} />}
+          {contentPart2 && <div set:html={contentPart2} />}
+          {isPost && contentPart3 && <AdUnit slot={AD_SLOT_AFTER_P3} />}
+          {contentPart3 && <div set:html={contentPart3} />}
+        </div>
 
         {faqs.length >= 1 && !isLegal && (
           <section class="faq-section" aria-label="Preguntas frecuentes">
