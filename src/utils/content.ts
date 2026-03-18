@@ -11,6 +11,9 @@ export function cleanWpContent(html: string): string {
     // Fix internal links to new structure
     .replace(/https?:\/\/decomprasporchina\.com\//g, '/')
     .replace(/https?:\/\/ctarut\.com\//g, '/')
+    // Convert wp-content/uploads/ paths to /images/ (after domain strip above)
+    // Handles both with and without year/month subdirectory
+    .replace(/\/wp-content\/uploads\/(?:\d{4}\/\d{2}\/)?([^"'\s>]+)/g, '/images/$1')
     // Remove MS Word classes
     .replace(/\s*class="Mso[^"]*"/g, '')
     // Remove empty paragraphs

@@ -265,6 +265,18 @@ const catChips = [
       if (iconClose) iconClose.style.display = open ? '' : 'none';
     });
 
+    // Hide broken images gracefully (missing wp-content/uploads imgs)
+    document.querySelectorAll<HTMLImageElement>('.article-content img').forEach(img => {
+      img.addEventListener('error', function(this: HTMLImageElement) {
+        this.style.display = 'none';
+        // If parent <p> or <figure> only contained this image, hide it too
+        const p = this.parentElement;
+        if (p && (p.tagName === 'P' || p.tagName === 'FIGURE') && p.textContent?.trim() === '') {
+          p.style.display = 'none';
+        }
+      });
+    });
+
     // Close nav on link click (mobile)
     mainNav?.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
