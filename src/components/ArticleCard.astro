@@ -5,21 +5,46 @@ interface Props {
   excerpt?: string;
   featuredImage?: string;
   date?: string;
+  category?: string;
+  featured?: boolean;
 }
 
-const { title, slug, excerpt, featuredImage, date } = Astro.props;
-const formattedDate = date ? new Date(date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+const { title, slug, excerpt, featuredImage, date, category, featured = false } = Astro.props;
+const formattedDate = date
+  ? new Date(date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+  : '';
 ---
 
-<article class="card">
-  {featuredImage && (
-    <a href={`/${slug}`} class="card-img">
-      <img src={featuredImage} alt={title} loading="lazy" width="640" height="360" />
-    </a>
-  )}
-  <div class="card-body">
-    <h3><a href={`/${slug}`}>{title}</a></h3>
-    {excerpt && <p>{excerpt}</p>}
-    {formattedDate && <time datetime={date}>{formattedDate}</time>}
-  </div>
-</article>
+{featured ? (
+  <article class="card-featured">
+    {featuredImage && (
+      <a href={`/${slug}`} class="card-img-wrap">
+        <img src={featuredImage} alt={title} loading="lazy" width="640" height="360" />
+        {category && <span class="card-cat-badge">{category}</span>}
+      </a>
+    )}
+    <div class="card-body">
+      {category && !featuredImage && <span class="card-cat-badge" style="position:static;margin-bottom:.6rem;display:inline-block">{category}</span>}
+      <h3><a href={`/${slug}`}>{title}</a></h3>
+      {excerpt && <p>{excerpt}</p>}
+      {formattedDate && <time datetime={date}>{formattedDate}</time>}
+      <a href={`/${slug}`} class="cta-button" style="margin-top:1rem;align-self:flex-start;font-size:.82rem;padding:.55rem 1.1rem">
+        Leer artículo →
+      </a>
+    </div>
+  </article>
+) : (
+  <article class="card">
+    {featuredImage && (
+      <a href={`/${slug}`} class="card-img-wrap">
+        <img src={featuredImage} alt={title} loading="lazy" width="640" height="360" />
+        {category && <span class="card-cat-badge">{category}</span>}
+      </a>
+    )}
+    <div class="card-body">
+      <h3><a href={`/${slug}`}>{title}</a></h3>
+      {excerpt && <p>{excerpt}</p>}
+      {formattedDate && <time datetime={date}>{formattedDate}</time>}
+    </div>
+  </article>
+)}

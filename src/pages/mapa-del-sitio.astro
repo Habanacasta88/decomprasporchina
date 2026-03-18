@@ -4,39 +4,27 @@ import postsData from '../data/posts.json';
 
 const mainPages = [
   { name: 'Inicio', url: '/' },
-  { name: '¿Qué pila usa mi coche?', url: '/que-pila-usa-mi-coche/' },
-  { name: 'Tipos de pilas', url: '/tipos-de-pilas/' },
   { name: 'Blog — todos los artículos', url: '/blog/' },
   { name: 'Sobre nosotros', url: '/sobre-nosotros/' },
-];
-
-const brandPages = [
-  { name: 'Pilas llave Audi', url: '/marca/audi/' },
-  { name: 'Pilas llave Renault', url: '/marca/renault/' },
-  { name: 'Pilas llave Volkswagen', url: '/marca/volkswagen/' },
-  { name: 'Pilas llave Mercedes-Benz', url: '/marca/mercedes/' },
-  { name: 'Pilas llave Toyota', url: '/marca/toyota/' },
-  { name: 'Pilas llave Ford', url: '/marca/ford/' },
-  { name: 'Pilas llave BMW', url: '/marca/bmw/' },
-  { name: 'Pilas llave SEAT', url: '/marca/seat/' },
-  { name: 'Pilas llave Peugeot', url: '/marca/peugeot/' },
-  { name: 'Pilas llave Nissan', url: '/marca/nissan/' },
-];
-
-const comparePages = [
-  { name: 'CR2032 vs CR2025', url: '/comparar/cr2032-vs-cr2025/' },
-  { name: 'CR2016 vs CR2032', url: '/comparar/cr2016-vs-cr2032/' },
-  { name: 'CR2025 vs CR2016', url: '/comparar/cr2025-vs-cr2016/' },
+  { name: 'Contactar', url: '/contactar/' },
 ];
 
 const categoryPages = [
-  { name: 'Llaves de coche', url: '/categoria/blog/' },
-  { name: 'Audi', url: '/categoria/audi/' },
-  { name: 'Renault', url: '/categoria/renault/' },
-  { name: 'Volkswagen', url: '/categoria/volkswagen/' },
-  { name: 'Mercedes Benz', url: '/categoria/mercedes-benz/' },
-  { name: 'Digital', url: '/categoria/digital/' },
-  { name: 'Reloj', url: '/categoria/reloj/' },
+  { name: 'Tiendas Chinas', url: '/categoria/tiendas-chinas/' },
+  { name: 'Ropa', url: '/categoria/ropa/' },
+  { name: 'Accesorios', url: '/categoria/accesorios/' },
+  { name: 'Tecnología', url: '/categoria/tecnologia/' },
+  { name: 'Calzado', url: '/categoria/calzado/' },
+  { name: 'Deporte', url: '/categoria/deporte/' },
+  { name: 'Blog', url: '/categoria/blog/' },
+  { name: 'Xiaomi', url: '/categoria/xiaomi/' },
+];
+
+const popularPages = [
+  { name: 'Guía AliExpress', url: '/aliexpress/' },
+  { name: 'Importar de China', url: '/importar-de-china-2/' },
+  { name: '11/11 AliExpress', url: '/11-del-11-aliexpress/' },
+  { name: 'Vender en AliExpress', url: '/vender-en-aliexpress-plaza/' },
 ];
 
 const legalPages = [
@@ -61,23 +49,16 @@ const legalPages = [
     </section>
 
     <section style="margin-bottom:2rem">
-      <h2 class="sitemap-h2">Guías por marca de coche</h2>
-      <ul class="sitemap-list">
-        {brandPages.map(p => <li><a href={p.url}>{p.name}</a></li>)}
-      </ul>
-    </section>
-
-    <section style="margin-bottom:2rem">
-      <h2 class="sitemap-h2">Comparativas de pilas</h2>
-      <ul class="sitemap-list">
-        {comparePages.map(p => <li><a href={p.url}>{p.name}</a></li>)}
-      </ul>
-    </section>
-
-    <section style="margin-bottom:2rem">
       <h2 class="sitemap-h2">Categorías</h2>
       <ul class="sitemap-list">
         {categoryPages.map(p => <li><a href={p.url}>{p.name}</a></li>)}
+      </ul>
+    </section>
+
+    <section style="margin-bottom:2rem">
+      <h2 class="sitemap-h2">Páginas populares</h2>
+      <ul class="sitemap-list">
+        {popularPages.map(p => <li><a href={p.url}>{p.name}</a></li>)}
       </ul>
     </section>
 

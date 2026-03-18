@@ -5,16 +5,15 @@ import { generateWebSiteSchema, generateOrganizationSchema } from '../utils/seo'
 import { generateExcerpt, cleanWpContent } from '../utils/content';
 import postsData from '../data/posts.json';
 
-// Conteo dinámico de categorías desde posts.json
 const categoryDefs = [
-  { name: 'Tiendas Chinas', slug: 'tiendas-chinas', dbName: 'Tiendas Chinas' },
-  { name: 'Ropa', slug: 'ropa', dbName: 'Ropa' },
-  { name: 'Accesorios', slug: 'accesorios', dbName: 'Accesorios' },
-  { name: 'Tecnología', slug: 'tecnologia', dbName: 'Tecnología' },
-  { name: 'Calzado', slug: 'calzado', dbName: 'Calzado' },
-  { name: 'Deporte', slug: 'deporte', dbName: 'Deporte' },
-  { name: 'Blog', slug: 'blog', dbName: 'Blog' },
-  { name: 'Xiaomi', slug: 'xiaomi', dbName: 'Xiaomi' },
+  { name: 'Tiendas Chinas', slug: 'tiendas-chinas', dbName: 'Tiendas Chinas', emoji: '🛒' },
+  { name: 'Ropa', slug: 'ropa', dbName: 'Ropa', emoji: '👗' },
+  { name: 'Accesorios', slug: 'accesorios', dbName: 'Accesorios', emoji: '👜' },
+  { name: 'Tecnología', slug: 'tecnologia', dbName: 'Tecnología', emoji: '📱' },
+  { name: 'Calzado', slug: 'calzado', dbName: 'Calzado', emoji: '👟' },
+  { name: 'Deporte', slug: 'deporte', dbName: 'Deporte', emoji: '⚽' },
+  { name: 'Blog', slug: 'blog', dbName: 'Blog', emoji: '📝' },
+  { name: 'Xiaomi', slug: 'xiaomi', dbName: 'Xiaomi', emoji: '🔋' },
 ];
 
 const categories = categoryDefs.map(cat => ({
@@ -22,49 +21,135 @@ const categories = categoryDefs.map(cat => ({
   count: (postsData as any[]).filter((p: any) => p.categories?.includes(cat.dbName)).length,
 })).sort((a, b) => b.count - a.count);
 
-const latestPosts = postsData.slice(0, 12);
+const allPosts = postsData as any[];
+const featuredPost = allPosts[0];
+const latestPosts = allPosts.slice(1, 10);
 
 const schema = [generateWebSiteSchema(), generateOrganizationSchema()];
+
+function getExcerpt(post: any) {
+  return post.seoDescription || post.excerpt || generateExcerpt(cleanWpContent(post.body || ''), 120);
+}
 ---
 
 <Base
-  title="De Compras por China - Tu guía para comprar en tiendas chinas"
+  title="De Compras por China — Tu guía para comprar en tiendas chinas"
   description="Guías, análisis y consejos para comprar en AliExpress, Shein, TEMU y otras tiendas chinas. Ropa, tecnología, calzado, accesorios y mucho más."
   schema={schema}
 >
+  <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="container">
-      <h1>De Compras por China</h1>
-      <p>Tu guía de referencia para comprar en AliExpress, Shein, TEMU y las mejores tiendas chinas. Análisis, reseñas y consejos para ahorrar.</p>
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
+            Guía de compras online
+          </div>
+          <h1>Tu guía para comprar en tiendas <em>chinas</em></h1>
+          <p class="hero-desc">
+            Todo lo que necesitas saber sobre AliExpress, Shein, TEMU y las mejores
+            tiendas chinas online. Guías prácticas, reseñas honestas y consejos para ahorrar.
+          </p>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>{allPosts.length}+</strong>
+              <span>Artículos</span>
+            </div>
+            <div class="hero-stat">
+              <strong>8</strong>
+              <span>Categorías</span>
+            </div>
+            <div class="hero-stat">
+              <strong>100%</strong>
+              <span>Gratis</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-badge-group">
+          <a href="/categoria/tiendas-chinas/" class="store-badge">
+            <span class="store-badge-emoji">🛒</span> AliExpress
+          </a>
+          <a href="/categoria/ropa/" class="store-badge">
+            <span class="store-badge-emoji">👗</span> Shein & Ropa
+          </a>
+          <a href="/categoria/tecnologia/" class="store-badge">
+            <span class="store-badge-emoji">📱</span> Tecnología
+          </a>
+          <a href="/categoria/calzado/" class="store-badge">
+            <span class="store-badge-emoji">👟</span> Calzado chino
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
   <div class="container">
-    <h2 class="mt-2" style="font-size:1.5rem;font-weight:700">Categorías</h2>
-    <div class="card-grid" style="padding-top:1rem">
-      {categories.map((cat) => (
-        <a href={`/categoria/${cat.slug}`} class="cat-card">
-          <h3>{cat.name}</h3>
-          <p>{cat.count} artículos</p>
-        </a>
-      ))}
-    </div>
 
-    <h2 class="mt-2" style="font-size:1.5rem;font-weight:700">Últimos artículos</h2>
-    <div class="card-grid">
-      {latestPosts.map((post: any) => (
+    <!-- ===== CATEGORÍAS ===== -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Explorar por categoría</h2>
+        <a href="/blog">Ver todo →</a>
+      </div>
+      <div class="cat-card-grid">
+        {categories.map(cat => (
+          <a href={`/categoria/${cat.slug}`} class="cat-card">
+            <span class="cat-card-emoji">{cat.emoji}</span>
+            <h3>{cat.name}</h3>
+            <p>{cat.count} artículos</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- ===== ARTÍCULO DESTACADO ===== -->
+    {featuredPost && (
+      <section class="section">
+        <div class="section-head">
+          <h2>Artículo destacado</h2>
+        </div>
         <ArticleCard
-          title={post.title}
-          slug={post.slug}
-          excerpt={post.seoDescription || post.excerpt || generateExcerpt(cleanWpContent(post.body || ''), 120)}
-          featuredImage={post.featuredImage}
-          date={post.date}
+          title={featuredPost.title}
+          slug={featuredPost.slug}
+          excerpt={getExcerpt(featuredPost)}
+          featuredImage={featuredPost.featuredImage}
+          date={featuredPost.date}
+          category={featuredPost.categories?.[0]}
+          featured={true}
         />
-      ))}
-    </div>
+      </section>
+    )}
 
-    <div class="text-center mt-2 mb-2">
-      <a href="/blog" class="cta-button">Ver todos los artículos</a>
-    </div>
+    <!-- ===== ÚLTIMOS ARTÍCULOS ===== -->
+    <section class="section">
+      <div class="section-head">
+        <h2>Últimos artículos</h2>
+        <a href="/blog">Ver todos →</a>
+      </div>
+      <div class="card-grid">
+        {latestPosts.map((post: any) => (
+          <ArticleCard
+            title={post.title}
+            slug={post.slug}
+            excerpt={getExcerpt(post)}
+            featuredImage={post.featuredImage}
+            date={post.date}
+            category={post.categories?.[0]}
+          />
+        ))}
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="section text-center" style="padding-top:0">
+      <a href="/blog" class="cta-button" style="font-size:1rem;padding:.85rem 2.25rem">
+        Ver los {allPosts.length} artículos →
+      </a>
+    </section>
+
   </div>
 </Base>
