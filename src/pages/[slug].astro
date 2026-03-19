@@ -273,6 +273,14 @@ const canonicalUrl = isDuplicate ? `${siteUrl}/${canonicalSlug}` : undefined;
           <div set:html={contentPart1} />
           {isPost && <AdUnit slot={AD_SLOT_AFTER_P1} />}
           {contentPart2 && <div set:html={contentPart2} />}
+          {affiliateCTA && <AffiliateBox
+            headline={affiliateCTA.headline}
+            description={affiliateCTA.description}
+            ctaText={affiliateCTA.ctaText}
+            ctaUrl={affiliateCTA.ctaUrl}
+            secondaryCta={affiliateCTA.secondaryCta}
+            platform={affiliateCTA.platform}
+          />}
           {isPost && contentPart3 && <AdUnit slot={AD_SLOT_AFTER_P3} />}
           {contentPart3 && <div set:html={contentPart3} />}
         </div>
@@ -287,17 +295,6 @@ const canonicalUrl = isDuplicate ? `${siteUrl}/${canonicalSlug}` : undefined;
               </details>
             ))}
           </section>
-        )}
-
-        {affiliateCTA && (
-          <AffiliateBox
-            headline={affiliateCTA.headline}
-            description={affiliateCTA.description}
-            ctaText={affiliateCTA.ctaText}
-            ctaUrl={affiliateCTA.ctaUrl}
-            secondaryCta={affiliateCTA.secondaryCta}
-            platform={affiliateCTA.platform}
-          />
         )}
 
         {entry.type === 'post' && !isLegal && (() => {
