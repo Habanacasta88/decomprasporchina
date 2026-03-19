@@ -1045,6 +1045,18 @@ details[open] .faq-question::after { content: "−"; }
   transition: color .15s;
 }
 .footer-col a:hover { color: rgba(255,255,255,.9); }
+.footer-affiliate-disclosure {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: var(--space-md) 0;
+  margin-bottom: 0;
+}
+.footer-affiliate-disclosure p {
+  font-size: .72rem;
+  color: rgba(255,255,255,.3);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 680px;
+}
 .footer-bottom {
   display: flex;
   align-items: center;

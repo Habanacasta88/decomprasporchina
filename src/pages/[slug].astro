@@ -3,10 +3,135 @@ import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import AdUnit from '../components/AdUnit.astro';
+import AffiliateBox from '../components/AffiliateBox.astro';
 import { resolveYoastTitle, resolveYoastDescription, generateArticleSchema } from '../utils/seo';
 import { cleanWpContent, extractHeadings, addHeadingIds, generateExcerpt, extractFAQs, addInternalLinks } from '../utils/content';
 import pagesData from '../data/pages.json';
 import postsData from '../data/posts.json';
+
+// ─── Affiliate links ───
+const ALIEXPRESS = 'https://s.click.aliexpress.com/e/_c45uyDgx';
+const AMAZON_TAG = 'enjoys0d-21';
+const amz = (asin: string) => `https://www.amazon.es/dp/${asin}?tag=${AMAZON_TAG}`;
+
+// ─── Contextual affiliate CTAs by category ───
+// Each provides genuine value: the CTA matches what the reader is looking for.
+type AffiliateCTA = {
+  headline: string;
+  description: string;
+  ctaText: string;
+  ctaUrl: string;
+  secondaryCta?: { text: string; url: string };
+  platform: 'aliexpress' | 'amazon' | 'both';
+};
+
+const categoryAffiliates: Record<string, AffiliateCTA> = {
+  'Ropa': {
+    headline: 'Encuentra ropa a precios de fabrica',
+    description: 'Miles de vendedores verificados en AliExpress con ropa de tendencia desde 3\u20AC. Envio gratuito en la mayoria de articulos.',
+    ctaText: 'Explorar ropa en AliExpress',
+    ctaUrl: ALIEXPRESS,
+    secondaryCta: { text: 'Ver moda en Amazon', url: `https://www.amazon.es/s?k=ropa+mujer+tendencia&tag=${AMAZON_TAG}` },
+    platform: 'both',
+  },
+  'Calzado': {
+    headline: 'Zapatillas y calzado al mejor precio',
+    description: 'Compara precios entre AliExpress y Amazon para encontrar las mejores ofertas en zapatillas, botas y zapatos.',
+    ctaText: 'Ver calzado en AliExpress',
+    ctaUrl: ALIEXPRESS,
+    secondaryCta: { text: 'Zapatillas en Amazon', url: `https://www.amazon.es/s?k=zapatillas+deportivas&tag=${AMAZON_TAG}` },
+    platform: 'both',
+  },
+  'Tecnología': {
+    headline: 'Gadgets y electronica desde China',
+    description: 'Los ultimos gadgets, accesorios para movil y electronica de consumo a una fraccion de su precio habitual.',
+    ctaText: 'Explorar tecnologia en AliExpress',
+    ctaUrl: ALIEXPRESS,
+    secondaryCta: { text: 'Gadgets en Amazon', url: `https://www.amazon.es/s?k=gadgets+tecnologia&tag=${AMAZON_TAG}` },
+    platform: 'both',
+  },
+  'Accesorios': {
+    headline: 'Accesorios originales a precios increibles',
+    description: 'Desde bisuteria hasta accesorios para el hogar: descubre miles de opciones con envio gratuito.',
+    ctaText: 'Ver accesorios en AliExpress',
+    ctaUrl: ALIEXPRESS,
+    secondaryCta: { text: 'Accesorios en Amazon', url: `https://www.amazon.es/s?k=accesorios+originales&tag=${AMAZON_TAG}` },
+    platform: 'both',
+  },
+  'Deporte': {
+    headline: 'Equipamiento deportivo a precio de China',
+    description: 'Ropa tecnica, material de senderismo, zapatillas de deporte y equipamiento para cualquier actividad.',
+    ctaText: 'Ver deporte en AliExpress',
+    ctaUrl: ALIEXPRESS,
+    secondaryCta: { text: 'Material deportivo en Amazon', url: `https://www.amazon.es/s?k=material+deportivo&tag=${AMAZON_TAG}` },
+    platform: 'both',
+  },
+  'Xiaomi': {
+    headline: 'Productos Xiaomi al mejor precio',
+    description: 'Moviles, wearables, accesorios para el hogar inteligente y gadgets del ecosistema Xiaomi.',
+    ctaText: 'Xiaomi en AliExpress',
+    ctaUrl: ALIEXPRESS,
+    secondaryCta: { text: 'Xiaomi en Amazon', url: `https://www.amazon.es/s?k=xiaomi&tag=${AMAZON_TAG}` },
+    platform: 'both',
+  },
+  'Tiendas Chinas': {
+    headline: 'Compra con confianza en tiendas chinas',
+    description: 'AliExpress es la plataforma mas popular para comprar desde China, con proteccion al comprador y envio gratuito.',
+    ctaText: 'Ir a AliExpress',
+    ctaUrl: ALIEXPRESS,
+    platform: 'aliexpress',
+  },
+  'Blog': {
+    headline: 'Ahorra comprando en tiendas chinas',
+    description: 'Descubre las mejores ofertas en AliExpress: ropa, tecnologia, accesorios y mucho mas con envio gratuito.',
+    ctaText: 'Explorar AliExpress',
+    ctaUrl: ALIEXPRESS,
+    platform: 'aliexpress',
+  },
+};
+
+// Specific overrides for high-traffic posts (matched by slug)
+const slugAffiliates: Record<string, AffiliateCTA> = {
+  'escoger-tu-talla-ropa-china': {
+    headline: 'Ya sabes tu talla? Encuentra tu ropa ideal',
+    description: 'Ahora que conoces tu equivalencia de tallas, explora miles de prendas en AliExpress con envio gratuito. Tambien puedes encontrar cintas metricas profesionales en Amazon para medir con precision.',
+    ctaText: 'Comprar ropa en AliExpress',
+    ctaUrl: ALIEXPRESS,
+    secondaryCta: { text: 'Cinta metrica en Amazon', url: amz('B07GBLFPQN') },
+    platform: 'both',
+  },
+  'zapatillas-nike-replicas': {
+    headline: 'Las mejores zapatillas a precios imbatibles',
+    description: 'Explora zapatillas deportivas de calidad en AliExpress. Amplio catalogo con proteccion al comprador y devolucion gratuita.',
+    ctaText: 'Ver zapatillas en AliExpress',
+    ctaUrl: ALIEXPRESS,
+    secondaryCta: { text: 'Nike en Amazon', url: `https://www.amazon.es/s?k=zapatillas+nike&tag=${AMAZON_TAG}` },
+    platform: 'both',
+  },
+  'las-mejores-zapatillas-de-deporte-en-aliexpress': {
+    headline: 'Zapatillas de deporte desde 15\u20AC',
+    description: 'Las marcas deportivas mas populares en AliExpress, con valoraciones reales de compradores y envio gratuito a Europa.',
+    ctaText: 'Ver zapatillas de deporte',
+    ctaUrl: ALIEXPRESS,
+    secondaryCta: { text: 'Zapatillas running en Amazon', url: `https://www.amazon.es/s?k=zapatillas+running&tag=${AMAZON_TAG}` },
+    platform: 'both',
+  },
+  'vestidos-de-fiesta-en-aliexpress': {
+    headline: 'Vestidos de fiesta desde 12\u20AC',
+    description: 'Cientos de modelos exclusivos en AliExpress: largos, cortos, con lentejuelas o encaje. Envio gratuito y proteccion al comprador.',
+    ctaText: 'Ver vestidos de fiesta',
+    ctaUrl: ALIEXPRESS,
+    secondaryCta: { text: 'Vestidos en Amazon', url: `https://www.amazon.es/s?k=vestidos+fiesta+mujer&tag=${AMAZON_TAG}` },
+    platform: 'both',
+  },
+  'muneca-de-silicona': {
+    headline: 'Compara precios antes de decidir',
+    description: 'Amazon ofrece envio rapido y devolucion facil en este tipo de productos. Compara opciones y elige la mejor relacion calidad-precio.',
+    ctaText: 'Ver opciones en Amazon',
+    ctaUrl: `https://www.amazon.es/s?k=mu%C3%B1eca+silicona+realista&tag=${AMAZON_TAG}`,
+    platform: 'amazon',
+  },
+};
 
 export function getStaticPaths() {
   const all = [...pagesData, ...postsData];
@@ -45,6 +170,12 @@ const formattedModified = new Date(entry.modified).toLocaleDateString('es-ES', {
 });
 
 const isLegal = entry.slug === 'politica-de-cookies' || entry.slug === 'politica-de-privacidad';
+
+// Resolve affiliate CTA: slug-specific override > category match > null
+const affiliateCTA: AffiliateCTA | null = isLegal ? null
+  : slugAffiliates[entry.slug]
+    ?? (entry.categories?.[0] ? categoryAffiliates[entry.categories[0]] : null)
+    ?? categoryAffiliates['Blog'];
 
 // FAQ data for visual rendering (no JSON-LD — restricted to gov/healthcare)
 const faqs = entry.type === 'post' && !isLegal ? extractFAQs(cleaned) : [];
@@ -156,6 +287,17 @@ const canonicalUrl = isDuplicate ? `${siteUrl}/${canonicalSlug}` : undefined;
               </details>
             ))}
           </section>
+        )}
+
+        {affiliateCTA && (
+          <AffiliateBox
+            headline={affiliateCTA.headline}
+            description={affiliateCTA.description}
+            ctaText={affiliateCTA.ctaText}
+            ctaUrl={affiliateCTA.ctaUrl}
+            secondaryCta={affiliateCTA.secondaryCta}
+            platform={affiliateCTA.platform}
+          />
         )}
 
         {entry.type === 'post' && !isLegal && (() => {
