@@ -8,45 +8,8 @@ import pagesData from './src/data/pages.json' with { type: 'json' };
 const SITE = 'https://decomprasporchina.com';
 
 // Posts that are noindex in [slug].astro — must be excluded from sitemap
-const noindexSlugs = new Set([
-  // Duplicate posts
-  'como-cambiar-la-bateria-de-la-llave-de-un-auto-toyota-2',
-  'como-cambiar-la-bateria-de-la-llave-de-un-auto-toyota-3',
-  'como-cambiar-la-bateria-de-un-llavero-nissan-3',
-  'como-cambiar-la-bateria-del-llavero-2',
-  'como-cambiar-la-bateria-del-llavero-3',
-  'como-cambiar-la-bateria-en-un-llavero-de-audi-2',
-  'como-cambiar-la-bateria-en-un-llavero-mitsubishi-2',
-  'como-cambiar-la-bateria-en-un-llavero-lincoln-2',
-  'como-cambiar-la-bateria-en-un-llavero-lincoln-3',
-  'como-cambiar-la-bateria-en-un-llavero-lincoln-4',
-  'como-cambiar-la-bateria-en-un-llavero-toyota-2',
-  'como-cambiar-la-bateria-en-un-llavero-2',
-  'como-cambiar-la-bateria-en-un-llavero-3',
-  'como-cambiar-la-bateria-en-un-llavero-4',
-  'como-cambiar-la-bateria-en-un-llavero-5',
-  'como-cambiar-la-bateria-en-un-llavero-6',
-  'como-cambiar-la-bateria-en-un-llavero-subaru-2',
-  'como-cambiar-la-bateria-de-un-llavero-ford-2',
-  'como-cambiar-la-bateria-de-un-llavero-ford-3',
-  'como-cambiar-la-bateria-de-la-llave-del-coche-2',
-  'como-cambiar-la-bateria-en-un-llavero-cadillac-2',
-  'como-cambiar-la-bateria-de-una-llave-vw-2',
-  'como-cambio-la-bateria-de-mi-llavero-2',
-  'como-cambio-la-bateria-de-mi-llavero-3',
-  'como-cambiar-la-bateria-en-un-llavero-chevy-2',
-  'como-cambiar-la-bateria-en-una-llave-nissan-2',
-  'como-cambiar-la-bateria-en-un-llavero-volkswagen-2',
-  'como-cambiar-la-bateria-en-un-llavero-hyundai-2',
-  'como-cambiar-la-bateria-en-un-llavero-hyundai-3',
-  'como-cambiar-la-bateria-en-un-llavero-vw-2',
-  // Low-traffic / non-ES market posts
-  'como-reemplazar-la-bateria-en-el-llavero-de-chevy',
-  'como-cambiar-la-bateria-en-un-llavero-chevy',
-  'como-cambiar-la-bateria-en-un-llavero-lincoln',
-  'como-cambiar-la-bateria-en-un-llavero-cadillac',
-  'como-cambiar-la-bateria-de-una-llave-holden',
-]);
+// (cleaned: removed 49 cambiandopilas car-battery slugs that don't exist in this project)
+const noindexSlugs = new Set([]);
 
 // Build a slug -> modified date lookup for posts and pages
 // Dates in posts.json use "YYYY-MM-DD HH:MM:SS" format (space separator, not T)
