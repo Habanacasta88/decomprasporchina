@@ -4,7 +4,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import AdUnit from '../components/AdUnit.astro';
 import AffiliateBox from '../components/AffiliateBox.astro';
-import { resolveYoastTitle, resolveYoastDescription, generateArticleSchema } from '../utils/seo';
+import { resolveYoastTitle, resolveYoastDescription, generateArticleSchema, generateFAQSchema } from '../utils/seo';
 import { cleanWpContent, extractHeadings, addHeadingIds, generateExcerpt, extractFAQs, addInternalLinks } from '../utils/content';
 import pagesData from '../data/pages.json';
 import postsData from '../data/posts.json';
@@ -177,11 +177,12 @@ const affiliateCTA: AffiliateCTA | null = isLegal ? null
     ?? (entry.categories?.[0] ? categoryAffiliates[entry.categories[0]] : null)
     ?? categoryAffiliates['Blog'];
 
-// FAQ data for visual rendering (no JSON-LD — restricted to gov/healthcare)
+// FAQ data for visual rendering + structured data
 const faqs = entry.type === 'post' && !isLegal ? extractFAQs(cleaned) : [];
 
 // Compose schemas — BreadcrumbList is injected by Breadcrumbs.astro component
-const schemas = [articleSchema];
+const faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null;
+const schemas = [articleSchema, ...(faqSchema ? [faqSchema] : [])];
 
 // AdSense slot IDs — update with your actual slot IDs from AdSense dashboard
 const AD_SLOT_AFTER_P1 = '4427222054';
