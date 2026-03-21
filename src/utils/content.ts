@@ -173,8 +173,34 @@ export function generateExcerpt(html: string, maxLength = 160): string {
  * Pass currentSlug to avoid linking to the page's own category.
  */
 export function addInternalLinks(html: string, currentSlug: string): string {
-  // Terms to auto-link: [regex to match text, url, link text to use]
-  const linkTargets: { pattern: RegExp; url: string }[] = [];
+  // Terms to auto-link: pattern matches text in <p> tags, links to internal URL
+  // Only the FIRST match per pattern is linked (to avoid over-optimization)
+  const allTargets: { pattern: RegExp; url: string; exclude?: string[] }[] = [
+    // High-value hub pages
+    { pattern: /\btallas?\s+(?:de\s+)?(?:ropa\s+)?chin(?:a|as)\b/i, url: '/escoger-tu-talla-ropa-china/', exclude: ['escoger-tu-talla-ropa-china'] },
+    { pattern: /\bequivalencia\s+de\s+tallas?\b/i, url: '/escoger-tu-talla-ropa-china/', exclude: ['escoger-tu-talla-ropa-china'] },
+    { pattern: /\bTemu\s+vs\s+AliExpress\b/i, url: '/temu-vs-aliexpress/', exclude: ['temu-vs-aliexpress'] },
+    { pattern: /\bTemu\b(?!\s*[<.])/i, url: '/temu-vs-aliexpress/', exclude: ['temu-vs-aliexpress', 'opiniones-sobre-temu-es-fiable-comprar-desde-espana'] },
+    { pattern: /\brebajas\s+(?:de\s+)?AliExpress\b/i, url: '/calendario-rebajas-aliexpress-2026/', exclude: ['calendario-rebajas-aliexpress-2026', '11-del-11-aliexpress'] },
+    { pattern: /\b11\s*del\s*11\b/i, url: '/11-del-11-aliexpress/', exclude: ['11-del-11-aliexpress', 'calendario-rebajas-aliexpress-2026'] },
+    // Category pages
+    { pattern: /\btiendas?\s+chin(?:a|as)\s+online\b/i, url: '/categoria/tiendas-chinas/', exclude: ['tiendas-chinas-online'] },
+    { pattern: /\bAliExpress\s+Plaza\b/i, url: '/aliexpress-plaza/', exclude: ['aliexpress-plaza'] },
+    // Top content posts
+    { pattern: /\bzapatillas?\s+(?:de\s+)?deporte\b/i, url: '/las-mejores-zapatillas-de-deporte-en-aliexpress/', exclude: ['las-mejores-zapatillas-de-deporte-en-aliexpress'] },
+    { pattern: /\bmejores\s+marcas\s+(?:en\s+)?AliExpress\b/i, url: '/mejores-marcas-en-aliexpress/', exclude: ['mejores-marcas-en-aliexpress'] },
+    { pattern: /\bropa\s+(?:de\s+)?tallas?\s+grandes?\b/i, url: '/ropa-tallas-grandes/', exclude: ['ropa-tallas-grandes'] },
+    { pattern: /\bimportar\s+(?:de|desde)\s+China\b/i, url: '/importar-de-china-2/', exclude: ['importar-de-china-2'] },
+    { pattern: /\bbotas?\s+(?:de\s+)?f[uú]tbol\b/i, url: '/botas-de-futbol-en-aliexpress/', exclude: ['botas-de-futbol-en-aliexpress'] },
+    { pattern: /\bpatinete\s+el[eé]ctrico\b/i, url: '/comprar-patinete-electrico-en-china/', exclude: ['comprar-patinete-electrico-en-china'] },
+    { pattern: /\bvestidos?\s+(?:de\s+)?fiesta\b/i, url: '/vestidos-de-fiesta-en-aliexpress/', exclude: ['vestidos-de-fiesta-en-aliexpress'] },
+    { pattern: /\bbolsos?\s+(?:baratos?|chinos?)\b/i, url: '/bolsos-baratos-chinos/', exclude: ['bolsos-baratos-chinos'] },
+    { pattern: /\bcomprar\s+en\s+Taobao\b/i, url: '/como-comprar-en-taobao/', exclude: ['como-comprar-en-taobao'] },
+    { pattern: /\baduana(?:s)?\s+(?:de\s+)?AliExpress\b/i, url: '/aduana-aliexpress/', exclude: ['aduana-aliexpress'] },
+  ];
+
+  // Filter out links TO the current page
+  const linkTargets = allTargets.filter(t => !t.exclude?.includes(currentSlug));
 
   let result = html;
 
