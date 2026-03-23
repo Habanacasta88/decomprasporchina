@@ -197,6 +197,13 @@ export function addInternalLinks(html: string, currentSlug: string): string {
     { pattern: /\bbolsos?\s+(?:baratos?|chinos?)\b/i, url: '/bolsos-baratos-chinos/', exclude: ['bolsos-baratos-chinos'] },
     { pattern: /\bcomprar\s+en\s+Taobao\b/i, url: '/como-comprar-en-taobao/', exclude: ['como-comprar-en-taobao'] },
     { pattern: /\baduana(?:s)?\s+(?:de\s+)?AliExpress\b/i, url: '/aduana-aliexpress/', exclude: ['aduana-aliexpress'] },
+    // New high-value articles (2026)
+    { pattern: /\bnuevo\s+arancel\b/i, url: '/nuevo-arancel-compras-china-2026/', exclude: ['nuevo-arancel-compras-china-2026'] },
+    { pattern: /\barancel(?:es)?\s+(?:UE|europeo|2026)\b/i, url: '/nuevo-arancel-compras-china-2026/', exclude: ['nuevo-arancel-compras-china-2026', 'aduana-aliexpress'] },
+    { pattern: /\bauriculares?\s+(?:bluetooth|inal[aá]mbricos?|TWS)\b/i, url: '/mejores-auriculares-bluetooth-baratos-aliexpress/', exclude: ['mejores-auriculares-bluetooth-baratos-aliexpress', 'comprar-auriculares-en-china'] },
+    { pattern: /\bsmartwatch\s+(?:chinos?|baratos?)\b/i, url: '/mejores-smartwatch-chinos-baratos/', exclude: ['mejores-smartwatch-chinos-baratos', 'mejores-relojes-samsung'] },
+    { pattern: /\bTemu\s+(?:vs?|o)\s+Shein\b/i, url: '/temu-vs-shein/', exclude: ['temu-vs-shein', 'temu-vs-aliexpress'] },
+    { pattern: /\bShein\s+(?:vs?|o)\s+Temu\b/i, url: '/temu-vs-shein/', exclude: ['temu-vs-shein', 'shein-comprar-opiniones'] },
   ];
 
   // Filter out links TO the current page
