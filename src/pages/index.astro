@@ -21,7 +21,10 @@ const categories = categoryDefs.map(cat => ({
   count: (postsData as any[]).filter((p: any) => p.categories?.includes(cat.dbName)).length,
 })).sort((a, b) => b.count - a.count);
 
-const allPosts = postsData as any[];
+const allPosts = [...(postsData as any[])].sort((a, b) =>
+  new Date(b.date || b.modified || '2020-01-01').getTime() -
+  new Date(a.date || a.modified || '2020-01-01').getTime()
+);
 const featuredPost = allPosts[0];
 const latestPosts = allPosts.slice(1, 10);
 
