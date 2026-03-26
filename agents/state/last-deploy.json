@@ -1,0 +1,9 @@
+{
+  "deployedAt": "2026-03-26T16:07:00Z",
+  "method": "docker-manual",
+  "imageTag": "decomprasporchina:latest",
+  "postsCount": 317,
+  "buildTimeSeconds": 2,
+  "postDeployStatus": "ok",
+  "responseTimeMs": 200
+}
