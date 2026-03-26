@@ -10,6 +10,8 @@ export function cleanWpContent(html: string): string {
     .replace(/\[su_[^\]]*\/?\]/g, '')
     // Fix internal links to new structure
     .replace(/https?:\/\/decomprasporchina\.com\//g, '/')
+    // Strip old WordPress category prefixes from internal links
+    .replace(/href="\/(tiendas-chinas|accesorios|ropa|calzado|tecnologia|deporte|xiaomi|blog)\/([^"#]+)/g, 'href="/$2')
     // Convert wp-content/uploads/ paths to /images/ (after domain strip above)
     // Handles both with and without year/month subdirectory
     .replace(/\/wp-content\/uploads\/(?:\d{4}\/\d{2}\/)?([^"'\s>]+)/g, '/images/$1')
