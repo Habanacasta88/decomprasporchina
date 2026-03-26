@@ -67,6 +67,8 @@ export function extractHeadings(html: string): { id: string; text: string; level
 /** Add IDs to headings in HTML */
 export function addHeadingIds(html: string): string {
   return html.replace(/<h([23])([^>]*)>((?:<strong>)?)(.*?)((?:<\/strong>)?)<\/h[23]>/gi, (_, level, attrs, openTag, text, closeTag) => {
+    // Skip if heading already has an id attribute
+    if (/\sid="/.test(attrs)) return `<h${level}${attrs}>${openTag}${text}${closeTag}</h${level}>`;
     const plainText = text.replace(/<[^>]+>/g, '').trim();
     const id = plainText
       .toLowerCase()
@@ -108,15 +110,28 @@ export function extractHowToSteps(html: string): string[] {
 export function extractFAQs(html: string): { question: string; answer: string }[] {
   const faqs: { question: string; answer: string }[] = [];
 
-  // Match h2/h3 questions followed by content until next heading
+  // 1. Extract from <details><summary> blocks (higher quality, manually written)
+  const detailsRegex = /<details[^>]*>\s*<summary[^>]*>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/gi;
+  let dm;
+  while ((dm = detailsRegex.exec(html)) !== null && faqs.length < 5) {
+    const question = toPlainText(dm[1]).trim();
+    const pMatch = dm[2].match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+    const answer = pMatch ? toPlainText(pMatch[1]).trim() : toPlainText(dm[2]).trim();
+    if (question.length > 5 && answer.length >= 20) {
+      faqs.push({
+        question: question.replace(/^¿|[?¿]$/g, '').trim(),
+        answer: answer.length > 300 ? answer.substring(0, 300) + '…' : answer,
+      });
+    }
+  }
+
+  // 2. Extract from h2/h3 questions followed by content
   const sectionRegex = /<h[23][^>]*>([\s\S]*?)<\/h[23]>([\s\S]*?)(?=<h[23]|$)/gi;
   let m;
-  while ((m = sectionRegex.exec(html)) !== null) {
+  while ((m = sectionRegex.exec(html)) !== null && faqs.length < 5) {
     const headingText = toPlainText(m[1]).trim();
-    // Only pick headings that are questions
     if (!headingText.startsWith('¿') && !headingText.endsWith('?')) continue;
 
-    // Extract the first paragraph after the heading as the answer
     const contentBlock = m[2];
     const pMatch = contentBlock.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
     if (!pMatch) continue;
@@ -124,11 +139,9 @@ export function extractFAQs(html: string): { question: string; answer: string }[
     if (answerText.length < 20) continue;
 
     faqs.push({
-      question: headingText.replace(/^¿|[?¿]$/g, '').trim(), // clean for schema
+      question: headingText.replace(/^¿|[?¿]$/g, '').trim(),
       answer: answerText.length > 300 ? answerText.substring(0, 300) + '…' : answerText,
     });
-
-    if (faqs.length >= 5) break; // max 5 FAQs per article
   }
 
   return faqs;
