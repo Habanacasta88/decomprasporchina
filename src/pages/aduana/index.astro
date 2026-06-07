@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { reglas } from '../../data/aduana';
 import { paisBySlug } from '../../data/paises';
-import { aliexpress } from '../../lib/afiliados';
+import { aliexpress, amazonEs } from '../../lib/afiliados';
 const title = 'Aduana e impuestos: importar de China por país';
 const description = 'Calculadora de aduana para importar productos chinos. Disponible para Chile, México, Perú, Colombia, Argentina y España.';
 const SITE = 'https://decomprasporchina.com';
@@ -28,16 +28,26 @@ const alternates = reglas.map((r) => ({
     </ul>
     <aside class="hub-cta">
       <p>
-        <strong>¿Ya sabes lo que pagarás de aduana?</strong> Compra en AliExpress con envío gratuito y protección al comprador.
+        <strong>¿Ya sabes lo que pagarás de aduana?</strong> Compra con envío gratuito y protección al comprador.
       </p>
-      <a
-        href={aliexpress()}
-        target="_blank"
-        rel="nofollow sponsored noopener"
-        class="hub-cta__btn"
-      >
-        Ver ofertas en AliExpress →
-      </a>
+      <div class="hub-cta__row">
+        <a
+          href={aliexpress()}
+          target="_blank"
+          rel="nofollow sponsored noopener"
+          class="hub-cta__btn hub-cta__btn--primary"
+        >
+          Ver ofertas en AliExpress →
+        </a>
+        <a
+          href={amazonEs({ q: 'importar de china' })}
+          target="_blank"
+          rel="nofollow sponsored noopener"
+          class="hub-cta__btn hub-cta__btn--secondary"
+        >
+          Comprar en Amazon España
+        </a>
+      </div>
     </aside>
   </div>
   <style>
@@ -53,10 +63,14 @@ const alternates = reglas.map((r) => ({
       text-align: center;
     }
     .hub-cta p { margin: 0 0 .75rem; color: var(--clr-ink); }
+    .hub-cta__row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      justify-content: center;
+    }
     .hub-cta__btn {
       display: inline-block;
-      background: var(--clr-red);
-      color: #fff;
       padding: .85rem 1.5rem;
       border-radius: var(--r-sm);
       text-decoration: none;
@@ -65,6 +79,18 @@ const alternates = reglas.map((r) => ({
       box-sizing: border-box;
       line-height: 1.5;
     }
-    .hub-cta__btn:hover { background: var(--clr-red-dark); color: #fff; }
+    .hub-cta__btn--primary {
+      background: var(--clr-red);
+      color: #fff;
+    }
+    .hub-cta__btn--primary:hover { background: var(--clr-red-dark); color: #fff; }
+    .hub-cta__btn--secondary {
+      background: var(--clr-surface);
+      color: var(--clr-ink);
+      border: 1px solid var(--clr-border);
+    }
+    .hub-cta__btn--secondary:hover {
+      background: var(--clr-surface2);
+    }
   </style>
 </Base>
