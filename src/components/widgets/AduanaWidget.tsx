@@ -124,6 +124,11 @@ function DesgloseView({ d, usd2local, regla }: {
       )}
       {d.notaTasaGlobal && <p class="aduana-widget__nota">{d.notaTasaGlobal}</p>}
       {d.notas.length > 0 && <ul class="aduana-widget__notas">{d.notas.map((n) => <li>{n}</li>)}</ul>}
+      {regla.pais === 'argentina' && (
+        <p class="aduana-widget__pais-extra">
+          ⚠ <strong>Argentina:</strong> esta estimación NO incluye Impuesto PAIS ni percepciones BCRA del 30%/45% si pagas con tarjeta en pesos. Calcula esas cargas por separado según tu medio de pago.
+        </p>
+      )}
     </div>
   );
 }
