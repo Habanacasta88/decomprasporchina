@@ -1,9 +1,10 @@
 {
-  "lastChecked": "2026-03-27T22:34:51Z",
-  "containerStatus": "Up 5 minutes",
-  "httpCode": "200",
-  "responseTimeMs": 223,
-  "sslExpiry": "Jun 14 07:35:17 2026 GMT",
-  "sitemapCode": "200",
-  "pageErrors": 0
+  "lastChecked": "2026-06-07T19:29:30Z",
+  "containerStatus": "SSH_FAILED",
+  "httpCode": "000TIMEOUT",
+  "responseTimeMs": 10004
+0,
+  "sslExpiry": "CHECK_FAILED",
+  "sitemapCode": "000FAILED",
+  "pageErrors": 5
 }
