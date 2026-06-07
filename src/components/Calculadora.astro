@@ -81,10 +81,18 @@ const webAppSchema = {
 const schemas = schema ? [webAppSchema, schema] : [webAppSchema];
 ---
 
-<Base title={title} description={description} schema={schemas} noAds={true}>
+<Base
+  title={title}
+  description={description}
+  schema={schemas}
+  noAds={true}
+  ogLocale={pais.hreflang.replace('-', '_')}
+  htmlLang={pais.hreflang}
+>
   {alternates && (
     <Fragment slot="head">
       {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+      <link rel="alternate" hreflang="x-default" href={alternates.find(a => a.hreflang === 'es-ES')?.href ?? alternates[0]?.href} />
     </Fragment>
   )}
   <div class="container calculadora">

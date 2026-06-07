@@ -15,6 +15,8 @@ interface Props {
   articleModified?: string;
   articleAuthor?: string;
   noAds?: boolean;
+  ogLocale?: string;
+  htmlLang?: string;
 }
 
 const {
@@ -31,6 +33,8 @@ const {
   articleModified,
   articleAuthor = 'De Compras por China',
   noAds = false,
+  ogLocale = 'es_ES',
+  htmlLang = 'es',
 } = Astro.props;
 
 const siteUrl = 'https://decomprasporchina.com';
@@ -66,7 +70,7 @@ const catChips = [
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={htmlLang}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -88,7 +92,7 @@ const catChips = [
   <meta property="og:description" content={description} />
   <meta property="og:url" content={fullCanonical} />
   <meta property="og:site_name" content="De Compras por China" />
-  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale" content={ogLocale} />
   <meta property="og:image" content={resolvedOgImage} />
   <meta property="og:image:width"  content="1200" />
   <meta property="og:image:height" content="630" />
