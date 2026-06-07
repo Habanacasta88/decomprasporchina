@@ -6,7 +6,6 @@ import { generateExcerpt, cleanWpContent } from '../../utils/content';
 import postsData from '../../data/posts.json';
 
 const POSTS_PER_PAGE = 24;
-const totalPages = Math.ceil(postsData.length / POSTS_PER_PAGE);
 
 export function getStaticPaths() {
   const perPage = 24;
