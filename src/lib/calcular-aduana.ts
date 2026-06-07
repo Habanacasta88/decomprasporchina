@@ -22,11 +22,52 @@ export interface CalcularInput {
 
 const LIMITE_SIMPLIFICADO_MX = 2500;
 const LIMITE_COURIER_AR = 3000;
+const TOPE_4X4_USD = 400;
+const ARANCEL_FIJO_4X4_USD = 20;
+const FODINFA_PCT = 0.5;
 
 export function calcular({ valor, envio = 0, regla, now = new Date() }: CalcularInput): Desglose {
   if (regla.algoritmoEspecial === 'mexico-tasa-global') return calcMexico(valor, envio, regla);
   if (regla.algoritmoEspecial === 'argentina-franquicia-courier') return calcArgentina(valor, envio, regla);
+  if (regla.algoritmoEspecial === 'ecuador-courier-4x4') return calcEcuador(valor, envio, regla);
   return calcEstandar(valor, envio, regla, now);
+}
+
+function calcEcuador(valor: number, envio: number, regla: ReglaAduana): Desglose {
+  if (valor <= TOPE_4X4_USD) {
+    // Régimen Categoría B (Courier 4x4): USD 20 fijo + FODINFA 0.5% sobre FOB
+    // NO se aplica IVA en este tramo
+    const fodinfa = valor * (FODINFA_PCT / 100);
+    return {
+      base: valor,
+      arancel: ARANCEL_FIJO_4X4_USD,
+      iva: 0,
+      tasaAdicional: fodinfa,
+      totalImpuestosUSD: ARANCEL_FIJO_4X4_USD + fodinfa,
+      exentoPorMinimis: false,
+      notaTasaGlobal: `Régimen courier 4x4 (Resolución COMEX 006-2025): US$${ARANCEL_FIJO_4X4_USD} fijos + FODINFA ${FODINFA_PCT}% del FOB. Exento de IVA en este tramo.`,
+      notas: [],
+    };
+  }
+  // Sobre USD 400: Categoría C (estándar)
+  // arancel ad valorem variable (usamos arancelGeneralPct como proxy) sobre CIF + IVA 15% + FODINFA 0.5%
+  const cif = valor + envio;
+  const arancel = cif * (regla.arancelGeneralPct / 100);
+  const baseIva = cif + arancel;
+  const iva = baseIva * (regla.ivaPct / 100);
+  const fodinfa = cif * (FODINFA_PCT / 100);
+  return {
+    base: cif,
+    arancel,
+    iva,
+    tasaAdicional: fodinfa,
+    totalImpuestosUSD: arancel + iva + fodinfa,
+    exentoPorMinimis: false,
+    notas: [
+      `Sobre US$${TOPE_4X4_USD}: Categoría C — arancel ad valorem variable según partida + IVA 15% + FODINFA 0,5%, todo sobre CIF.`,
+      `Cifra orientativa: arancel real puede variar 5-30% según producto.`,
+    ],
+  };
 }
 
 function calcMexico(valor: number, envio: number, regla: ReglaAduana): Desglose {

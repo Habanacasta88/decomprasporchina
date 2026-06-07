@@ -105,3 +105,27 @@ describe('calcular-aduana — España', () => {
     expect(d.iva).toBeCloseTo(42, 2);
   });
 });
+
+describe('calcular-aduana — Ecuador (régimen 4x4)', () => {
+  const r = reglaByPais('ecuador')!;
+  it('US$50 paga US$20 fijos + FODINFA 0.5%', () => {
+    const d = calcular({ valor: 50, envio: 0, regla: r });
+    expect(d.arancel).toBeCloseTo(20, 2);
+    expect(d.iva).toBeCloseTo(0);
+    expect(d.tasaAdicional).toBeCloseTo(0.25, 2);
+    expect(d.totalImpuestosUSD).toBeCloseTo(20.25, 2);
+    expect(d.notaTasaGlobal).toBeTruthy();
+  });
+  it('US$400 paga US$20 fijos + US$2 FODINFA', () => {
+    const d = calcular({ valor: 400, envio: 0, regla: r });
+    expect(d.totalImpuestosUSD).toBeCloseTo(22.00, 2);
+  });
+  it('US$600 supera tope 4x4 — Categoría C con arancel variable + IVA 15%', () => {
+    const d = calcular({ valor: 600, envio: 0, regla: r });
+    // Cat C: arancel 20% (proxy) + IVA 15% sobre (CIF+arancel) + FODINFA 0.5%
+    expect(d.arancel).toBeCloseTo(120, 1); // 600 * 0.20
+    expect(d.iva).toBeCloseTo(108, 1); // (600+120)*0.15
+    expect(d.tasaAdicional).toBeCloseTo(3, 2); // FODINFA
+    expect(d.totalImpuestosUSD).toBeCloseTo(231, 1);
+  });
+});
