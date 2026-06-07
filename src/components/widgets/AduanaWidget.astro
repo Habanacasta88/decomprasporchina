@@ -5,6 +5,7 @@ import { calcular } from '../../lib/calcular-aduana';
 import { convertir } from '../../lib/convertir-moneda';
 import { formatCurrency } from '../../lib/i18n';
 import type { ReglaAduana } from '../../data/aduana';
+import { aliexpress } from '../../lib/afiliados';
 
 export interface Props { regla: ReglaAduana; locale: string; }
 const { regla, locale } = Astro.props;
@@ -30,6 +31,7 @@ const ssrLocal = formatCurrency(
     regla={regla}
     locale={locale}
     rates={ratesData.rates}
+    aliexpressUrl={aliexpress()}
   />
 </div>
 
@@ -74,5 +76,24 @@ const ssrLocal = formatCurrency(
     padding: .6rem .8rem;
     border-radius: var(--r-sm);
     margin-top: .75rem;
+  }
+  .aduana-widget__inline-cta {
+    display: block;
+    margin-top: 1rem;
+    padding: .85rem 1.25rem;
+    background: var(--clr-red);
+    color: #fff;
+    text-align: center;
+    border-radius: var(--r-sm);
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-decoration: none;
+    min-height: 44px;
+    box-sizing: border-box;
+    transition: background .2s ease;
+  }
+  .aduana-widget__inline-cta:hover {
+    background: var(--clr-red-dark);
+    color: #fff;
   }
 </style>

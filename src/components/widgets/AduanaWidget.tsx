@@ -10,9 +10,10 @@ export interface Props {
   regla: ReglaAduana;
   locale: string;
   rates: Rates;
+  aliexpressUrl?: string;
 }
 
-export default function AduanaWidget({ regla, locale, rates }: Props): JSX.Element {
+export default function AduanaWidget({ regla, locale, rates, aliexpressUrl }: Props): JSX.Element {
   const valorId = useId();
   const envioId = useId();
   const headId = useId();
@@ -67,7 +68,7 @@ export default function AduanaWidget({ regla, locale, rates }: Props): JSX.Eleme
       <output class={`aduana-widget__output ${error ? 'is-error' : ''}`} role="status" aria-live="polite" aria-atomic="true">
         {error && error}
         {desglose && !error && (
-          <DesgloseView d={desglose} usd2local={usd2local} regla={regla} />
+          <DesgloseView d={desglose} usd2local={usd2local} regla={regla} aliexpressUrl={aliexpressUrl} />
         )}
       </output>
 
@@ -79,10 +80,11 @@ export default function AduanaWidget({ regla, locale, rates }: Props): JSX.Eleme
   );
 }
 
-function DesgloseView({ d, usd2local, regla }: {
+function DesgloseView({ d, usd2local, regla, aliexpressUrl }: {
   d: Desglose;
   usd2local: (n: number) => string;
   regla: ReglaAduana;
+  aliexpressUrl?: string;
 }) {
   if (d.requiereDespachoFormal) {
     return (
@@ -128,6 +130,16 @@ function DesgloseView({ d, usd2local, regla }: {
         <p class="aduana-widget__pais-extra">
           ⚠ <strong>Argentina:</strong> esta estimación NO incluye Impuesto PAIS ni percepciones BCRA del 30%/45% si pagas con tarjeta en pesos. Calcula esas cargas por separado según tu medio de pago.
         </p>
+      )}
+      {!d.requiereDespachoFormal && !d.exentoPorMinimis && aliexpressUrl && (
+        <a
+          href={aliexpressUrl}
+          target="_blank"
+          rel="nofollow sponsored noopener"
+          class="aduana-widget__inline-cta"
+        >
+          Comprar en AliExpress conociendo el coste total →
+        </a>
       )}
     </div>
   );
