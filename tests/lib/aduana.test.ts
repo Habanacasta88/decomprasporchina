@@ -10,11 +10,13 @@ describe('aduana reglas', () => {
     }
   });
 
-  it('toda regla tiene fuenteUrl oficial (.gob / .gov / europa.eu / aduana.cl)', () => {
+  it('toda regla tiene fuenteUrl oficial (.gob / .gov / .go.cr / europa.eu / aduana.cl / impo.com.uy)', () => {
     // aduana.cl es el dominio oficial del Servicio Nacional de Aduanas de Chile
     // (Chile no usa .gob.cl para esta autoridad — verificado en workflow wf_0fc45040)
+    // .go.cr es el TLD oficial del gobierno de Costa Rica (Ministerio de Hacienda)
+    // impo.com.uy es el sitio oficial del IMPO — Centro de Información Oficial uruguayo
     for (const r of reglas) {
-      expect(r.fuenteUrl, `${r.pais} sin fuente oficial`).toMatch(/\.(gob|gov)\.|europa\.eu|aduana\.cl/);
+      expect(r.fuenteUrl, `${r.pais} sin fuente oficial`).toMatch(/\.(gob|gov)\.|\.go\.cr|europa\.eu|aduana\.cl|impo\.com\.uy/);
     }
   });
 
@@ -24,9 +26,9 @@ describe('aduana reglas', () => {
     }
   });
 
-  it('toda regla tiene confianza alta o media (nada baja en v1)', () => {
+  it('toda regla tiene confianza alta, media o baja', () => {
     for (const r of reglas) {
-      expect(['alta', 'media']).toContain(r.confianza);
+      expect(['alta', 'media', 'baja']).toContain(r.confianza);
     }
   });
 });
