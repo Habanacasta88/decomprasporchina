@@ -11,10 +11,11 @@ export interface Props {
   locale: string;
   rates: Rates;
   fechaTipoCambio: string;
+  aliexpressUrl?: string;
 }
 
 export default function MonedaWidget({
-  monedaDestino, locale, rates, fechaTipoCambio,
+  monedaDestino, locale, rates, fechaTipoCambio, aliexpressUrl,
 }: Props): JSX.Element {
   const importeId = useId();
   const monedaId = useId();
@@ -82,6 +83,17 @@ export default function MonedaWidget({
       >
         {error ? error : <><span class="sr-only">Resultado: </span>{resultado}</>}
       </output>
+
+      {!error && resultado && aliexpressUrl && (
+        <a
+          href={aliexpressUrl}
+          target="_blank"
+          rel="nofollow sponsored noopener"
+          class="moneda-widget__inline-cta"
+        >
+          Buscar productos por ese precio en AliExpress →
+        </a>
+      )}
     </section>
   );
 }
