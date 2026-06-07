@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import { monedas } from '../../data/monedas';
+import { paisBySlug } from '../../data/paises';
+const title = 'Conversor de precio AliExpress por moneda';
+const description = 'Convierte precios de AliExpress a tu moneda local. Calculadoras para Chile, México, Perú, Colombia, Argentina y España.';
+---
+<Base title={title} description={description}>
+  <div class="container" style="max-width: 720px; padding: 2rem 1rem 3rem;">
+    <h1>Conversor de precio AliExpress</h1>
+    <p>Elige tu moneda y convierte cualquier precio de AliExpress a tu divisa local con el tipo de cambio diario.</p>
+    <ul class="hub-list">
+      {monedas.map((m) => (
+        <li><a href={`/precio-aliexpress/${m.slug}/`}>Precio en {m.nombre} — {paisBySlug(m.paisSlug)?.nombre}</a></li>
+      ))}
+    </ul>
+  </div>
+  <style>
+    .hub-list { list-style: none; padding: 0; display: grid; gap: .5rem; }
+    .hub-list a { display: block; padding: .75rem 1rem; background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: var(--r-sm); color: var(--clr-link); font-weight: 600; }
+    .hub-list a:hover { background: var(--clr-surface2); }
+  </style>
+</Base>
