@@ -4,6 +4,8 @@
  * Appears after article content, contextual to the category.
  * Uses rel="nofollow sponsored" for legal compliance.
  */
+import { relAttrs } from '../lib/afiliados';
+
 export interface Props {
   headline: string;
   description: string;
@@ -26,7 +28,7 @@ const { headline, description, ctaText, ctaUrl, secondaryCta, platform } = Astro
     <a
       href={ctaUrl}
       target="_blank"
-      rel="nofollow sponsored noopener"
+      rel={relAttrs()}
       class="affiliate-box__btn affiliate-box__btn--primary"
     >
       {ctaText}
@@ -36,7 +38,7 @@ const { headline, description, ctaText, ctaUrl, secondaryCta, platform } = Astro
       <a
         href={secondaryCta.url}
         target="_blank"
-        rel="nofollow sponsored noopener"
+        rel={relAttrs()}
         class="affiliate-box__btn affiliate-box__btn--secondary"
       >
         {secondaryCta.text}

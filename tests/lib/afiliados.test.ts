@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 describe('afiliados', () => {
   beforeEach(() => {
     vi.resetModules();
+    vi.unstubAllEnvs();
   });
 
   it('aliexpress() devuelve la URL de tracking de env', async () => {
@@ -33,6 +34,14 @@ describe('afiliados', () => {
     const { amazonEs } = await import('../../src/lib/afiliados.js');
     expect(amazonEs({ asin: 'B07GBLFPQN' })).toBe(
       'https://www.amazon.es/dp/B07GBLFPQN?tag=mytag-21',
+    );
+  });
+
+  it('amazonEs() produce URL trackless (sin tag) si la env Amazon no existe', async () => {
+    vi.stubEnv('PUBLIC_AMAZON_TAG_ES', '');
+    const { amazonEs } = await import('../../src/lib/afiliados.js');
+    expect(amazonEs({ q: 'cinta metrica' })).toBe(
+      'https://www.amazon.es/s?k=cinta+metrica&tag=',
     );
   });
 

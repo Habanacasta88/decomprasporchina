@@ -10,7 +10,7 @@ import pagesData from '../data/pages.json';
 import postsData from '../data/posts.json';
 
 // ─── Affiliate links ───
-import { aliexpress, amazonEs } from '../lib/afiliados';
+import { aliexpress, amazonEs, relAttrs } from '../lib/afiliados';
 const ALIEXPRESS = aliexpress();
 const amz = (asin: string) => amazonEs({ asin });
 
@@ -340,7 +340,7 @@ const canonicalUrl = isDuplicate ? `${siteUrl}/${canonicalSlug}` : undefined;
   {/* Sticky CTA bar for mobile — only on posts with affiliate CTAs (CRO R5) */}
   {affiliateCTA && isPost && (
     <div class="sticky-cta-bar">
-      <a href={affiliateCTA.ctaUrl} target="_blank" rel="nofollow sponsored noopener" class="sticky-cta-link">
+      <a href={affiliateCTA.ctaUrl} target="_blank" rel={relAttrs()} class="sticky-cta-link">
         {affiliateCTA.ctaText} →
       </a>
     </div>
