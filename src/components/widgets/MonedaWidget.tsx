@@ -1,3 +1,4 @@
+/** @jsxImportSource preact */
 import { useId, useMemo, useState } from 'preact/hooks';
 import type { JSX } from 'preact';
 import { convertir, type Rates } from '../../lib/convertir-moneda';
@@ -55,7 +56,7 @@ export default function MonedaWidget({
           aria-describedby={helpId}
           aria-invalid={error ? 'true' : 'false'}
           value={importeRaw}
-          onInput={(e) => setImporteRaw((e.target as HTMLInputElement).value)}
+          onInput={(e: JSX.TargetedEvent<HTMLInputElement>) => setImporteRaw(e.currentTarget.value)}
         />
       </div>
 
@@ -65,7 +66,7 @@ export default function MonedaWidget({
           id={monedaId}
           class="moneda-widget__select"
           value={moneda}
-          onChange={(e) => setMoneda((e.target as HTMLSelectElement).value as Origen)}
+          onChange={(e: JSX.TargetedEvent<HTMLSelectElement>) => setMoneda(e.currentTarget.value as Origen)}
         >
           <option value="CNY">Yuan chino (CNY)</option>
           <option value="USD">Dólar estadounidense (USD)</option>
