@@ -1608,6 +1608,16 @@ export interface ReglaAduana {
   fechaRevision: string;     // YYYY-MM-DD
   confianza: 'alta' | 'media';
   algoritmoEspecial?: 'mexico-tasa-global' | 'argentina-franquicia-courier';
+  /**
+   * Solo España (UE Reglamento 2026/382): a partir de `vigenteDesde`, los envíos
+   * con valor ≤ `aplicaHastaValorEUR` pagan `eurPorLinea` EUR fijos como arancel
+   * adicional al IVA.
+   */
+  arancelFijoUE2026?: {
+    eurPorLinea: number;
+    vigenteDesde: string;        // YYYY-MM-DD
+    aplicaHastaValorEUR: number;
+  };
 }
 
 export const reglas: ReglaAduana[] = [
@@ -1718,13 +1728,18 @@ export const reglas: ReglaAduana[] = [
     pais: 'espana',
     moneda: 'EUR',
     baseCalculo: 'CIF',
-    deMinimisUSD: 0, // sin minimis IVA desde jul-2021; arancel 0 hasta 150€ hasta jun-2026
+    deMinimisUSD: 0, // sin minimis IVA desde jul-2021
     ivaPct: 21,
-    arancelGeneralPct: 0, // 0 hasta 150€ hasta 30-jun-2026; 3€ fijo por línea desde 01-jul-2026
+    arancelGeneralPct: 0, // 0 hasta 150€; sobre 150€ TARIC variable
+    arancelFijoUE2026: {
+      eurPorLinea: 3,
+      vigenteDesde: '2026-07-01',
+      aplicaHastaValorEUR: 150,
+    },
     notas: [
       'Sin minimis IVA desde 1-jul-2021 (UE): TODO envío extracomunitario paga IVA 21%',
-      'Hasta 30-jun-2026: envíos ≤150€ están exentos de arancel; arancel TARIC variable sobre 150€',
-      'Desde 1-jul-2026 (Reglamento UE 2026/382): los envíos ≤150€ pagan 3€ fijos por cada línea TARIC además del IVA',
+      'Hasta 30-jun-2026: envíos ≤150€ están exentos de arancel',
+      'Desde 1-jul-2026 (Reglamento UE 2026/382): los envíos ≤150€ pagan 3€ fijos por cada línea TARIC además del IVA. Periodo transitorio hasta 1-jul-2028',
       'Régimen IOSS: si AliExpress/Shein/Temu cobran el IVA en checkout (lo hacen para ≤150€), no pagas nada al recibir el paquete',
       'Sin IOSS: pagas IVA + tasa de gestión al transportista (Correos: 1,24€; couriers: 10-30€)',
       'Sobre 150€: arancel TARIC específico por código de producto (0%-17%)',
@@ -1847,10 +1862,23 @@ describe('calcular-aduana — Argentina (franquicia courier)', () => {
 
 describe('calcular-aduana — España', () => {
   const r = reglaByPais('espana')!;
-  it('100 EUR (interpretado como USD por simplicidad): IVA 21% sin arancel', () => {
-    const d = calcular({ valor: 100, envio: 0, regla: r });
+  it('100 EUR antes del 2026-07-01: IVA 21% sin arancel ni tasa adicional', () => {
+    const d = calcular({ valor: 100, envio: 0, regla: r, now: new Date('2026-06-30') });
     expect(d.arancel).toBeCloseTo(0);
     expect(d.iva).toBeCloseTo(21, 2);
+    expect(d.tasaAdicional).toBeCloseTo(0);
+  });
+  it('100 EUR desde el 2026-07-01: añade 3€ fijos (Reglamento UE 2026/382)', () => {
+    const d = calcular({ valor: 100, envio: 0, regla: r, now: new Date('2026-07-01') });
+    expect(d.arancel).toBeCloseTo(0);
+    expect(d.iva).toBeCloseTo(21, 2);
+    expect(d.tasaAdicional).toBeCloseTo(3, 2);
+    expect(d.totalImpuestosUSD).toBeCloseTo(24, 2);
+  });
+  it('200 EUR desde el 2026-07-01: SIN tasa fija (supera 150€)', () => {
+    const d = calcular({ valor: 200, envio: 0, regla: r, now: new Date('2026-07-01') });
+    expect(d.tasaAdicional).toBeCloseTo(0);
+    expect(d.iva).toBeCloseTo(42, 2); // 200 * 0.21
   });
 });
 ```
@@ -1880,19 +1908,20 @@ export interface Desglose {
 }
 
 export interface CalcularInput {
-  valor: number;          // USD (valor del producto)
-  envio?: number;         // USD (flete y seguro)
+  valor: number;          // USD (valor del producto). Para España, valor en EUR.
+  envio?: number;         // USD/EUR (flete y seguro)
   categoria?: string;     // opcional, futuro: aranceles por categoría
   regla: ReglaAduana;
+  now?: Date;             // inyectable para tests + regímenes con vigencia futura (UE 2026/382)
 }
 
 const LIMITE_SIMPLIFICADO_MX = 2500;
 const LIMITE_COURIER_AR = 3000;
 
-export function calcular({ valor, envio = 0, regla }: CalcularInput): Desglose {
+export function calcular({ valor, envio = 0, regla, now = new Date() }: CalcularInput): Desglose {
   if (regla.algoritmoEspecial === 'mexico-tasa-global') return calcMexico(valor, envio, regla);
   if (regla.algoritmoEspecial === 'argentina-franquicia-courier') return calcArgentina(valor, envio, regla);
-  return calcEstandar(valor, envio, regla);
+  return calcEstandar(valor, envio, regla, now);
 }
 
 function calcMexico(valor: number, envio: number, regla: ReglaAduana): Desglose {
@@ -1949,7 +1978,7 @@ function calcArgentina(valor: number, envio: number, regla: ReglaAduana): Desglo
   };
 }
 
-function calcEstandar(valor: number, envio: number, regla: ReglaAduana): Desglose {
+function calcEstandar(valor: number, envio: number, regla: ReglaAduana, now: Date): Desglose {
   const baseTotal = regla.baseCalculo === 'CIF' ? valor + envio : valor;
   const minimis = regla.deMinimisUSD ?? 0;
   const bajoMinimis = minimis > 0 && valor <= minimis;
@@ -1961,25 +1990,39 @@ function calcEstandar(valor: number, envio: number, regla: ReglaAduana): Desglos
 
   // Colombia: arancel solo si supera minimis, IVA siempre (China sin TLC)
   // Perú: ambos (arancel + IGV) exentos bajo US$200 FOB
-  // España: arancel 0 hasta 150€, IVA siempre
+  // España: arancel 0 hasta 150€, IVA siempre; +3€ desde 1-jul-2026 si ≤150€
 
   const arancel = aplicaArancel ? baseTotal * (regla.arancelGeneralPct / 100) : 0;
   const baseIva = baseTotal + arancel;
 
   let aplicaIva = true;
   if (regla.pais === 'peru' && bajoMinimis) aplicaIva = false;
-  // Chile, Colombia, España: IVA siempre aplica (Chile siempre, Colombia siempre china sin TLC, España sin minimis)
 
   const iva = aplicaIva ? baseIva * (regla.ivaPct / 100) : 0;
+
+  // Tasa adicional fija UE 2026/382 (solo España):
+  let tasaAdicional = 0;
+  const tasaFija = regla.arancelFijoUE2026;
+  if (tasaFija) {
+    const vigente = now >= new Date(tasaFija.vigenteDesde + 'T00:00:00Z');
+    if (vigente && valor <= tasaFija.aplicaHastaValorEUR) {
+      tasaAdicional = tasaFija.eurPorLinea;
+    }
+  }
+
+  const notas: string[] = [];
+  if (tasaAdicional > 0) {
+    notas.push(`Reglamento UE 2026/382: +${tasaAdicional}€ fijos por línea TARIC en envíos ≤${regla.arancelFijoUE2026!.aplicaHastaValorEUR}€ (vigente desde ${regla.arancelFijoUE2026!.vigenteDesde}).`);
+  }
 
   return {
     base: baseTotal,
     arancel,
     iva,
-    tasaAdicional: 0,
-    totalImpuestosUSD: arancel + iva,
-    exentoPorMinimis: bajoMinimis && arancel === 0 && iva === 0,
-    notas: [],
+    tasaAdicional,
+    totalImpuestosUSD: arancel + iva + tasaAdicional,
+    exentoPorMinimis: bajoMinimis && arancel === 0 && iva === 0 && tasaAdicional === 0,
+    notas,
   };
 }
 ```
@@ -2106,6 +2149,12 @@ function DesgloseView({ d, usd2local, regla }: {
             <>
               <dt>{regla.moneda === 'PEN' ? 'IGV' : 'IVA'} ({regla.ivaPct}%)</dt>
               <dd>{usd2local(d.iva)}</dd>
+            </>
+          )}
+          {d.tasaAdicional > 0 && (
+            <>
+              <dt>Arancel fijo UE 2026/382</dt>
+              <dd>{usd2local(d.tasaAdicional)}</dd>
             </>
           )}
           <dt class="aduana-widget__total">Total estimado</dt>
