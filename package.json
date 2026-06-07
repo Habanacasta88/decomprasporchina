@@ -8,11 +8,13 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "prebuild": "node scripts/update-rates.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "update-rates": "node scripts/update-rates.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.0",
