@@ -272,6 +272,13 @@ export function addInternalLinks(html: string, currentSlug: string): string {
     { pattern: /\bprecio(?:s)?\s+(?:en\s+)?(?:euros?|d[oó]lares?|pesos?|soles?)\b/i, url: '/precio-aliexpress/', exclude: ['precio-aliexpress'] },
     { pattern: /\bcambio\s+yuan\b/i, url: '/precio-aliexpress/', exclude: [] },
     { pattern: /\bcuanto\s+(?:vale|cuesta|sale)\s+(?:en\s+)?(?:euros|pesos)\b/i, url: '/precio-aliexpress/', exclude: [] },
+    // B3 — reciprocidad tallas → aduana/moneda por país (2026-06)
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+chile\b/i, url: '/aduana/china-a-chile/', exclude: ['china-a-chile'] },
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+m[eé]xico\b/i, url: '/aduana/china-a-mexico/', exclude: ['china-a-mexico'] },
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+per[uú]\b/i, url: '/aduana/china-a-peru/', exclude: ['china-a-peru'] },
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+colombia\b/i, url: '/aduana/china-a-colombia/', exclude: ['china-a-colombia'] },
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+argentina\b/i, url: '/aduana/china-a-argentina/', exclude: ['china-a-argentina'] },
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+espa[ñn]a\b/i, url: '/aduana/china-a-espana/', exclude: ['china-a-espana'] },
   ];
 
   // Filter out links TO the current page
