@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import preact from '@astrojs/preact';
 import postsData from './src/data/posts.json' with { type: 'json' };
 import pagesData from './src/data/pages.json' with { type: 'json' };
 
@@ -28,6 +29,7 @@ export default defineConfig({
   site: SITE,
   integrations: [
     mdx(),
+    preact({ compat: false }),
     sitemap({
       // Exclude: noindex posts, paginated archive pages (blog/2+, categoria/slug/N)
       filter: (url) => {
