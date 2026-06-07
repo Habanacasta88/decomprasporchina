@@ -19,12 +19,20 @@ import { dirname, resolve } from 'node:path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const RATES_PATH = resolve(__dirname, '..', 'src', 'data', 'rates.json');
 
-export const MONEDAS_OBJETIVO = ['USD', 'EUR', 'CNY', 'CLP', 'MXN', 'PEN', 'COP', 'ARS'];
+export const MONEDAS_OBJETIVO = [
+  'USD', 'EUR', 'CNY',
+  'CLP', 'MXN', 'PEN', 'COP', 'ARS', // 6 primarios
+  'VES', 'GTQ', 'CRC', 'UYU', 'BOB', 'DOP', // 6 secundarios (USD ya está para EC/PA/SV)
+];
 
 const EMERGENCY_RATES = {
   base: 'USD', source: 'hardcoded-emergency', fetchedAt: '2026-01-01T00:00:00Z',
   stale: true,
-  rates: { USD: 1, EUR: 0.92, CNY: 7.2, CLP: 920, MXN: 17.5, PEN: 3.7, COP: 4100, ARS: 1000 },
+  rates: {
+    USD: 1, EUR: 0.92, CNY: 7.2,
+    CLP: 920, MXN: 17.5, PEN: 3.7, COP: 4100, ARS: 1000,
+    VES: 40, GTQ: 7.7, CRC: 510, UYU: 39, BOB: 6.9, DOP: 60,
+  },
 };
 
 export function validateRates(rates) {
