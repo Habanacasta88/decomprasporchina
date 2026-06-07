@@ -108,6 +108,7 @@ const alternates = monedas.map((m) => ({
   .equiv-table thead th { background: var(--clr-surface2); font-family: var(--font-display); font-weight: 600; }
   .equiv-table tbody th { font-weight: 600; color: var(--clr-ink); }
   .rates-attrib { font-size: .8rem; color: var(--clr-muted); margin-top: 1rem; }
+  .rates-attrib a { text-decoration: underline; }
   .aduana-note {
     margin: 1.5rem 0;
     padding: .9rem 1rem;
@@ -116,6 +117,7 @@ const alternates = monedas.map((m) => ({
     border-radius: var(--r-sm);
   }
   .aduana-note p { margin: 0; }
+  .aduana-note a { text-decoration: underline; }
   @media (max-width: 480px) {
     .equiv-table { font-size: .85rem; }
     .equiv-table th, .equiv-table td { padding: .4rem .5rem; }

@@ -40,7 +40,7 @@ export default function MonedaWidget({
 
   return (
     <section class="moneda-widget" aria-labelledby={headingId}>
-      <h3 id={headingId} class="moneda-widget__title">Convertir a {monedaDestino}</h3>
+      <h2 id={headingId} class="moneda-widget__title">Convertir a {monedaDestino}</h2>
       <p id={helpId} class="moneda-widget__help">
         Tipo de cambio actualizado el {fechaTipoCambio}. Valor orientativo.
       </p>
