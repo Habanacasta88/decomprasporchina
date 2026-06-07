@@ -14,7 +14,7 @@ describe('monedas catalog', () => {
 
   it('cada moneda mapea a un país existente', () => {
     for (const m of monedas) {
-      expect(m.paisSlug).toMatch(/^[a-z]+$/);
+      expect(m.paisSlug).toMatch(/^[a-z]+(-[a-z]+)*$/);
       expect(m.iso).toMatch(/^[A-Z]{3}$/);
     }
   });
