@@ -1,0 +1,91 @@
+---
+import MonedaWidget from './MonedaWidget.tsx';
+import ratesData from '../../data/rates.json';
+import { convertir } from '../../lib/convertir-moneda';
+import { formatCurrency } from '../../lib/i18n';
+
+export interface Props {
+  monedaDestino: string;
+  locale: string;
+}
+const { monedaDestino, locale } = Astro.props;
+
+const fechaTipoCambio = new Date(ratesData.fetchedAt).toLocaleDateString(locale, {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+const defaultImporte = 100;
+const defaultOut = formatCurrency(
+  convertir(defaultImporte, 'CNY', monedaDestino, ratesData.rates),
+  monedaDestino,
+  locale,
+);
+---
+
+<div class="moneda-widget-wrapper">
+  <noscript>
+    <p class="moneda-widget__noscript">
+      <strong>{defaultImporte} CNY</strong> equivalen aproximadamente a
+      <strong>{defaultOut}</strong> a fecha {fechaTipoCambio}. La calculadora interactiva
+      necesita JavaScript; usa la tabla de equivalencias inferior si lo tienes desactivado.
+    </p>
+  </noscript>
+  <MonedaWidget
+    client:visible={{ rootMargin: '200px' }}
+    monedaDestino={monedaDestino}
+    locale={locale}
+    rates={ratesData.rates}
+    fechaTipoCambio={fechaTipoCambio}
+  />
+</div>
+
+<style is:global>
+  .moneda-widget {
+    border-left: 4px solid var(--clr-amber);
+    padding: 1.25rem 1rem;
+    border-radius: var(--r-md);
+    background: var(--clr-surface);
+    box-shadow: var(--shadow-sm);
+    min-height: 280px;
+  }
+  .moneda-widget__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin: 0 0 .5rem;
+    color: var(--clr-red);
+  }
+  .moneda-widget__help { font-size: .85rem; color: var(--clr-muted); margin: 0 0 1rem; }
+  .moneda-widget__row { display: flex; flex-direction: column; gap: .25rem; margin-bottom: .85rem; }
+  .moneda-widget__label { font-weight: 600; font-size: .9375rem; color: var(--clr-ink); }
+  .moneda-widget__input, .moneda-widget__select {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    min-height: 44px;
+    padding: .55rem .75rem;
+    border: 1px solid var(--clr-border);
+    border-radius: var(--r-sm);
+    background: #fff;
+    color: var(--clr-ink);
+  }
+  .moneda-widget__input:focus-visible, .moneda-widget__select:focus-visible {
+    outline: 3px solid var(--clr-amber);
+    outline-offset: 2px;
+  }
+  .moneda-widget__output {
+    display: block;
+    margin-top: 1rem;
+    padding: .75rem 1rem;
+    background: var(--clr-amber-bg);
+    border-radius: var(--r-sm);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--clr-ink);
+  }
+  .moneda-widget__output.is-error {
+    color: var(--clr-red);
+    font-size: 1rem;
+    background: var(--clr-red-light);
+  }
+  .moneda-widget__noscript { background: var(--clr-surface2); padding: .75rem; border-radius: var(--r-sm); }
+</style>
