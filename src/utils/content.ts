@@ -267,10 +267,11 @@ export function addInternalLinks(html: string, currentSlug: string): string {
     { pattern: /\bbrochas?\s+(?:de\s+)?maquillaje\b/i, url: '/mejores-brochas-de-maquillaje-en-aliexpress/', exclude: ['mejores-brochas-de-maquillaje-en-aliexpress'] },
     { pattern: /\bcamiseta(?:s)?\s+(?:de\s+)?mujer\b/i, url: '/camiseta-mujer-verano/', exclude: ['camiseta-mujer-verano'] },
     // C5 — cross-links aduana ↔ moneda hacia los nuevos hubs (2026-06)
-    { pattern: /\baduana(?:\s+(?:de\s+)?china)?\b/i, url: '/aduana/', exclude: [] },
+    { pattern: /\baduana(?:\s+(?:de\s+)?china)?\b/i, url: '/aduana/', exclude: ['aduana-aliexpress', 'nuevo-arancel-compras-china-2026'] },
     { pattern: /\baranceles?\s+(?:de\s+)?(?:importaci[óo]n|china)\b/i, url: '/aduana/', exclude: [] },
-    { pattern: /\bconvertir\s+(?:el\s+)?precio\s+(?:de\s+)?aliexpress\b/i, url: '/precio-aliexpress/', exclude: [] },
-    { pattern: /\b(?:tipo|tasa)\s+de\s+cambio\s+(?:yuan|cny)\b/i, url: '/precio-aliexpress/', exclude: [] },
+    { pattern: /\bprecio(?:s)?\s+(?:en\s+)?(?:euros?|d[oó]lares?|pesos?|soles?)\b/i, url: '/precio-aliexpress/', exclude: ['precio-aliexpress'] },
+    { pattern: /\bcambio\s+yuan\b/i, url: '/precio-aliexpress/', exclude: [] },
+    { pattern: /\bcuanto\s+(?:vale|cuesta|sale)\s+(?:en\s+)?(?:euros|pesos)\b/i, url: '/precio-aliexpress/', exclude: [] },
   ];
 
   // Filter out links TO the current page
