@@ -38,6 +38,9 @@ function monedaSlugFor(iso: string): string | null {
   const map: Record<string, string> = {
     CLP: 'peso-chileno', MXN: 'peso-mexicano', PEN: 'sol-peruano',
     COP: 'peso-colombiano', ARS: 'peso-argentino', EUR: 'euro',
+    USD: 'dolar', VES: 'bolivar-venezolano', GTQ: 'quetzal',
+    CRC: 'colon-costarricense', UYU: 'peso-uruguayo', BOB: 'boliviano',
+    DOP: 'peso-dominicano',
   };
   return map[iso] ?? null;
 }
