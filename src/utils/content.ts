@@ -286,7 +286,7 @@ export function addInternalLinks(html: string, currentSlug: string): string {
     result = result.replace(
       // Match paragraphs and replace only first occurrence of the term
       /<p([^>]*)>([\s\S]*?)<\/p>/gi,
-      (fullP, attrs, inner) => {
+      (fullP: string, attrs: string, inner: string) => {
         if (linked) return fullP;
         // Skip if term doesn't appear in this paragraph
         if (!pattern.test(inner)) return fullP;
@@ -299,12 +299,12 @@ export function addInternalLinks(html: string, currentSlug: string): string {
         const newInner = inner.replace(
           // Split by <a> tags, replace in non-link segments only
           /(<a[^>]*>[\s\S]*?<\/a>)|([^<]+)/gi,
-          (chunk, linkChunk, textChunk) => {
+          (chunk: string, linkChunk: string, textChunk: string) => {
             if (linkChunk) return linkChunk; // already a link, skip
             if (replaced || !textChunk) return chunk;
             if (pattern.test(textChunk)) {
               replaced = true;
-              return textChunk.replace(pattern, (match) => {
+              return textChunk.replace(pattern, (match: string) => {
                 return `<a href="${url}" class="internal-link">${match}</a>`;
               });
             }

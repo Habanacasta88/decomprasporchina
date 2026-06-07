@@ -96,7 +96,7 @@ const nextUrl = currentPage < tp ? `/blog/${currentPage + 1}` : undefined;
       const resultsEl = document.getElementById('blogSearchResults');
       const grid = document.querySelector('.card-grid');
       const pagination = document.querySelector('.pagination');
-      let posts = [];
+      let posts: any[] = [];
 
       const urlQ = new URLSearchParams(location.search).get('q') || '';
       if (urlQ && input) {

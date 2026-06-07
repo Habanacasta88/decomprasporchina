@@ -10,7 +10,7 @@ const SITE = 'https://decomprasporchina.com';
 
 // Posts that are noindex in [slug].astro — must be excluded from sitemap
 // (cleaned: removed 49 cambiandopilas car-battery slugs that don't exist in this project)
-const noindexSlugs = new Set([]);
+const noindexSlugs = /** @type {Set<string>} */ (new Set());
 
 // Build a slug -> modified date lookup for posts and pages
 // Dates in posts.json use "YYYY-MM-DD HH:MM:SS" format (space separator, not T)
