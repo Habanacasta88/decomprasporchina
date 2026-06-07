@@ -1,0 +1,133 @@
+{
+  "lastUpdated": "2026-03-27T12:00:00Z",
+  "learnings": [
+    {
+      "id": "L001",
+      "date": "2026-03-26",
+      "category": "content",
+      "learning": "ALWAYS verify post duplicates before creating. User explicitly corrected this — check slugs AND titles with regex.",
+      "severity": "critical",
+      "source": "user-feedback"
+    },
+    {
+      "id": "L002",
+      "date": "2026-03-26",
+      "category": "technical",
+      "learning": "type:'post' in posts.json is MANDATORY for ad injection. isPost check in [slug].astro gates AdUnit and AffiliateBox rendering.",
+      "severity": "critical",
+      "source": "bug-fix"
+    },
+    {
+      "id": "L003",
+      "date": "2026-03-26",
+      "category": "technical",
+      "learning": "Docker images MUST use --platform linux/amd64. Mac builds arm64 by default, VPS is amd64. Without this flag, container fails silently.",
+      "severity": "critical",
+      "source": "bug-fix"
+    },
+    {
+      "id": "L004",
+      "date": "2026-03-26",
+      "category": "seo",
+      "learning": "The tallas page (/escoger-tu-talla-ropa-china/) accounts for ~60% of all impressions. It's a single point of failure AND the biggest opportunity.",
+      "severity": "high",
+      "source": "gsc-data"
+    },
+    {
+      "id": "L005",
+      "date": "2026-03-26",
+      "category": "seo",
+      "learning": "LATAM markets (PE pos 7.2, CL pos 9.8) rank BETTER than Spain (pos 10+). Counter-intuitive. Content naturally resonates more with LATAM audience.",
+      "severity": "high",
+      "source": "gsc-data"
+    },
+    {
+      "id": "L006",
+      "date": "2026-03-26",
+      "category": "monetization",
+      "learning": "AliExpress affiliate link works globally — no country-specific links needed. Amazon ES tag (enjoys0d-21) only works for Spain market.",
+      "severity": "medium",
+      "source": "research"
+    },
+    {
+      "id": "L007",
+      "date": "2026-03-26",
+      "category": "infrastructure",
+      "learning": "Ahrefs MCP tools return 'Insufficient plan' for all GSC and Site Explorer endpoints. Need direct GSC API or plan upgrade for automated monitoring.",
+      "severity": "high",
+      "source": "agent-error"
+    },
+    {
+      "id": "L008",
+      "date": "2026-03-26",
+      "category": "content",
+      "learning": "nginx.conf redirects from old WP category URLs MUST use absolute HTTPS URLs. Relative redirects caused HTTP -> 404 chains.",
+      "severity": "medium",
+      "source": "bug-fix"
+    },
+    {
+      "id": "L009",
+      "date": "2026-03-26",
+      "category": "content",
+      "learning": "Country-specific calculator pages (tallas-chinas-a-peruanas, etc.) with interactive JS perform well. Template is reusable for more countries.",
+      "severity": "medium",
+      "source": "content-creation"
+    },
+    {
+      "id": "L010",
+      "date": "2026-03-26",
+      "category": "monetization",
+      "learning": "317 posts but only 16 clicks/week = 0.05 clicks/post/week. Most content is invisible. Quality > quantity strategy needed.",
+      "severity": "high",
+      "source": "gsc-data"
+    },
+    {
+      "id": "L011",
+      "date": "2026-03-26",
+      "category": "seo",
+      "learning": "seoTitle MUST be ≤60 chars, seoDescription MUST be ≤155 chars. Google truncates beyond this. The golden page had 75-char title — the CTR hook [Calculadora 2026] was invisible in SERP, explaining 0.6% CTR at position 4-7.",
+      "severity": "critical",
+      "source": "ctr-analysis"
+    },
+    {
+      "id": "L012",
+      "date": "2026-03-26",
+      "category": "seo",
+      "learning": "Golden page had 0 internal links in body — completely isolated node. Adding 8 links to satellite pages creates a topic cluster that boosts the whole group. Every hub page needs min 5 internal links.",
+      "severity": "high",
+      "source": "link-audit"
+    },
+    {
+      "id": "L013",
+      "date": "2026-03-27",
+      "category": "infrastructure",
+      "learning": "nginx add_header inside a location block OVERRIDES all server-level add_header directives. Security headers must be repeated in every location block that uses add_header, or use an include file.",
+      "severity": "critical",
+      "source": "security-audit"
+    },
+    {
+      "id": "L014",
+      "date": "2026-03-27",
+      "category": "security",
+      "learning": "WP-migrated content can contain XSS payloads from hacked plugins, injected comments, or compromised themes. cleanWpContent() MUST sanitize <script>, event handlers (on*=), javascript: URLs, and dangerous tags (<object>, <embed>, <applet>, <form>). Only allow trusted iframes (YouTube, Google Maps).",
+      "severity": "critical",
+      "source": "security-audit"
+    },
+    {
+      "id": "L015",
+      "date": "2026-03-27",
+      "category": "infrastructure",
+      "learning": "NEVER use root@ for automated deploys. Created deploy@ user with Docker group permissions. Limits blast radius if SSH key is compromised. Root only for manual admin tasks.",
+      "severity": "critical",
+      "source": "security-audit"
+    },
+    {
+      "id": "L016",
+      "date": "2026-03-27",
+      "category": "infrastructure",
+      "learning": "CSP whitelist for AdSense requires many Google subdomains: pagead2.googlesyndication.com, googletagservices.com, adservice.google.com/es, tpc.googlesyndication.com, fundingchoicesmessages.google.com, ep1.adtrafficquality.google. If AdSense breaks after deploy, check browser console for blocked domains and add to CSP.",
+      "severity": "high",
+      "source": "security-audit"
+    }
+  ]
+}

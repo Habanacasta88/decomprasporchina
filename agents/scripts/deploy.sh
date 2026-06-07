@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 set -euo pipefail
 
-PROJECT_DIR="/Users/yoelcastano/dev/Migraciones/decomprasporchina"
-VPS="root@168.119.125.218"
+PROJECT_DIR="/Users/yoelcastano/dev/decomprasporchina"
+VPS="deploy@168.119.125.218"
 IMAGE="decomprasporchina:latest"
 CONTAINER="decomprasporchina"
 DEPLOY_LOCK="$PROJECT_DIR/agents/state/deploy-lock"

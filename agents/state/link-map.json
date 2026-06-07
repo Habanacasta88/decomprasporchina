@@ -1,0 +1,240 @@
+{
+  "lastAudit": "2026-03-27T22:00:00Z",
+  "agent": "link-architect",
+  "totalPosts": 317,
+  "linkHealthScore": 7,
+  "methodology": "Counts embedded <a> links in post body fields + auto-link patterns applied at build time by addInternalLinks()",
+  "embeddedLinks": {
+    "postsWithLinks": 279,
+    "orphanPosts": 38,
+    "orphanRate": "12.0%"
+  },
+  "autoLinkSystem": {
+    "totalPatterns": 38,
+    "orphansResolvedByAutoLink": 14,
+    "trueOrphans": 24,
+    "trueOrphanRate": "7.6%"
+  },
+  "effectiveLinkedPosts": 293,
+  "effectiveOrphanPosts": 24,
+  "clusters": {
+    "tallas": {
+      "hub": "/escoger-tu-talla-ropa-china/",
+      "embeddedIncoming": 39,
+      "autoLinkIncoming": 24,
+      "totalEffective": 63,
+      "spokes": 7,
+      "status": "strong"
+    },
+    "compras": {
+      "hub": "/como-comprar-en-aliexpress-2026/",
+      "embeddedIncoming": 5,
+      "autoLinkIncoming": 0,
+      "totalEffective": 5,
+      "spokes": 5,
+      "status": "needs-work",
+      "note": "No auto-link pattern points here. Candidate: 'comprar en AliExpress' (43 posts mention it)"
+    },
+    "tiendas": {
+      "hub": "/tiendas-chinas-online/",
+      "embeddedIncoming": 15,
+      "autoLinkIncoming": 16,
+      "totalEffective": 31,
+      "spokes": 0,
+      "status": "improved",
+      "note": "Auto-link pattern 'tiendas china online' resolved orphan status. Was 0 incoming, now 31."
+    },
+    "xiaomi": {
+      "hub": "/categoria/xiaomi/",
+      "embeddedIncoming": 0,
+      "autoLinkIncoming": 40,
+      "totalEffective": 40,
+      "spokes": 5,
+      "status": "auto-linked"
+    },
+    "shein": {
+      "hub": "/shein-comprar-opiniones/",
+      "embeddedIncoming": 16,
+      "autoLinkIncoming": 28,
+      "totalEffective": 44,
+      "spokes": 3,
+      "status": "strong"
+    },
+    "temu": {
+      "hub": "/temu-vs-aliexpress/",
+      "embeddedIncoming": 2,
+      "autoLinkIncoming": 15,
+      "totalEffective": 17,
+      "spokes": 2,
+      "status": "auto-linked"
+    },
+    "aliexpress-plaza": {
+      "hub": "/aliexpress-plaza/",
+      "embeddedIncoming": 28,
+      "autoLinkIncoming": 0,
+      "totalEffective": 28,
+      "spokes": 0,
+      "status": "embedded-only"
+    }
+  },
+  "topLinkedPages": [
+    { "url": "/", "incomingLinks": 113 },
+    { "url": "/escoger-tu-talla-ropa-china/", "incomingLinks": 39 },
+    { "url": "/tiendas-ropa-barata-aliexpress/", "incomingLinks": 29 },
+    { "url": "/aliexpress-plaza/", "incomingLinks": 28 },
+    { "url": "/comprar-zapatillas-en-china/", "incomingLinks": 25 },
+    { "url": "/las-mejores-zapatillas-de-deporte-en-aliexpress/", "incomingLinks": 22 },
+    { "url": "/shein-comprar-opiniones/", "incomingLinks": 16 },
+    { "url": "/tiendas-chinas-online/", "incomingLinks": 15 },
+    { "url": "/tiendas-moviles-aliexpress/", "incomingLinks": 15 },
+    { "url": "/zaful/", "incomingLinks": 13 }
+  ],
+  "trueOrphans": [
+    { "slug": "mejores-tapones-para-dormir", "chars": 20200, "title": "Los 10 mejores tapones para dormir", "category": "Accesorios" },
+    { "slug": "casas-de-munecas", "chars": 18700, "title": "Comprar Casas de munecas en China", "category": "Accesorios" },
+    { "slug": "juegos-de-mesa-en-aliexpress-y-amazon", "chars": 18000, "title": "Juegos de mesa en AliExpress y Amazon", "category": "Accesorios" },
+    { "slug": "mascarillas-sanitarias-en-aliexpress", "chars": 16900, "title": "Mascarillas sanitarias en Aliexpress", "category": "Accesorios" },
+    { "slug": "cuchillos-de-cocina", "chars": 16300, "title": "Cuchillos de cocina japoneses", "category": "Accesorios" },
+    { "slug": "cama-para-perros-de-raza-grande", "chars": 15700, "title": "Camas para perros de raza grande", "category": "Tiendas Chinas" },
+    { "slug": "mejores-brochas-de-maquillaje-en-aliexpress", "chars": 14600, "title": "Mejores brochas de maquillaje en Aliexpress", "category": "Accesorios" },
+    { "slug": "juguetes-para-perros-que-se-pueden-comprar-en-aliexpress", "chars": 13200, "title": "Juguetes para perros en Aliexpress", "category": "Accesorios" },
+    { "slug": "aliexpress-argentina", "chars": 12200, "title": "Como comprar en AliExpress desde Argentina", "category": "Tiendas Chinas" },
+    { "slug": "capazos-de-mimbre", "chars": 11800, "title": "Capazos de mimbre Comparativa", "category": "Accesorios" },
+    { "slug": "las-mejores-tiendas-para-comprar-materiales-de-arte-en-aliexpress", "chars": 11600, "title": "Materiales de arte en Aliexpress", "category": "Tiendas Chinas" },
+    { "slug": "camiseta-mujer-verano", "chars": 10800, "title": "Camisetas de Mujer en Aliexpress", "category": "Ropa" },
+    { "slug": "mejores-vendedores-de-banadores-para-mujer-en-aliexpress", "chars": 9800, "title": "Mejores vendedores de banadores para mujer en Aliexpress", "category": "Ropa" },
+    { "slug": "mejores-fundas-para-sillas-de-comedor-en-aliexpress", "chars": 9600, "title": "Mejores Fundas para Sillas de Comedor en AliExpress", "category": "Accesorios" },
+    { "slug": "compra-botas-australianas-ugg-baratas-en-china-originales", "chars": 9000, "title": "Botas Australianas UGG baratas en China", "category": "Calzado" },
+    { "slug": "agujas-para-micropigmentacion-labial-en-aliexpress", "chars": 8000, "title": "Agujas para micropigmentacion labial en AliExpress", "category": "Accesorios" },
+    { "slug": "camisetas-acb-aliexpress-liga-endesa", "chars": 7200, "title": "Camisetas ACB AliExpress - Liga Endesa", "category": "Ropa" },
+    { "slug": "zapatillas-mtb-chinas", "chars": 5700, "title": "Zapatillas MTB chinas", "category": "Calzado" },
+    { "slug": "cupones-aliexpress", "chars": 5700, "title": "Los cupones en AliExpress", "category": "Blog" },
+    { "slug": "que-debe-ofrecer-un-pc-para-jugar-a-casino-online", "chars": 5200, "title": "Que debe ofrecer un Pc para jugar a casino online", "category": "Blog" },
+    { "slug": "pasos-para-anular-suscripcion-de-justfab", "chars": 5000, "title": "Pasos para anular suscripcion de Justfab", "category": "Blog" },
+    { "slug": "que-pueden-hacer-los-vinilos-personalizados-por-tu-hogar", "chars": 4100, "title": "Vinilos personalizados para tu hogar", "category": "Accesorios" },
+    { "slug": "bugcat-capoo", "chars": 4000, "title": "Bugcat Capoo", "category": "Blog" },
+    { "slug": "15-piezas-de-porcelana-en-miniatura-para-casa-de-munecas", "chars": 3300, "title": "15 Piezas de porcelana en miniatura para casa de munecas", "category": "Accesorios" }
+  ],
+  "suggestedNewAutoLinkPatterns": [
+    {
+      "term": "comprar en AliExpress",
+      "regex": "\\bcomprar\\s+en\\s+AliExpress\\b",
+      "target": "/como-comprar-en-aliexpress-2026/",
+      "postsAffected": 43,
+      "orphansResolved": 7,
+      "priority": "HIGH",
+      "rationale": "Boosts the weakest hub cluster (compras, only 5 incoming) by linking 43 posts. Resolves 7 orphans including aliexpress-argentina."
+    },
+    {
+      "term": "cupones AliExpress / cupon",
+      "regex": "\\bcup[oó]n(?:es)?\\s+(?:de\\s+)?AliExpress\\b",
+      "target": "/cupones-aliexpress/",
+      "postsAffected": 15,
+      "orphansResolved": 1,
+      "priority": "MEDIUM",
+      "rationale": "Resolves cupones-aliexpress orphan and creates cross-links from money pages."
+    },
+    {
+      "term": "tabla de tallas",
+      "regex": "\\btabla(?:s)?\\s+de\\s+tallas?\\b",
+      "target": "/escoger-tu-talla-ropa-china/",
+      "postsAffected": 21,
+      "orphansResolved": 2,
+      "priority": "HIGH",
+      "rationale": "Reinforces the golden page with 21 additional incoming links from posts that mention 'tabla de tallas'."
+    },
+    {
+      "term": "ropa barata",
+      "regex": "\\bropa\\s+barata\\b",
+      "target": "/tiendas-ropa-barata-aliexpress/",
+      "postsAffected": 20,
+      "orphansResolved": 1,
+      "priority": "MEDIUM",
+      "rationale": "Strengthens #3 most linked page. Mentions across 20 posts."
+    },
+    {
+      "term": "pagar con PayPal",
+      "regex": "\\bpag(?:ar|o)\\s+(?:con\\s+)?PayPal\\b",
+      "target": "/como-pagar-con-paypal-en-aliexpress/",
+      "postsAffected": 16,
+      "orphansResolved": 1,
+      "priority": "MEDIUM",
+      "rationale": "Links PayPal payment mentions to the dedicated guide. 16 posts."
+    },
+    {
+      "term": "banador / banadores",
+      "regex": "\\bba[nñ]ador(?:es)?\\b",
+      "target": "/mejores-vendedores-de-banadores-para-mujer-en-aliexpress/",
+      "postsAffected": 17,
+      "orphansResolved": 1,
+      "priority": "MEDIUM",
+      "rationale": "Resolves the banadores orphan page and creates 17 incoming links."
+    },
+    {
+      "term": "Zaful",
+      "regex": "\\bZaful\\b(?!\\s*[<.])",
+      "target": "/zaful/",
+      "postsAffected": 14,
+      "orphansResolved": 0,
+      "priority": "LOW",
+      "rationale": "14 posts mention Zaful. Page already has 13 embedded links but no auto-link coverage."
+    },
+    {
+      "term": "brochas de maquillaje",
+      "regex": "\\bbrochas?\\s+(?:de\\s+)?maquillaje\\b",
+      "target": "/mejores-brochas-de-maquillaje-en-aliexpress/",
+      "postsAffected": 3,
+      "orphansResolved": 1,
+      "priority": "LOW",
+      "rationale": "Resolves orphan. Low volume but niche match."
+    },
+    {
+      "term": "camiseta de mujer / verano",
+      "regex": "\\bcamiseta(?:s)?\\s+(?:de\\s+)?mujer\\b",
+      "target": "/camiseta-mujer-verano/",
+      "postsAffected": 5,
+      "orphansResolved": 1,
+      "priority": "LOW",
+      "rationale": "Resolves camiseta-mujer-verano orphan."
+    },
+    {
+      "term": "abrigo / abrigos",
+      "regex": "\\babrigo(?:s)?\\s+(?:de\\s+)?(?:invierno|china|baratos?)\\b",
+      "target": "/comprar-abrigos-en-china/",
+      "postsAffected": 8,
+      "orphansResolved": 1,
+      "priority": "MEDIUM",
+      "rationale": "Resolves comprar-abrigos-en-china orphan. Winter clothing crosslinks."
+    }
+  ],
+  "impactProjection": {
+    "currentTrueOrphans": 24,
+    "orphansResolvedByNewPatterns": 13,
+    "projectedOrphansAfterPatterns": 11,
+    "projectedOrphanRate": "3.5%",
+    "projectedLinkHealthScore": 9
+  },
+  "orphansByCategory": {
+    "Accesorios": 11,
+    "Ropa": 3,
+    "Tiendas Chinas": 3,
+    "Calzado": 2,
+    "Blog": 4,
+    "Deporte": 0,
+    "Tecnologia": 1
+  },
+  "actionsCompleted": [
+    "Added 16 new auto-link patterns to content.ts (2026-03-26)",
+    "Golden page: 0 -> 8 manual internal links",
+    "Xiaomi category page now receives 40 auto-links",
+    "Shein hub now receives 28 auto-links",
+    "Full audit 2026-03-27: corrected methodology to count body field + auto-links separately"
+  ],
+  "nextActions": [
+    "HIGH: Add 'comprar en AliExpress' auto-link pattern -> resolves 7 orphans, boosts /como-comprar-en-aliexpress-2026/ from 5 to 48 incoming",
+    "HIGH: Add 'tabla de tallas' auto-link pattern -> 21 more links to golden page",
+    "MEDIUM: Add 6 more auto-link patterns (ropa barata, PayPal, banadores, cupones, abrigos, camiseta mujer) -> resolves 6 orphans",
+    "MEDIUM: Pablo should manually add links to 11 remaining true orphans (bugcat-capoo, casino-online, justfab, vinilos, porcelana miniatura etc.)",
+    "LOW: Consider noindexing 3 low-value orphans (casino-online, justfab, bugcat-capoo) if no organic value"
+  ]
+}

@@ -1,10 +1,95 @@
 {
-  "lastUpdated": null,
-  "weekOf": null,
-  "totalClicks": 0,
-  "totalImpressions": 0,
-  "avgCTR": 0,
-  "avgPosition": 0,
-  "topPages": [],
-  "alerts": []
+  "lastUpdated": "2026-03-27T12:00:00Z",
+  "weekOf": "2026-W13",
+  "previousWeek": "2026-W13",
+  "dataSource": "CLAUDE.md documented GSC baseline (Ahrefs API returns Insufficient plan on ALL endpoints)",
+  "ahrefsApiStatus": "UNAVAILABLE — all Site Explorer, Keywords Explorer, SERP Overview, Batch Analysis, and Subscription Info endpoints return 'Insufficient plan'. Requires plan upgrade or API add-on.",
+  "totalClicks": 16,
+  "totalImpressions": 1825,
+  "avgCTR": 0.0088,
+  "avgPosition": 17.5,
+  "weekOverWeek": {
+    "clicks": { "current": 16, "previous": 16, "delta": 0, "trend": "flat" },
+    "impressions": { "current": 1825, "previous": 1825, "delta": 0, "trend": "flat" },
+    "note": "No fresh GSC data available — values carried forward from W13 baseline. Ahrefs API cannot provide independent verification."
+  },
+  "goldenPage": {
+    "url": "/escoger-tu-talla-ropa-china/",
+    "clicks": 7,
+    "impressions": 1104,
+    "ctr": 0.006,
+    "position": 5.5,
+    "seoTitle": "Tallas Chinas: Calculadora + Tablas para 6 Paises (2026)",
+    "internalLinks": 8,
+    "status": "STRONG — ~60% of all impressions. Position 4-7. CTR still low at 0.6% (target: 5-10%).",
+    "actions": [
+      "Title optimized to 56 chars (done W13)",
+      "8 internal links added (was 0, done W13)",
+      "NEXT: A/B test meta description to improve CTR from 0.6% toward 3-5%",
+      "NEXT: Add FAQ schema for featured snippet opportunity"
+    ]
+  },
+  "topPages": [
+    {
+      "url": "/escoger-tu-talla-ropa-china/",
+      "clicks": 7,
+      "impressions": 1104,
+      "ctr": 0.006,
+      "position": 5.5
+    }
+  ],
+  "countries": [
+    { "country": "ES", "avgPosition": 10.0 },
+    { "country": "PE", "avgPosition": 7.2 },
+    { "country": "CL", "avgPosition": 9.8 },
+    { "country": "MX", "avgPosition": 13.2 },
+    { "country": "CO", "avgPosition": 15.0 }
+  ],
+  "linkHealth": {
+    "score": 2,
+    "totalPosts": 317,
+    "linkedPosts": 45,
+    "orphanPosts": 272,
+    "autoLinkTerms": 38,
+    "strongClusters": ["tallas (33 incoming, 7 spokes)", "xiaomi (40 incoming, 5 spokes)", "shein (29 incoming, 3 spokes)"],
+    "weakClusters": ["compras (3 incoming, 5 spokes)", "tiendas (0 incoming, ORPHAN-HUB)"]
+  },
+  "alerts": [
+    {
+      "severity": "CRITICAL",
+      "type": "api-access",
+      "message": "Ahrefs API returns 'Insufficient plan' on ALL endpoints (Site Explorer, Keywords Explorer, SERP Overview, Batch Analysis, Subscription Info). Cannot pull live organic metrics. Action: upgrade Ahrefs plan to include API access, or use GSC directly."
+    },
+    {
+      "severity": "WARNING",
+      "type": "low-ctr",
+      "page": "/escoger-tu-talla-ropa-china/",
+      "message": "Golden page ~1,104 impr/week but CTR ~0.6%. Position 4-7 should yield 5-10% CTR. Priority: optimize meta description and test structured data."
+    },
+    {
+      "severity": "WARNING",
+      "type": "dns-pending",
+      "message": "Cloudflare DNS not yet configured. A records needed for decomprasporchina.com + www."
+    },
+    {
+      "severity": "WARNING",
+      "type": "orphan-pages",
+      "message": "272/317 posts (85.8%) have zero internal links. Link health score: 2/10. Top orphan: /tiendas-chinas-online/ (55k chars, 0 incoming links despite being a hub page)."
+    },
+    {
+      "severity": "INFO",
+      "type": "security-deploy-pending",
+      "message": "Security hardening changes (CSP, HSTS, rate limiting, XSS sanitization) prepared on 2026-03-27 but not yet deployed to production."
+    }
+  ],
+  "nextCheckDue": "2026-04-03",
+  "recommendations": [
+    "P0: Upgrade Ahrefs plan to include API access OR configure GSC API integration for live data",
+    "P0: Deploy security hardening changes to production",
+    "P1: Optimize golden page meta description to improve CTR from 0.6% toward 3-5%",
+    "P1: Reduce orphan pages from 272 to <200 by adding internal links to top 70+ posts",
+    "P1: Configure Cloudflare DNS (A records for apex + www)",
+    "P1: Submit sitemap to GSC and request indexing of 21 new URLs",
+    "P2: Create hub pages for Deporte and Accesorios categories (currently 0 hubs)"
+  ]
 }

@@ -4,7 +4,7 @@ set -euo pipefail
 DOMAIN="https://decomprasporchina.com"
 VPS="168.119.125.218"
 CONTAINER="decomprasporchina"
-PROJECT_DIR="/Users/yoelcastano/dev/Migraciones/decomprasporchina"
+PROJECT_DIR="/Users/yoelcastano/dev/decomprasporchina"
 REPORT_DIR="$PROJECT_DIR/agents/reports/health"
 STATE_FILE="$PROJECT_DIR/agents/state/site-health.json"
 DATE=$(date +%Y-%m-%d)
@@ -17,7 +17,7 @@ echo "" >> "$REPORT_FILE"
 
 # 1. Container status
 echo "## Container Status" >> "$REPORT_FILE"
-CONTAINER_STATUS=$(ssh -o ConnectTimeout=10 root@$VPS "docker ps --filter name=$CONTAINER --format '{{.Status}}'" 2>/dev/null || echo "SSH_FAILED")
+CONTAINER_STATUS=$(ssh -o ConnectTimeout=10 deploy@$VPS "docker ps --filter name=$CONTAINER --format '{{.Status}}'" 2>/dev/null || echo "SSH_FAILED")
 echo "- Container: $CONTAINER_STATUS" >> "$REPORT_FILE"
 
 # 2. HTTP checks

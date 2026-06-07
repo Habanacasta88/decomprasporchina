@@ -75,9 +75,10 @@ const catChips = [
   {prevUrl && <link rel="prev" href={siteUrl + prevUrl} />}
   {nextUrl && <link rel="next" href={siteUrl + nextUrl} />}
 
-  <!-- Preconnect for fonts -->
+  <!-- Google Fonts: loaded via <link> instead of CSS @import to avoid render-blocking -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <!-- Open Graph -->
   <meta property="og:type" content={ogType} />

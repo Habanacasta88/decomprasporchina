@@ -203,8 +203,11 @@ function splitAtParagraph(html: string, n: number): [string, string] {
 }
 
 const isPost = entry.type === 'post' && !isLegal;
-const [contentPart1, contentRest1] = isPost ? splitAtParagraph(htmlContent, 1) : [htmlContent, ''];
+// Ad slot1 after P2 (was P1 — moved for lower bounce rate, CRO R10)
+const [contentPart1, contentRest1] = isPost ? splitAtParagraph(htmlContent, 2) : [htmlContent, ''];
 const [contentPart2, contentPart3] = isPost && contentRest1 ? splitAtParagraph(contentRest1, 2) : [contentRest1, ''];
+// Show second CTA at end of long posts (>3000 chars in part3, CRO R7/R11)
+const showEndCTA = isPost && affiliateCTA && contentPart3 && contentPart3.length > 3000;
 
 // Slugs to noindex (duplicate content)
 const duplicateSlugs = new Set<string>([]);
@@ -284,6 +287,14 @@ const canonicalUrl = isDuplicate ? `${siteUrl}/${canonicalSlug}` : undefined;
           />}
           {isPost && contentPart3 && <AdUnit slot={AD_SLOT_AFTER_P3} />}
           {contentPart3 && <div set:html={contentPart3} />}
+          {showEndCTA && <AffiliateBox
+            headline={affiliateCTA!.headline}
+            description={affiliateCTA!.description}
+            ctaText={affiliateCTA!.ctaText}
+            ctaUrl={affiliateCTA!.ctaUrl}
+            secondaryCta={affiliateCTA!.secondaryCta}
+            platform={affiliateCTA!.platform}
+          />}
         </div>
 
         {faqs.length >= 1 && !isLegal && (
@@ -325,4 +336,49 @@ const canonicalUrl = isDuplicate ? `${siteUrl}/${canonicalSlug}` : undefined;
       )}
     </div>
   </div>
+
+  {/* Sticky CTA bar for mobile — only on posts with affiliate CTAs (CRO R5) */}
+  {affiliateCTA && isPost && (
+    <div class="sticky-cta-bar">
+      <a href={affiliateCTA.ctaUrl} target="_blank" rel="nofollow sponsored noopener" class="sticky-cta-link">
+        {affiliateCTA.ctaText} →
+      </a>
+    </div>
+  )}
 </Base>
+
+<style>
+  /* Sticky CTA bar — mobile only */
+  .sticky-cta-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: linear-gradient(135deg, #C8200F 0%, #A01808 100%);
+    padding: 0.75rem 1rem;
+    text-align: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+  }
+  .sticky-cta-link {
+    color: #fff;
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .sticky-cta-link:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 768px) {
+    .sticky-cta-bar {
+      display: block;
+    }
+    /* Prevent content from being hidden behind sticky bar */
+    :global(body) {
+      padding-bottom: 3.5rem;
+    }
+  }
+</style>

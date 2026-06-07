@@ -1,0 +1,32 @@
+{
+  "refreshes": [
+    {
+      "slug": "escoger-tu-talla-ropa-china",
+      "date": "2026-03-26",
+      "agent": "content-refresher",
+      "changes": [
+        {
+          "field": "seoTitle",
+          "before": "Tallas Chinas a Peruanas, Mexicanas, Chilenas y Europeas [Calculadora 2026]",
+          "after": "Tallas Chinas: Calculadora + Tablas para 6 Países (2026)",
+          "reason": "Title was 75 chars (truncated by Google). Shortened to 56 chars so CTR hooks are visible in SERP."
+        },
+        {
+          "field": "seoDescription",
+          "before": "Convierte tu talla china al instante: equivalencias para Peru, Mexico, Chile, Colombia y Europa. Calculadora de ropa, zapatillas y sujetadores + tablas actualizadas para AliExpress, Shein y TEMU.",
+          "after": "Convierte tallas chinas al instante. Calculadora para ropa, zapatillas y sujetadores + tablas de equivalencias para Perú, México, Chile y España.",
+          "reason": "Meta was 195 chars (truncated). Shortened to 145 chars. Complete message now visible in SERP."
+        },
+        {
+          "field": "body-internal-links",
+          "before": "0 internal links",
+          "after": "8 internal links to country pages, shoe converter, Shein guide, sujetador guide, and buying guide",
+          "reason": "Page was an isolated node. Now distributes link equity to 8 satellite pages and receives context signals."
+        }
+      ],
+      "kpiExpected": "CTR from 0.6% to 3-5% within 4 weeks (title/meta visible in SERP). +30-50 clicks/week.",
+      "confidence": "high",
+      "nextReviewDate": "2026-04-23"
+    }
+  ]
+}

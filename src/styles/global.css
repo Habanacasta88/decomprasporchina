@@ -4,8 +4,11 @@
    Asian marketplace energy. Fraunces serif + Sora sans.
    ============================================================ */
 
-/* === Google Fonts === */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Sora:wght@300;400;500;600;700;800&display=swap');
+/* === Google Fonts ===
+   Loaded via <link> in Base.astro to avoid render-blocking @import chain.
+   Previously: @import url('https://fonts.googleapis.com/css2?...')
+   Moved to HTML <link> for better LCP (CRO audit R13, 2026-03-27).
+*/
 
 /* === CSS Variables === */
 :root {
