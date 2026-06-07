@@ -29,8 +29,15 @@ export default function AduanaWidget({ regla, locale, rates, aliexpressUrl }: Pr
     return { desglose: d, error: '' };
   }, [valorRaw, envioRaw, regla]);
 
-  const usd2local = (usd: number) =>
-    formatCurrency(convertir(usd, 'USD', regla.moneda, rates), regla.moneda, locale);
+  // Si la moneda destino no está disponible en rates (algunos países LATAM
+  // secundarios — VES, GTQ, CRC, UYU, BOB, DOP), mostramos el importe en USD.
+  const usd2local = (usd: number) => {
+    try {
+      return formatCurrency(convertir(usd, 'USD', regla.moneda, rates), regla.moneda, locale);
+    } catch {
+      return formatCurrency(usd, 'USD', locale);
+    }
+  };
 
   return (
     <section class="aduana-widget" aria-labelledby={headId}>

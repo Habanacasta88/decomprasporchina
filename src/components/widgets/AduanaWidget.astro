@@ -11,10 +11,18 @@ export interface Props { regla: ReglaAduana; locale: string; }
 const { regla, locale } = Astro.props;
 
 const ssrDef = calcular({ valor: 100, envio: 0, regla });
-const ssrLocal = formatCurrency(
-  convertir(ssrDef.totalImpuestosUSD, 'USD', regla.moneda, ratesData.rates),
-  regla.moneda, locale,
-);
+// Defensivo: si la moneda destino no está en rates.json, mostrar el total en USD como fallback.
+// Esto evita romper el build para países cuyas monedas no se actualizan automáticamente
+// (VES, GTQ, CRC, UYU, BOB, DOP en este momento). USD/EUR y monedas LATAM primarias sí cubiertas.
+let ssrLocal: string;
+try {
+  ssrLocal = formatCurrency(
+    convertir(ssrDef.totalImpuestosUSD, 'USD', regla.moneda, ratesData.rates),
+    regla.moneda, locale,
+  );
+} catch {
+  ssrLocal = formatCurrency(ssrDef.totalImpuestosUSD, 'USD', locale);
+}
 ---
 
 <div class="aduana-widget-wrapper">

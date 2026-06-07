@@ -34,12 +34,12 @@ const { pais, herramienta, title, description, intro, ctaAfiliado, fechaActualiz
 
 const SITE = 'https://decomprasporchina.com';
 
-function monedaSlugFor(iso: string): string {
+function monedaSlugFor(iso: string): string | null {
   const map: Record<string, string> = {
     CLP: 'peso-chileno', MXN: 'peso-mexicano', PEN: 'sol-peruano',
     COP: 'peso-colombiano', ARS: 'peso-argentino', EUR: 'euro',
   };
-  return map[iso] ?? 'euro';
+  return map[iso] ?? null;
 }
 
 function tallasPathFor(slug: string): string {
@@ -52,10 +52,11 @@ function tallasPathFor(slug: string): string {
   return `/${slugs[slug] ?? 'escoger-tu-talla-ropa-china'}/`;
 }
 
+const monedaSlug = monedaSlugFor(pais.moneda);
 const interlinks = [
-  herramienta !== 'moneda' && {
+  herramienta !== 'moneda' && monedaSlug && {
     label: `Conversor de precio para ${pais.nombre}`,
-    href: `/precio-aliexpress/${monedaSlugFor(pais.moneda)}/`,
+    href: `/precio-aliexpress/${monedaSlug}/`,
   },
   herramienta !== 'aduana' && {
     label: `Aduana e impuestos China → ${pais.nombre}`,
