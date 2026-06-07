@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import { reglas } from '../../data/aduana';
+import { paisBySlug } from '../../data/paises';
+const title = 'Aduana e impuestos: importar de China por país';
+const description = 'Calculadora de aduana para importar productos chinos. Disponible para Chile, México, Perú, Colombia, Argentina y España.';
+---
+<Base title={title} description={description}>
+  <div class="container" style="max-width: 720px; padding: 2rem 1rem 3rem;">
+    <h1>Aduana e impuestos al importar de China</h1>
+    <p>Cada país tiene su propio régimen. Elige el tuyo:</p>
+    <ul class="hub-list">
+      {reglas.map((r) => (
+        <li><a href={`/aduana/china-a-${r.pais}/`}>Aduana para {paisBySlug(r.pais)?.nombre}</a></li>
+      ))}
+    </ul>
+  </div>
+  <style>
+    .hub-list { list-style: none; padding: 0; display: grid; gap: .5rem; }
+    .hub-list a { display: block; padding: .75rem 1rem; background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: var(--r-sm); color: var(--clr-link); font-weight: 600; }
+    .hub-list a:hover { background: var(--clr-surface2); }
+  </style>
+</Base>
