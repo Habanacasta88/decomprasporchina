@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { monedas } from '../../data/monedas';
 import { paisBySlug } from '../../data/paises';
+import { aliexpress } from '../../lib/afiliados';
 const title = 'Conversor de precio AliExpress por moneda';
 const description = 'Convierte precios de AliExpress a tu moneda local. Calculadoras para Chile, México, Perú, Colombia, Argentina y España.';
 const SITE = 'https://decomprasporchina.com';
@@ -26,10 +27,45 @@ const alternates = monedas.map((m) => ({
         <li><a href={`/precio-aliexpress/${m.slug}/`}>Precio en {m.nombre} — {paisBySlug(m.paisSlug)?.nombre}</a></li>
       ))}
     </ul>
+    <aside class="hub-cta">
+      <p>
+        <strong>Mientras eliges tu moneda</strong>, explora las mejores ofertas de hoy en AliExpress.
+      </p>
+      <a
+        href={aliexpress()}
+        target="_blank"
+        rel="nofollow sponsored noopener"
+        class="hub-cta__btn"
+      >
+        Ver ofertas en AliExpress →
+      </a>
+    </aside>
   </div>
   <style>
     .hub-list { list-style: none; padding: 0; display: grid; gap: .5rem; }
     .hub-list a { display: block; padding: .75rem 1rem; background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: var(--r-sm); color: var(--clr-link); font-weight: 600; }
     .hub-list a:hover { background: var(--clr-surface2); }
+    .hub-cta {
+      margin-top: 2rem;
+      padding: 1.25rem;
+      background: var(--clr-amber-bg);
+      border-left: 4px solid var(--clr-amber);
+      border-radius: var(--r-sm);
+      text-align: center;
+    }
+    .hub-cta p { margin: 0 0 .75rem; color: var(--clr-ink); }
+    .hub-cta__btn {
+      display: inline-block;
+      background: var(--clr-red);
+      color: #fff;
+      padding: .85rem 1.5rem;
+      border-radius: var(--r-sm);
+      text-decoration: none;
+      font-weight: 600;
+      min-height: 44px;
+      box-sizing: border-box;
+      line-height: 1.5;
+    }
+    .hub-cta__btn:hover { background: var(--clr-red-dark); color: #fff; }
   </style>
 </Base>
