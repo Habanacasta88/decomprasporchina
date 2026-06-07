@@ -81,7 +81,7 @@ const webAppSchema = {
 const schemas = schema ? [webAppSchema, schema] : [webAppSchema];
 ---
 
-<Base title={title} description={description} schema={schemas}>
+<Base title={title} description={description} schema={schemas} noAds={true}>
   {alternates && (
     <Fragment slot="head">
       {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
