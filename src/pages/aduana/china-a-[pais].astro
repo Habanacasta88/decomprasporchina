@@ -63,11 +63,12 @@ const alternates = reglas.map((r) => ({
       Última revisión: {regla.fechaRevision}.
     </p>
 
-    {regla.confianza === 'media' && (
+    {(regla.confianza === 'media' || regla.confianza === 'baja') && (
       <aside class="aduana-confianza">
-        <strong>Nota sobre la precisión:</strong> el régimen tributario de mensajería en {pais.nombre}
-        es complejo y cambia con frecuencia. Esta calculadora aplica el procedimiento simplificado más común.
-        Para envíos grandes, productos regulados o despacho formal, consulta con tu courier o un agente aduanal.
+        <strong>{regla.confianza === 'baja' ? 'Aviso importante:' : 'Nota sobre la precisión:'}</strong>
+        {regla.confianza === 'baja'
+          ? ` la cobertura informativa pública para ${pais.nombre} es limitada por la situación del país. Las cifras aquí son orientativas pero pueden estar desactualizadas. Confirma SIEMPRE con tu courier o con ${regla.fuenteNombre} antes de hacer el pedido.`
+          : ` el régimen tributario de mensajería en ${pais.nombre} es complejo y cambia con frecuencia. Esta calculadora aplica el procedimiento simplificado más común. Para envíos grandes, productos regulados o despacho formal, consulta con tu courier o un agente aduanal.`}
       </aside>
     )}
   </div>
