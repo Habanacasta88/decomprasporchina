@@ -1,0 +1,70 @@
+---
+import AduanaIsland from './AduanaWidget.tsx';
+import ratesData from '../../data/rates.json';
+import { calcular } from '../../lib/calcular-aduana';
+import { convertir } from '../../lib/convertir-moneda';
+import { formatCurrency } from '../../lib/i18n';
+import type { ReglaAduana } from '../../data/aduana';
+
+export interface Props { regla: ReglaAduana; locale: string; }
+const { regla, locale } = Astro.props;
+
+const ssrDef = calcular({ valor: 100, envio: 0, regla });
+const ssrLocal = formatCurrency(
+  convertir(ssrDef.totalImpuestosUSD, 'USD', regla.moneda, ratesData.rates),
+  regla.moneda, locale,
+);
+---
+
+<div class="aduana-widget-wrapper">
+  <noscript>
+    <p class="aduana-widget__noscript">
+      Para un pedido de US$100, el total estimado de impuestos sería aproximadamente
+      <strong>{ssrLocal}</strong>. La calculadora interactiva necesita JavaScript;
+      consulta los detalles del régimen en la sección inferior o visita
+      <a href={regla.fuenteUrl} rel="nofollow noopener">{regla.fuenteNombre}</a>.
+    </p>
+  </noscript>
+  <AduanaIsland
+    client:visible={{ rootMargin: '200px' }}
+    regla={regla}
+    locale={locale}
+    rates={ratesData.rates}
+  />
+</div>
+
+<style is:global>
+  .aduana-widget {
+    border-left: 4px solid var(--clr-amber);
+    padding: 1.25rem 1rem;
+    border-radius: var(--r-md);
+    background: var(--clr-surface);
+    box-shadow: var(--shadow-sm);
+    min-height: 360px;
+  }
+  .aduana-widget__title { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; margin: 0 0 1rem; color: var(--clr-red); }
+  .aduana-widget__row { display: flex; flex-direction: column; gap: .25rem; margin-bottom: .85rem; }
+  .aduana-widget__label { font-weight: 600; font-size: .9375rem; color: var(--clr-ink); }
+  .aduana-widget__opt { font-weight: 400; color: var(--clr-muted); font-size: .85rem; }
+  .aduana-widget__input {
+    font-family: var(--font-body); font-size: 1rem; min-height: 44px; padding: .55rem .75rem;
+    border: 1px solid var(--clr-border); border-radius: var(--r-sm); background: #fff; color: var(--clr-ink);
+  }
+  .aduana-widget__input:focus-visible {
+    outline: 3px solid var(--clr-amber); outline-offset: 2px;
+  }
+  .aduana-widget__output {
+    display: block; margin-top: 1rem; padding: 1rem; background: var(--clr-amber-bg);
+    border-radius: var(--r-sm); font-family: var(--font-body); color: var(--clr-ink);
+  }
+  .aduana-widget__output.is-error { background: var(--clr-red-light); color: var(--clr-red); }
+  .aduana-widget__dl { display: grid; grid-template-columns: 1fr auto; gap: .5rem 1rem; margin: 0; }
+  .aduana-widget__dl dt { font-weight: 600; }
+  .aduana-widget__dl dd { margin: 0; font-family: var(--font-display); text-align: right; }
+  .aduana-widget__total { font-size: 1.25rem; color: var(--clr-red); padding-top: .5rem; border-top: 1px solid var(--clr-border); }
+  .aduana-widget__nota, .aduana-widget__notas li { font-size: .85rem; color: var(--clr-muted); margin-top: .5rem; }
+  .aduana-widget__notas { padding-left: 1.2rem; }
+  .aduana-widget__disclaimer { font-size: .8rem; color: var(--clr-muted); margin-top: 1rem; line-height: 1.5; }
+  .aduana-widget__exento { color: var(--clr-ink); font-size: 1.1rem; }
+  .aduana-widget__formal { color: var(--clr-red); }
+</style>
