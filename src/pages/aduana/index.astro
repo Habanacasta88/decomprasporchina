@@ -4,8 +4,19 @@ import { reglas } from '../../data/aduana';
 import { paisBySlug } from '../../data/paises';
 const title = 'Aduana e impuestos: importar de China por país';
 const description = 'Calculadora de aduana para importar productos chinos. Disponible para Chile, México, Perú, Colombia, Argentina y España.';
+const SITE = 'https://decomprasporchina.com';
+const HUB = '/aduana/';
+
+const alternates = reglas.map((r) => ({
+  hreflang: paisBySlug(r.pais)!.hreflang,
+  href: `${SITE}${HUB}`,
+}));
 ---
 <Base title={title} description={description} noAds={true}>
+  <Fragment slot="head">
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={`${SITE}${HUB}`} />
+  </Fragment>
   <div class="container" style="max-width: 720px; padding: 2rem 1rem 3rem;">
     <h1>Aduana e impuestos al importar de China</h1>
     <p>Cada país tiene su propio régimen. Elige el tuyo:</p>

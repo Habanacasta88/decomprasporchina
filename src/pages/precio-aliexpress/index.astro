@@ -4,8 +4,20 @@ import { monedas } from '../../data/monedas';
 import { paisBySlug } from '../../data/paises';
 const title = 'Conversor de precio AliExpress por moneda';
 const description = 'Convierte precios de AliExpress a tu moneda local. Calculadoras para Chile, México, Perú, Colombia, Argentina y España.';
+const SITE = 'https://decomprasporchina.com';
+const HUB = '/precio-aliexpress/';
+
+// Hub-level hreflang: cada locale apunta al MISMO hub (es página general, no país-específica)
+const alternates = monedas.map((m) => ({
+  hreflang: paisBySlug(m.paisSlug)!.hreflang,
+  href: `${SITE}${HUB}`,
+}));
 ---
 <Base title={title} description={description} noAds={true}>
+  <Fragment slot="head">
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={`${SITE}${HUB}`} />
+  </Fragment>
   <div class="container" style="max-width: 720px; padding: 2rem 1rem 3rem;">
     <h1>Conversor de precio AliExpress</h1>
     <p>Elige tu moneda y convierte cualquier precio de AliExpress a tu divisa local con el tipo de cambio diario.</p>
