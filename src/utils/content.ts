@@ -266,6 +266,11 @@ export function addInternalLinks(html: string, currentSlug: string): string {
     { pattern: /\bZaful\b(?!\s*[<.])/i, url: '/zaful/', exclude: ['zaful'] },
     { pattern: /\bbrochas?\s+(?:de\s+)?maquillaje\b/i, url: '/mejores-brochas-de-maquillaje-en-aliexpress/', exclude: ['mejores-brochas-de-maquillaje-en-aliexpress'] },
     { pattern: /\bcamiseta(?:s)?\s+(?:de\s+)?mujer\b/i, url: '/camiseta-mujer-verano/', exclude: ['camiseta-mujer-verano'] },
+    // C5 — cross-links aduana ↔ moneda hacia los nuevos hubs (2026-06)
+    { pattern: /\baduana(?:\s+(?:de\s+)?china)?\b/i, url: '/aduana/', exclude: [] },
+    { pattern: /\baranceles?\s+(?:de\s+)?(?:importaci[óo]n|china)\b/i, url: '/aduana/', exclude: [] },
+    { pattern: /\bconvertir\s+(?:el\s+)?precio\s+(?:de\s+)?aliexpress\b/i, url: '/precio-aliexpress/', exclude: [] },
+    { pattern: /\b(?:tipo|tasa)\s+de\s+cambio\s+(?:yuan|cny)\b/i, url: '/precio-aliexpress/', exclude: [] },
   ];
 
   // Filter out links TO the current page
