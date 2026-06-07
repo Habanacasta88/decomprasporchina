@@ -29,6 +29,12 @@ describe('paises catalog', () => {
     expect(paisByMoneda('PEN')?.slug).toBe('peru');
   });
 
+  it('paisByMoneda devuelve algún país para USD (USD oficial en EC/PA/SV)', () => {
+    const p = paisByMoneda('USD');
+    expect(p).toBeDefined();
+    expect(['ecuador', 'panama', 'el-salvador']).toContain(p?.slug);
+  });
+
   it('cada slug es kebab-case sin acentos', () => {
     for (const p of paises) {
       expect(p.slug).toMatch(/^[a-z0-9-]+$/);
