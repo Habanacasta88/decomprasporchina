@@ -9,7 +9,7 @@
 - **Nicho**: Compras online · Tiendas chinas · AliExpress · Shein · TEMU · Moda · Tecnología
 - **Tipo de contenido**: Guías editoriales independientes, análisis de tiendas, reseñas de productos, consejos de compra
 - **Última actualización**: 2026-06-07
-- **Artículos publicados**: 311 posts + 23 calculadoras = 334 (en 383 páginas)
+- **Artículos publicados**: 319 posts + 14 calculadoras moneda + 15 calculadoras aduana + 6 tallas país + hubs = 392 páginas
 
 ## Páginas principales
 
@@ -39,13 +39,20 @@ Hub principal:
 - /precio-aliexpress/ — Hub conversor de precio AliExpress por moneda
 - /aduana/ — Hub calculadora aduana China → país
 
-Conversor de moneda (6 países):
+Conversor de moneda (14 monedas, cubre 16+ países):
 - /precio-aliexpress/peso-chileno/
 - /precio-aliexpress/peso-mexicano/
 - /precio-aliexpress/sol-peruano/
 - /precio-aliexpress/peso-colombiano/
 - /precio-aliexpress/peso-argentino/
 - /precio-aliexpress/euro/
+- /precio-aliexpress/dolar/ (multi-país: Ecuador, Panamá, El Salvador)
+- /precio-aliexpress/bolivar-venezolano/
+- /precio-aliexpress/quetzal/
+- /precio-aliexpress/colon-costarricense/
+- /precio-aliexpress/peso-uruguayo/
+- /precio-aliexpress/boliviano/
+- /precio-aliexpress/peso-dominicano/
 
 Calculadora de aduana (15 países):
 - /aduana/china-a-chile/
@@ -63,6 +70,15 @@ Calculadora de aduana (15 países):
 - /aduana/china-a-bolivia/
 - /aduana/china-a-republica-dominicana/
 - /aduana/china-a-el-salvador/
+
+Tallas chinas por país (6 páginas + golden page):
+- /escoger-tu-talla-ropa-china/ — Hub general
+- /tallas-chinas-a-chilenas/
+- /tallas-chinas-a-mexicanas/
+- /tallas-chinas-a-peruanas/
+- /tallas-chinas-a-colombianas/
+- /tallas-chinas-a-argentinas/
+- /tallas-chinas-a-espanolas/
 
 ## Artículos destacados
 

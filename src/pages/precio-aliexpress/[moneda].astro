@@ -16,11 +16,6 @@ const pais = paisBySlug(moneda.paisSlug)!;
 const locale = localeFor(pais.slug);
 const SITE = 'https://decomprasporchina.com';
 
-// Países que comparten USD oficial — texto multi-país
-const PAISES_USD = ['Ecuador', 'Panamá', 'El Salvador'];
-const paisDisplay = moneda.iso === 'USD' ? PAISES_USD.join(', ') : pais.nombre;
-const paisDescDisplay = moneda.iso === 'USD' ? `Ecuador, Panamá y El Salvador` : pais.nombre;
-
 const fechaTipoCambio = new Date(ratesData.fetchedAt).toLocaleDateString(locale, {
   day: 'numeric', month: 'long', year: 'numeric',
 });
