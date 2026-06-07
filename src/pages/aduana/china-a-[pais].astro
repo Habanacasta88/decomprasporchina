@@ -33,6 +33,7 @@ const alternates = reglas.map((r) => ({
     headline: `Ya sabes lo que pagarás de aduana. Compra en AliExpress con confianza`,
     description: `Conoce el coste total antes de pulsar comprar. Envío gratuito y protección al comprador.`,
     ctaText: 'Ver ofertas en AliExpress',
+    amazonQuery: pais.slug === 'espana' ? 'importar de china' : undefined,
   }}
   fechaActualizacion={regla.fechaRevision}
   alternates={alternates}

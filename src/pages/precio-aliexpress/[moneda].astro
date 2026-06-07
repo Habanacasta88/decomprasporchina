@@ -44,7 +44,7 @@ const alternates = monedas.map((m) => ({
     headline: `Compra en AliExpress con precios en ${moneda.nombre}`,
     description: `Ya sabes lo que vas a pagar. Explora millones de productos con envío gratuito y protección al comprador.`,
     ctaText: 'Ir a AliExpress',
-    amazonQuery: 'tendencias 2026',
+    amazonQuery: pais.slug === 'espana' ? 'tendencias china' : undefined,
   }}
   fechaActualizacion={fechaActualizacion}
   alternates={alternates}
