@@ -16,6 +16,11 @@ const pais = paisBySlug(moneda.paisSlug)!;
 const locale = localeFor(pais.slug);
 const SITE = 'https://decomprasporchina.com';
 
+// Países que comparten USD oficial — texto multi-país
+const PAISES_USD = ['Ecuador', 'Panamá', 'El Salvador'];
+const paisDisplay = moneda.iso === 'USD' ? PAISES_USD.join(', ') : pais.nombre;
+const paisDescDisplay = moneda.iso === 'USD' ? `Ecuador, Panamá y El Salvador` : pais.nombre;
+
 const fechaTipoCambio = new Date(ratesData.fetchedAt).toLocaleDateString(locale, {
   day: 'numeric', month: 'long', year: 'numeric',
 });
@@ -25,7 +30,7 @@ const equivalenciasUsd = [5, 10, 20, 50, 100, 200];
 const equivalenciasCny = [50, 100, 200, 500, 1000];
 
 const title = `Precio AliExpress en ${moneda.nombre}: conversor ${new Date().getFullYear()}`;
-const description = `Convierte precios de AliExpress al ${moneda.nombre} (${moneda.iso}). Calculadora actualizada el ${fechaTipoCambio} con tabla rápida y nota de aduana para ${pais.nombre}.`;
+const description = `Convierte precios de AliExpress al ${moneda.nombre} (${moneda.iso}). Calculadora actualizada el ${fechaTipoCambio} con tabla rápida${moneda.iso === 'USD' ? ' para Ecuador, Panamá y El Salvador' : ` y nota de aduana para ${pais.nombre}`}.`;
 const intro = `Precios de AliExpress en yuanes (CNY) o dólares (USD) convertidos al ${moneda.nombre}. Tipo de cambio actualizado el ${fechaTipoCambio}.`;
 
 const alternates = monedas.map((m) => ({
@@ -96,8 +101,20 @@ const alternates = monedas.map((m) => ({
 
   <aside slot="extra" class="aduana-note">
     <p>
-      <strong>¿Vas a pagar aduana?</strong> A este importe, al recibir en {pais.nombre}
-      podrías pagar impuestos. <a href={`/aduana/china-a-${pais.slug}/`}>Calcula lo que pagarás aquí</a>.
+      <strong>¿Vas a pagar aduana?</strong>
+      {moneda.iso === 'USD' ? (
+        <Fragment>
+          Calcula los impuestos al recibir en{' '}
+          <a href="/aduana/china-a-ecuador/">Ecuador</a>,{' '}
+          <a href="/aduana/china-a-panama/">Panamá</a> o{' '}
+          <a href="/aduana/china-a-el-salvador/">El Salvador</a>.
+        </Fragment>
+      ) : (
+        <Fragment>
+          A este importe, al recibir en {pais.nombre} podrías pagar impuestos.{' '}
+          <a href={`/aduana/china-a-${pais.slug}/`}>Calcula lo que pagarás aquí</a>.
+        </Fragment>
+      )}
     </p>
   </aside>
 </Calculadora>
