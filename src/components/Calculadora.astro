@@ -1,0 +1,203 @@
+---
+/**
+ * Carcasa visual común para las calculadoras. Provee:
+ * - Breadcrumb estándar del sitio
+ * - Heading principal (Fraunces) + subtítulo
+ * - Slot principal para el widget interactivo
+ * - Slot `tabla` para la tabla de equivalencias rápidas (SSR — siempre indexable)
+ * - Bloque "Otras herramientas" con interlinking automático a los otros calculadores
+ *   del mismo país (moneda / aduana / tallas) — generado desde paises.ts
+ * - CTA afiliado contextual al final
+ * - Fecha de última actualización visible
+ * - Schema.org WebApplication + Breadcrumb
+ *
+ * Se usa desde precio-aliexpress/[moneda].astro y aduana/china-a-[pais].astro.
+ */
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import AffiliateBox from './AffiliateBox.astro';
+import { aliexpress, amazonEs } from '../lib/afiliados';
+import type { Pais } from '../data/paises';
+
+export interface Props {
+  pais: Pais;
+  herramienta: 'moneda' | 'aduana';
+  title: string;
+  description: string;
+  intro: string;
+  ctaAfiliado: { headline: string; description: string; ctaText: string; amazonQuery?: string };
+  fechaActualizacion: string;
+  schema?: object;
+  alternates?: Array<{ hreflang: string; href: string }>;
+}
+const { pais, herramienta, title, description, intro, ctaAfiliado, fechaActualizacion, schema, alternates } = Astro.props;
+
+const SITE = 'https://decomprasporchina.com';
+
+function monedaSlugFor(iso: string): string | null {
+  const map: Record<string, string> = {
+    CLP: 'peso-chileno', MXN: 'peso-mexicano', PEN: 'sol-peruano',
+    COP: 'peso-colombiano', ARS: 'peso-argentino', EUR: 'euro',
+    USD: 'dolar', VES: 'bolivar-venezolano', GTQ: 'quetzal',
+    CRC: 'colon-costarricense', UYU: 'peso-uruguayo', BOB: 'boliviano',
+    DOP: 'peso-dominicano',
+  };
+  return map[iso] ?? null;
+}
+
+function tallasPathFor(slug: string): string {
+  const slugs: Record<string, string> = {
+    chile: 'tallas-chinas-a-chilenas',
+    mexico: 'tallas-chinas-a-mexicanas',
+    peru: 'tallas-chinas-a-peruanas',
+    colombia: 'tallas-chinas-a-colombianas',
+    argentina: 'tallas-chinas-a-argentinas',
+    espana: 'tallas-chinas-a-espanolas',
+  };
+  return `/${slugs[slug] ?? 'escoger-tu-talla-ropa-china'}/`;
+}
+
+const monedaSlug = monedaSlugFor(pais.moneda);
+const interlinks = [
+  herramienta !== 'moneda' && monedaSlug && {
+    label: `Conversor de precio para ${pais.nombre}`,
+    href: `/precio-aliexpress/${monedaSlug}/`,
+  },
+  herramienta !== 'aduana' && {
+    label: `Aduana e impuestos China → ${pais.nombre}`,
+    href: `/aduana/china-a-${pais.slug}/`,
+  },
+  {
+    label: `Tallas chinas para ${pais.nombre}`,
+    href: tallasPathFor(pais.slug),
+  },
+].filter(Boolean) as Array<{ label: string; href: string }>;
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: title,
+  description,
+  url: new URL(Astro.url.pathname, SITE).href,
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  inLanguage: pais.hreflang,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: pais.moneda },
+};
+const schemas = schema ? [webAppSchema, schema] : [webAppSchema];
+---
+
+<Base
+  title={title}
+  description={description}
+  schema={schemas}
+  noAds={true}
+  ogLocale={pais.hreflang.replace('-', '_')}
+  htmlLang={pais.hreflang}
+>
+  {alternates && (
+    <Fragment slot="head">
+      {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+      <link rel="alternate" hreflang="x-default" href={alternates.find(a => a.hreflang === 'es-ES')?.href ?? alternates[0]?.href} />
+    </Fragment>
+  )}
+  <div class="container calculadora">
+    <Breadcrumbs items={[{ name: title, url: Astro.url.pathname }]} />
+    <header class="calc-header">
+      <h1>{title}</h1>
+      <p class="calc-intro">{intro}</p>
+      <p class="calc-updated">
+        Actualizado: <time datetime={fechaActualizacion}>{fechaActualizacion}</time>
+      </p>
+    </header>
+
+    <section class="calc-widget" aria-label="Calculadora">
+      <slot name="widget" />
+    </section>
+
+    <section class="calc-tabla" aria-label="Tabla de equivalencias">
+      <slot name="tabla" />
+    </section>
+
+    <AffiliateBox
+      headline={ctaAfiliado.headline}
+      description={ctaAfiliado.description}
+      ctaText={ctaAfiliado.ctaText}
+      ctaUrl={aliexpress()}
+      secondaryCta={ctaAfiliado.amazonQuery ? { text: 'Ver en Amazon', url: amazonEs({ q: ctaAfiliado.amazonQuery }) } : undefined}
+      platform={ctaAfiliado.amazonQuery ? 'both' : 'aliexpress'}
+    />
+
+    <slot name="extra" />
+
+    <section class="calc-otras" aria-label="Otras herramientas">
+      <h2>Otras herramientas para {pais.nombre}</h2>
+      <ul class="calc-otras-list">
+        {interlinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </section>
+  </div>
+
+  {/* Sticky CTA bar — mobile only (paridad con golden page, todas las calculadoras tienen AliExpress como primary) */}
+  <div class="sticky-cta-bar">
+    <a href={aliexpress()} target="_blank" rel="nofollow sponsored noopener" class="sticky-cta-link">
+      {ctaAfiliado.ctaText} →
+    </a>
+  </div>
+</Base>
+
+<style is:global>
+  .calculadora { max-width: 760px; padding-top: 2rem; padding-bottom: 3rem; }
+  .calc-header h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    line-height: 1.2;
+    margin: 0 0 0.5rem;
+    color: var(--clr-ink);
+  }
+  .calc-intro { font-size: 1rem; color: var(--clr-ink2); line-height: 1.6; margin: 0 0 .5rem; }
+  .calc-updated { font-size: .85rem; color: var(--clr-muted); margin: 0 0 1.5rem; }
+  .calc-widget { margin: 1.5rem 0 2rem; }
+  .calc-tabla { margin: 2rem 0; }
+  .calc-otras { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--clr-border); }
+  .calc-otras h2 {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.2rem;
+    margin: 0 0 .75rem; color: var(--clr-ink);
+  }
+  .calc-otras-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+  .calc-otras-list a { color: var(--clr-link); font-weight: 500; }
+  .calc-otras-list a:hover { color: var(--clr-link-hov); text-decoration: underline; }
+
+  /* Sticky CTA bar — mobile only (paridad con golden page de tallas) */
+  .sticky-cta-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: linear-gradient(135deg, #C8200F 0%, #A01808 100%);
+    padding: 0.75rem 1rem;
+    text-align: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+  }
+  .sticky-cta-link {
+    color: #fff;
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    display: block;
+    min-height: 44px;
+    line-height: 44px;
+  }
+  .sticky-cta-link:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 768px) {
+    .sticky-cta-bar { display: block; }
+    body { padding-bottom: 3.5rem; }
+  }
+</style>

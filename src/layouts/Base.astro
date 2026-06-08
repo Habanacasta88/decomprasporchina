@@ -14,6 +14,9 @@ interface Props {
   articlePublished?: string;
   articleModified?: string;
   articleAuthor?: string;
+  noAds?: boolean;
+  ogLocale?: string;
+  htmlLang?: string;
 }
 
 const {
@@ -29,6 +32,9 @@ const {
   articlePublished,
   articleModified,
   articleAuthor = 'De Compras por China',
+  noAds = false,
+  ogLocale = 'es_ES',
+  htmlLang = 'es',
 } = Astro.props;
 
 const siteUrl = 'https://decomprasporchina.com';
@@ -64,7 +70,7 @@ const catChips = [
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={htmlLang}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -75,9 +81,10 @@ const catChips = [
   {prevUrl && <link rel="prev" href={siteUrl + prevUrl} />}
   {nextUrl && <link rel="next" href={siteUrl + nextUrl} />}
 
-  <!-- Preconnect for fonts -->
+  <!-- Google Fonts: loaded via <link> instead of CSS @import to avoid render-blocking -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <!-- Open Graph -->
   <meta property="og:type" content={ogType} />
@@ -85,7 +92,7 @@ const catChips = [
   <meta property="og:description" content={description} />
   <meta property="og:url" content={fullCanonical} />
   <meta property="og:site_name" content="De Compras por China" />
-  <meta property="og:locale" content="es_ES" />
+  <meta property="og:locale" content={ogLocale} />
   <meta property="og:image" content={resolvedOgImage} />
   <meta property="og:image:width"  content="1200" />
   <meta property="og:image:height" content="630" />
@@ -111,7 +118,11 @@ const catChips = [
   ))}
 
   <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1887931946230317" crossorigin="anonymous"></script>
+  {!noAds && (
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1887931946230317" crossorigin="anonymous"></script>
+  )}
+
+  <slot name="head" />
 </head>
 <body>
 
@@ -209,6 +220,13 @@ const catChips = [
           <p class="footer-tagline">Tu referencia para comprar en AliExpress, Shein, TEMU y las mejores tiendas chinas.</p>
         </div>
         <div class="footer-grid">
+          <div class="footer-col">
+            <h4>Herramientas</h4>
+            <a href="/escoger-tu-talla-ropa-china/">📏 Calculadora de tallas</a>
+            <a href="/precio-aliexpress/">💱 Conversor de precio</a>
+            <a href="/aduana/">📦 Aduana e impuestos</a>
+            <a href="/como-comprar-en-aliexpress-2026/">🛒 Cómo comprar</a>
+          </div>
           <div class="footer-col">
             <h4>Categorías</h4>
             <a href="/categoria/tiendas-chinas">🛒 Tiendas Chinas</a>

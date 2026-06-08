@@ -10,9 +10,9 @@ import pagesData from '../data/pages.json';
 import postsData from '../data/posts.json';
 
 // ─── Affiliate links ───
-const ALIEXPRESS = 'https://s.click.aliexpress.com/e/_c45uyDgx';
-const AMAZON_TAG = 'enjoys0d-21';
-const amz = (asin: string) => `https://www.amazon.es/dp/${asin}?tag=${AMAZON_TAG}`;
+import { aliexpress, amazonEs, relAttrs } from '../lib/afiliados';
+const ALIEXPRESS = aliexpress();
+const amz = (asin: string) => amazonEs({ asin });
 
 // ─── Contextual affiliate CTAs by category ───
 // Each provides genuine value: the CTA matches what the reader is looking for.
@@ -31,7 +31,7 @@ const categoryAffiliates: Record<string, AffiliateCTA> = {
     description: 'Miles de vendedores verificados en AliExpress con ropa de tendencia desde 3\u20AC. Envio gratuito en la mayoria de articulos.',
     ctaText: 'Explorar ropa en AliExpress',
     ctaUrl: ALIEXPRESS,
-    secondaryCta: { text: 'Ver moda en Amazon', url: `https://www.amazon.es/s?k=ropa+mujer+tendencia&tag=${AMAZON_TAG}` },
+    secondaryCta: { text: 'Ver moda en Amazon', url: amazonEs({ q: 'ropa mujer tendencia' }) },
     platform: 'both',
   },
   'Calzado': {
@@ -39,7 +39,7 @@ const categoryAffiliates: Record<string, AffiliateCTA> = {
     description: 'Compara precios entre AliExpress y Amazon para encontrar las mejores ofertas en zapatillas, botas y zapatos.',
     ctaText: 'Ver calzado en AliExpress',
     ctaUrl: ALIEXPRESS,
-    secondaryCta: { text: 'Zapatillas en Amazon', url: `https://www.amazon.es/s?k=zapatillas+deportivas&tag=${AMAZON_TAG}` },
+    secondaryCta: { text: 'Zapatillas en Amazon', url: amazonEs({ q: 'zapatillas deportivas' }) },
     platform: 'both',
   },
   'Tecnología': {
@@ -47,7 +47,7 @@ const categoryAffiliates: Record<string, AffiliateCTA> = {
     description: 'Los ultimos gadgets, accesorios para movil y electronica de consumo a una fraccion de su precio habitual.',
     ctaText: 'Explorar tecnologia en AliExpress',
     ctaUrl: ALIEXPRESS,
-    secondaryCta: { text: 'Gadgets en Amazon', url: `https://www.amazon.es/s?k=gadgets+tecnologia&tag=${AMAZON_TAG}` },
+    secondaryCta: { text: 'Gadgets en Amazon', url: amazonEs({ q: 'gadgets tecnologia' }) },
     platform: 'both',
   },
   'Accesorios': {
@@ -55,7 +55,7 @@ const categoryAffiliates: Record<string, AffiliateCTA> = {
     description: 'Desde bisuteria hasta accesorios para el hogar: descubre miles de opciones con envio gratuito.',
     ctaText: 'Ver accesorios en AliExpress',
     ctaUrl: ALIEXPRESS,
-    secondaryCta: { text: 'Accesorios en Amazon', url: `https://www.amazon.es/s?k=accesorios+originales&tag=${AMAZON_TAG}` },
+    secondaryCta: { text: 'Accesorios en Amazon', url: amazonEs({ q: 'accesorios originales' }) },
     platform: 'both',
   },
   'Deporte': {
@@ -63,7 +63,7 @@ const categoryAffiliates: Record<string, AffiliateCTA> = {
     description: 'Ropa tecnica, material de senderismo, zapatillas de deporte y equipamiento para cualquier actividad.',
     ctaText: 'Ver deporte en AliExpress',
     ctaUrl: ALIEXPRESS,
-    secondaryCta: { text: 'Material deportivo en Amazon', url: `https://www.amazon.es/s?k=material+deportivo&tag=${AMAZON_TAG}` },
+    secondaryCta: { text: 'Material deportivo en Amazon', url: amazonEs({ q: 'material deportivo' }) },
     platform: 'both',
   },
   'Xiaomi': {
@@ -71,7 +71,7 @@ const categoryAffiliates: Record<string, AffiliateCTA> = {
     description: 'Moviles, wearables, accesorios para el hogar inteligente y gadgets del ecosistema Xiaomi.',
     ctaText: 'Xiaomi en AliExpress',
     ctaUrl: ALIEXPRESS,
-    secondaryCta: { text: 'Xiaomi en Amazon', url: `https://www.amazon.es/s?k=xiaomi&tag=${AMAZON_TAG}` },
+    secondaryCta: { text: 'Xiaomi en Amazon', url: amazonEs({ q: 'xiaomi' }) },
     platform: 'both',
   },
   'Tiendas Chinas': {
@@ -105,7 +105,7 @@ const slugAffiliates: Record<string, AffiliateCTA> = {
     description: 'Explora zapatillas deportivas de calidad en AliExpress. Amplio catalogo con proteccion al comprador y devolucion gratuita.',
     ctaText: 'Ver zapatillas en AliExpress',
     ctaUrl: ALIEXPRESS,
-    secondaryCta: { text: 'Nike en Amazon', url: `https://www.amazon.es/s?k=zapatillas+nike&tag=${AMAZON_TAG}` },
+    secondaryCta: { text: 'Nike en Amazon', url: amazonEs({ q: 'zapatillas nike' }) },
     platform: 'both',
   },
   'las-mejores-zapatillas-de-deporte-en-aliexpress': {
@@ -113,7 +113,7 @@ const slugAffiliates: Record<string, AffiliateCTA> = {
     description: 'Las marcas deportivas mas populares en AliExpress, con valoraciones reales de compradores y envio gratuito a Europa.',
     ctaText: 'Ver zapatillas de deporte',
     ctaUrl: ALIEXPRESS,
-    secondaryCta: { text: 'Zapatillas running en Amazon', url: `https://www.amazon.es/s?k=zapatillas+running&tag=${AMAZON_TAG}` },
+    secondaryCta: { text: 'Zapatillas running en Amazon', url: amazonEs({ q: 'zapatillas running' }) },
     platform: 'both',
   },
   'vestidos-de-fiesta-en-aliexpress': {
@@ -121,14 +121,14 @@ const slugAffiliates: Record<string, AffiliateCTA> = {
     description: 'Cientos de modelos exclusivos en AliExpress: largos, cortos, con lentejuelas o encaje. Envio gratuito y proteccion al comprador.',
     ctaText: 'Ver vestidos de fiesta',
     ctaUrl: ALIEXPRESS,
-    secondaryCta: { text: 'Vestidos en Amazon', url: `https://www.amazon.es/s?k=vestidos+fiesta+mujer&tag=${AMAZON_TAG}` },
+    secondaryCta: { text: 'Vestidos en Amazon', url: amazonEs({ q: 'vestidos fiesta mujer' }) },
     platform: 'both',
   },
   'muneca-de-silicona': {
     headline: 'Compara precios antes de decidir',
     description: 'Amazon ofrece envio rapido y devolucion facil en este tipo de productos. Compara opciones y elige la mejor relacion calidad-precio.',
     ctaText: 'Ver opciones en Amazon',
-    ctaUrl: `https://www.amazon.es/s?k=mu%C3%B1eca+silicona+realista&tag=${AMAZON_TAG}`,
+    ctaUrl: amazonEs({ q: 'muñeca silicona realista' }),
     platform: 'amazon',
   },
 };
@@ -203,8 +203,11 @@ function splitAtParagraph(html: string, n: number): [string, string] {
 }
 
 const isPost = entry.type === 'post' && !isLegal;
-const [contentPart1, contentRest1] = isPost ? splitAtParagraph(htmlContent, 1) : [htmlContent, ''];
+// Ad slot1 after P2 (was P1 — moved for lower bounce rate, CRO R10)
+const [contentPart1, contentRest1] = isPost ? splitAtParagraph(htmlContent, 2) : [htmlContent, ''];
 const [contentPart2, contentPart3] = isPost && contentRest1 ? splitAtParagraph(contentRest1, 2) : [contentRest1, ''];
+// Show second CTA at end of long posts (>3000 chars in part3, CRO R7/R11)
+const showEndCTA = isPost && affiliateCTA && contentPart3 && contentPart3.length > 3000;
 
 // Slugs to noindex (duplicate content)
 const duplicateSlugs = new Set<string>([]);
@@ -284,6 +287,14 @@ const canonicalUrl = isDuplicate ? `${siteUrl}/${canonicalSlug}` : undefined;
           />}
           {isPost && contentPart3 && <AdUnit slot={AD_SLOT_AFTER_P3} />}
           {contentPart3 && <div set:html={contentPart3} />}
+          {showEndCTA && <AffiliateBox
+            headline={affiliateCTA!.headline}
+            description={affiliateCTA!.description}
+            ctaText={affiliateCTA!.ctaText}
+            ctaUrl={affiliateCTA!.ctaUrl}
+            secondaryCta={affiliateCTA!.secondaryCta}
+            platform={affiliateCTA!.platform}
+          />}
         </div>
 
         {faqs.length >= 1 && !isLegal && (
@@ -325,4 +336,49 @@ const canonicalUrl = isDuplicate ? `${siteUrl}/${canonicalSlug}` : undefined;
       )}
     </div>
   </div>
+
+  {/* Sticky CTA bar for mobile — only on posts with affiliate CTAs (CRO R5) */}
+  {affiliateCTA && isPost && (
+    <div class="sticky-cta-bar">
+      <a href={affiliateCTA.ctaUrl} target="_blank" rel={relAttrs()} class="sticky-cta-link">
+        {affiliateCTA.ctaText} →
+      </a>
+    </div>
+  )}
 </Base>
+
+<style>
+  /* Sticky CTA bar — mobile only */
+  .sticky-cta-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: linear-gradient(135deg, #C8200F 0%, #A01808 100%);
+    padding: 0.75rem 1rem;
+    text-align: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+  }
+  .sticky-cta-link {
+    color: #fff;
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .sticky-cta-link:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 768px) {
+    .sticky-cta-bar {
+      display: block;
+    }
+    /* Prevent content from being hidden behind sticky bar */
+    :global(body) {
+      padding-bottom: 3.5rem;
+    }
+  }
+</style>

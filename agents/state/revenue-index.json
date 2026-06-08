@@ -1,6 +1,268 @@
 {
-  "lastScanned": null,
-  "pages": {},
-  "missingAffiliate": [],
-  "opportunities": []
+  "lastScanned": "2026-03-27T22:15:00.000000",
+  "auditor": "Roberto (Revenue Analyst)",
+  "totalPosts": 317,
+  "adsActive": 312,
+  "adsInactive": 5,
+  "adsInactiveReason": "0 paragraph tags in body — splitAtParagraph returns full HTML as part1, no ad slots injected",
+  "adsInactiveSlugs": [
+    "los-juguetes-de-aliexpress-mas-pedidos-por-los-pequenos-del-hogar",
+    "comprar-abrigos-en-china",
+    "claves-para-comprar-el-zapato-perfecto",
+    "tablets-baratas-envio-gratis",
+    "ropa-barata-para-mujer-aliexpress"
+  ],
+  "slugOverrides": 5,
+  "categoryFallback": 312,
+  "adSense": {
+    "pubId": "ca-pub-1887931946230317",
+    "slot1": "4427222054",
+    "slot1Position": "after P1",
+    "slot2": "1879548363",
+    "slot2Position": "after P3",
+    "scriptLoaded": true,
+    "scriptLocation": "Base.astro <head>",
+    "maxAdsPerPost": 2,
+    "compliance": "OK — 2 ads per post, well below AdSense density limits"
+  },
+  "affiliatePrograms": {
+    "aliexpress": {
+      "link": "https://s.click.aliexpress.com/e/_c45uyDgx",
+      "postsServed": 317,
+      "relAttributes": "nofollow sponsored noopener",
+      "status": "ACTIVE"
+    },
+    "amazon": {
+      "tag": "enjoys0d-21",
+      "domain": "amazon.es",
+      "postsServed": 178,
+      "servedVia": "secondaryCta in categories: Ropa, Calzado, Tecnologia, Accesorios, Deporte, Xiaomi + slug overrides",
+      "relAttributes": "nofollow sponsored noopener",
+      "status": "ACTIVE"
+    },
+    "shein": {
+      "status": "NOT_CONFIGURED",
+      "opportunity": "29 posts auto-link to Shein hub — affiliate program could be added"
+    },
+    "temu": {
+      "status": "NOT_CONFIGURED",
+      "opportunity": "Growing platform, comparison content could benefit from TEMU affiliate links"
+    }
+  },
+  "ctaCoverage": {
+    "dualCTA_AliExpress_Amazon": {
+      "postCount": 178,
+      "percentage": "56.2%",
+      "categories": ["Ropa (56)", "Accesorios (51)", "Calzado (23)", "Deporte (23)", "Tecnologia (22)", "Xiaomi (5)"]
+    },
+    "singleCTA_AliExpressOnly": {
+      "postCount": 139,
+      "percentage": "43.8%",
+      "categories": ["Tiendas Chinas (108)", "Blog (31)"]
+    }
+  },
+  "categories": {
+    "Tiendas Chinas": {
+      "total": 108,
+      "slugOverride": 1,
+      "categoryOnly": 107,
+      "ctaPlatform": "aliexpress",
+      "opportunity": "Add Amazon secondaryCta — many posts compare stores/products"
+    },
+    "Accesorios": {
+      "total": 51,
+      "slugOverride": 1,
+      "categoryOnly": 50,
+      "ctaPlatform": "both"
+    },
+    "Ropa": {
+      "total": 56,
+      "slugOverride": 1,
+      "categoryOnly": 55,
+      "ctaPlatform": "both"
+    },
+    "Blog": {
+      "total": 31,
+      "slugOverride": 0,
+      "categoryOnly": 31,
+      "ctaPlatform": "aliexpress",
+      "opportunity": "9 posts have purchase-intent titles — consider slug overrides or dual CTA"
+    },
+    "Calzado": {
+      "total": 23,
+      "slugOverride": 1,
+      "categoryOnly": 22,
+      "ctaPlatform": "both"
+    },
+    "Deporte": {
+      "total": 23,
+      "slugOverride": 1,
+      "categoryOnly": 22,
+      "ctaPlatform": "both"
+    },
+    "Tecnología": {
+      "total": 22,
+      "slugOverride": 0,
+      "categoryOnly": 22,
+      "ctaPlatform": "both",
+      "opportunity": "High Amazon conversion potential — gadgets sell well on Amazon"
+    },
+    "Xiaomi": {
+      "total": 5,
+      "slugOverride": 0,
+      "categoryOnly": 5,
+      "ctaPlatform": "both"
+    }
+  },
+  "existingSlugOverrides": [
+    {
+      "slug": "escoger-tu-talla-ropa-china",
+      "platform": "both",
+      "amazonProduct": "B07GBLFPQN (cinta metrica)",
+      "note": "Golden page — 1104 impr/week, pos 4-7"
+    },
+    {
+      "slug": "zapatillas-nike-replicas",
+      "platform": "both",
+      "amazonSearch": "zapatillas+nike",
+      "note": "P0 trademark risk — title needs renaming"
+    },
+    {
+      "slug": "las-mejores-zapatillas-de-deporte-en-aliexpress",
+      "platform": "both",
+      "amazonSearch": "zapatillas+running"
+    },
+    {
+      "slug": "vestidos-de-fiesta-en-aliexpress",
+      "platform": "both",
+      "amazonSearch": "vestidos+fiesta+mujer"
+    },
+    {
+      "slug": "muneca-de-silicona",
+      "platform": "amazon",
+      "amazonSearch": "muneca+silicona+realista",
+      "note": "Amazon-only CTA — sensitive product, better for Amazon"
+    }
+  ],
+  "topCandidatesForSlugOverride": [
+    {
+      "slug": "cosplays",
+      "title": "Las Mejores tiendas de AliExpress para comprar Cosplays",
+      "categories": ["Ropa"],
+      "score": 10,
+      "bodyChars": 25167,
+      "reason": "High purchase intent + large content + product-specific"
+    },
+    {
+      "slug": "comprar-pendientes-disney-en-aliexpress",
+      "title": "Guia para Comprar Pendientes Disney en AliExpress",
+      "categories": ["Accesorios"],
+      "score": 9,
+      "bodyChars": 10619,
+      "reason": "Direct purchase intent + AliExpress in title"
+    },
+    {
+      "slug": "elegir-el-mejor-robot-aspirador-en-aliexpres",
+      "title": "La guia definitiva para elegir el mejor robot aspirador en AliExpress",
+      "categories": ["Tecnologia"],
+      "score": 9,
+      "bodyChars": 23222,
+      "reason": "High-ticket product, strong Amazon ASIN opportunities"
+    },
+    {
+      "slug": "juegos-de-mesa-en-aliexpress-y-amazon",
+      "title": "Juegos de mesa en AliExpress y Amazon ¿Cual comprar?",
+      "categories": ["Accesorios"],
+      "score": 9,
+      "bodyChars": 17974,
+      "reason": "Already compares AliExpress vs Amazon — perfect for dual CTA"
+    },
+    {
+      "slug": "casas-de-munecas",
+      "title": "Comprar Casas de munecas en China ¿Aliexpress, Amazon o Tiendas Online?",
+      "categories": ["Accesorios"],
+      "score": 9,
+      "bodyChars": 18689,
+      "reason": "Multi-platform comparison — custom dual CTA with specific links"
+    },
+    {
+      "slug": "mejores-prismaticos-en-aliexpress",
+      "title": "Los mejores prismaticos que puedes comprar en Aliexpress",
+      "categories": ["Deporte"],
+      "score": 9,
+      "bodyChars": 14527,
+      "reason": "High-ticket product, strong Amazon ASIN opportunity"
+    },
+    {
+      "slug": "tiendas-moviles-aliexpress",
+      "title": "Mejores tiendas para comprar moviles en Aliexpress",
+      "categories": ["Tecnologia"],
+      "score": 9,
+      "bodyChars": 16819,
+      "reason": "Mobile phones — high conversion, Amazon has fast shipping advantage"
+    },
+    {
+      "slug": "accesorios-alexa",
+      "title": "Los mejores accesorios de Alexa para los amantes de Amazon Echo",
+      "categories": ["Tecnologia"],
+      "score": 8,
+      "bodyChars": 41626,
+      "reason": "Amazon ecosystem product — Amazon-only CTA with specific ASINs"
+    },
+    {
+      "slug": "tiendas-ropa-de-bebe-en-china",
+      "title": "Las mejores tiendas para comprar ropa de bebe en China",
+      "categories": ["Ropa"],
+      "score": 8,
+      "bodyChars": 31592,
+      "reason": "Large content, baby products sell well on Amazon"
+    },
+    {
+      "slug": "mejores-auriculares-bluetooth-baratos-aliexpress",
+      "title": "Los 10 Mejores Auriculares Bluetooth Baratos en AliExpress y Amazon [2026]",
+      "categories": ["Tecnologia"],
+      "score": 8,
+      "bodyChars": 7784,
+      "reason": "Already mentions Amazon in title — deserves specific ASIN links"
+    }
+  ],
+  "revenueIssues": [
+    {
+      "severity": "MEDIUM",
+      "issue": "5 posts have 0 <p> tags — no AdSense ads injected",
+      "slugs": ["los-juguetes-de-aliexpress-mas-pedidos-por-los-pequenos-del-hogar", "comprar-abrigos-en-china", "claves-para-comprar-el-zapato-perfecto", "tablets-baratas-envio-gratis", "ropa-barata-para-mujer-aliexpress"],
+      "fix": "Add <p> wrapping to body content in posts.json so splitAtParagraph can inject ads"
+    },
+    {
+      "severity": "LOW",
+      "issue": "139 posts (43.8%) have AliExpress-only CTA — no Amazon secondary",
+      "categories": ["Tiendas Chinas (108)", "Blog (31)"],
+      "fix": "Add Amazon secondaryCta to Tiendas Chinas and Blog category defaults"
+    },
+    {
+      "severity": "LOW",
+      "issue": "Shein and TEMU affiliate programs not configured",
+      "fix": "Evaluate Shein Affiliate Program and TEMU affiliate for comparison content"
+    },
+    {
+      "severity": "INFO",
+      "issue": "Only 5 slug-specific overrides out of 317 posts (1.6%)",
+      "fix": "Add custom CTAs for top 10 candidates to improve affiliate CTR"
+    }
+  ],
+  "opportunities": [
+    "P1: Fix 5 posts with 0 paragraphs — they get NO ads (potential ~3% ad revenue loss)",
+    "P2: Add slug-specific CTAs for top 10 candidates (cosplays, robot aspirador, accesorios-alexa, juegos-de-mesa, etc.)",
+    "P2: Add Amazon secondaryCta to 'Tiendas Chinas' category (108 posts currently AliExpress-only)",
+    "P2: Add Amazon secondaryCta to 'Blog' category (31 posts, 9 with purchase intent)",
+    "P3: Evaluate Shein affiliate program for 29 auto-linked Shein posts",
+    "P3: Evaluate TEMU affiliate program for comparison/alternative content",
+    "P3: accesorios-alexa (41k chars) is an Amazon ecosystem post — deserves Amazon-only slug override with specific ASINs"
+  ],
+  "compliance": {
+    "relAttributes": "PASS — all affiliate links use rel='nofollow sponsored noopener'",
+    "adDensity": "PASS — max 2 AdSense units per post",
+    "disclosure": "PASS — footer disclosure on all posts + AffiliateBox inline disclosure",
+    "avisoLegal": "PASS — affiliate disclosure section in /aviso-legal/"
+  }
 }

@@ -1,0 +1,174 @@
+{
+  "site": {
+    "name": "De Compras por China",
+    "domain": "decomprasporchina.com",
+    "language": "es",
+    "niche": "Guias de compras en tiendas chinas (AliExpress, Shein, TEMU)",
+    "stack": "Astro SSG + nginx (Docker) + Traefik + Lets Encrypt",
+    "vps": "168.119.125.218",
+    "github": "Habanacasta88/decomprasporchina"
+  },
+  "mission": "Ser la referencia en espanol para comprar desde China con confianza. Ayudar al lector a ahorrar dinero sin sorpresas desagradables.",
+  "audience": {
+    "primary": "Hispanohablantes 25-45 que compran online y quieren ahorrar",
+    "segments": [
+      "Primer comprador en AliExpress (necesita guias basicas, confianza)",
+      "Comprador habitual (busca ofertas especificas, comparativas)",
+      "Fashionista low-cost (ropa, calzado, accesorios a precio de fabrica)",
+      "Tech hunter (gadgets, moviles, smartwatches baratos)",
+      "Padres (ropa infantil, juguetes, material escolar)"
+    ],
+    "countries": {
+      "ES": { "priority": 1, "notes": "Home market, defend. Position ~10" },
+      "PE": { "priority": 2, "notes": "Best LATAM position 7.2. High growth." },
+      "CL": { "priority": 3, "notes": "Position 9.8. Near page 1." },
+      "MX": { "priority": 4, "notes": "Biggest LATAM market. Position 13.2." },
+      "CO": { "priority": 5, "notes": "Emerging. Position 15. Long game." }
+    }
+  },
+  "brandVoice": {
+    "persona": "Amigo experto que lleva anos comprando en China",
+    "formality": "tu (tuteo siempre)",
+    "humor": "Ligero, nunca forzado. Un chiste cada 500 palabras max.",
+    "honesty": "Siempre transparente sobre calidad real vs precio",
+    "priceAnchoring": "Mencionar precios en EUR + moneda local cuando aplique",
+    "affiliate": "Natural, nunca pushy. El lector decide, nosotros informamos.",
+    "forbidden": [
+      "No usar clickbait enganoso",
+      "No prometer calidad que no existe",
+      "No copiar contenido de otros sitios",
+      "No usar 'usted' salvo contextos muy formales",
+      "No ignorar que hay lectores LATAM"
+    ]
+  },
+  "goals": {
+    "revenue": {
+      "current": "1-3 EUR/month (March 2026)",
+      "target90days": "100 EUR/month (June 2026)",
+      "path": "16 clicks/week -> 250 clicks/week via SEO + CTR optimization"
+    },
+    "traffic": {
+      "currentClicksWeek": 16,
+      "targetClicksWeek": 250,
+      "currentImprWeek": 1825,
+      "goldenPage": "/escoger-tu-talla-ropa-china/"
+    },
+    "content": {
+      "totalPosts": 317,
+      "targetNewPostsMonth": 8,
+      "targetUpdatesMonth": 12,
+      "priority": "update existing > create new"
+    }
+  },
+  "monetization": {
+    "adsense": {
+      "pubId": "ca-pub-1887931946230317",
+      "slots": ["4427222054", "1879548363"],
+      "placement": "After P1 + After P3",
+      "maxAdsPerPost": 2
+    },
+    "aliexpress": {
+      "link": "https://s.click.aliexpress.com/e/_c45uyDgx",
+      "commission": "3-9%",
+      "globalLink": true
+    },
+    "amazon": {
+      "tag": "enjoys0d-21",
+      "market": "amazon.es (Spain only)",
+      "commission": "1-10%"
+    }
+  },
+  "constraints": {
+    "technical": [
+      "Build must use --platform linux/amd64 (VPS is amd64, Mac is arm64)",
+      "type: 'post' is MANDATORY in posts.json for ad injection",
+      "deploy-lock and content-write-lock prevent concurrent modifications",
+      "DNS on Cloudflare is PENDING — biggest infrastructure risk"
+    ],
+    "editorial": [
+      "ALWAYS verify duplicates before creating content",
+      "Min 1500 words per article",
+      "Every article needs: 4+ H2s, 1 table, FAQ, 3+ internal links",
+      "seoTitle + seoDescription required for all posts"
+    ],
+    "legal": [
+      "Affiliate disclosure visible in every monetized page",
+      "rel=nofollow sponsored noopener on all affiliate links",
+      "No trademark infringement: avoid replica, fake, clon — use alternativa, estilo similar",
+      "Prices always with desde or aprox — never exact prices that may change",
+      "Customs/import info always with disclaimer orientativo",
+      "RGPD: cookie banner required if tracking active"
+    ],
+    "owner": {
+      "name": "Yoel",
+      "email": "dtotvalles@gmail.com",
+      "notifications": ["gmail (draft)", "telegram (pending setup)", "macos"]
+    }
+  },
+  "orgChart": {
+    "description": "13 agents organized in 6 layers",
+    "layers": {
+      "1-direction": {
+        "agents": ["editor-jefe"],
+        "role": "Orquestacion, prioridades, arbitraje, comunicacion con owner"
+      },
+      "2-intelligence": {
+        "agents": ["seo-sentinel", "competitor-watch", "measurement-analyst"],
+        "role": "Observar, analizar, alertar. NO ejecutan cambios."
+      },
+      "3-production": {
+        "agents": ["content-writer", "content-refresher", "geo-optimizer", "link-architect"],
+        "role": "Crear, actualizar, localizar, enlazar. Ejecutan cambios en contenido."
+      },
+      "4-business": {
+        "agents": ["revenue-analyst", "cro-strategist"],
+        "role": "Monetizar, convertir. Optimizan el rendimiento economico."
+      },
+      "5-infrastructure": {
+        "agents": ["site-doctor", "deploy-bot"],
+        "role": "Mantener vivo, desplegar. Operaciones tecnicas."
+      },
+      "6-control": {
+        "agents": ["compliance-guardian"],
+        "role": "Legal, etica, politicas. Ultima linea de defensa."
+      }
+    }
+  },
+  "operatingLaws": {
+    "description": "10 principios fundamentales. TODO agente los respeta. Si un principio se viola, la accion se cancela.",
+    "1_visible_changes": "Cada ciclo DEBE producir cambios reales en la web. Analisis sin cambio visible = trabajo perdido.",
+    "2_closed_loop": "Detectar -> Proponer -> Priorizar -> Ejecutar -> Publicar -> Medir -> Aprender -> Repetir. Ningun ciclo se cierra sin medicion.",
+    "3_kpi_before_action": "Ninguna accion se ejecuta sin KPI esperado. Ejemplo: 'Actualizar title -> objetivo: +2% CTR'",
+    "4_templates_over_chaos": "Contenido sigue plantillas repetibles (comparativa, guia, review). No se crea contenido sin template.",
+    "5_user_over_google": "Test: El usuario volveria a Google despues de leer esto? Si si -> fallo. Resolver mejor que Google.",
+    "6_connected_web": "Cada pagina lleva a otra util. No hay callejones sin salida. Clusters claros, hubs potentes, journeys reales.",
+    "7_invisible_monetization": "El dinero es consecuencia, no interrupcion. 'Este es el mejor segun X -> ver precio' en vez de 'Compra aqui'.",
+    "8_speed_health": "Si tarda >2.5s, falla, o carga mal en movil, todo lo demas da igual. Infraestructura primero.",
+    "9_memory_continuity": "Todo cambio se registra: que, por que, que paso despues. Antes de cambiar algo, consultar historial.",
+    "10_clarity_over_complexity": "Roles claros, outputs claros, responsabilidades claras. Si un agente no produce output visible en 2 ciclos, fusionarlo."
+  },
+  "protocols": {
+    "communication": {
+      "rule1": "Ningun agente entrega texto libre como salida principal. Siempre JSON estructurado.",
+      "rule2": "Toda recomendacion incluye prioridad P0-P3",
+      "rule3": "Separar: observacion -> interpretacion -> propuesta -> aprobacion -> ejecucion -> validacion",
+      "rule4": "Diana recibe resumenes ejecutivos, NO logs. Max 5 lineas por agente.",
+      "rule5": "Toda accion sobre una URL deja rastro en decisions-log.json: quien, cuando, que, por que, KPI esperado",
+      "rule6": "Toda propuesta DEBE incluir: URL concreta, accion concreta, impacto esperado (KPI), responsable, deadline"
+    },
+    "boundaries": {
+      "intelligence-no-execute": "Capa 2 (Marco, Elena, Tomas) OBSERVA pero NO modifica contenido ni infra",
+      "production-needs-brief": "Capa 3 (Lucia, Pablo, Valentina, Andres) ejecuta solo con brief aprobado por Diana",
+      "business-proposes": "Capa 4 (Roberto, Sara) propone cambios, Capa 3 ejecuta",
+      "control-reviews": "Capa 6 (Javier) revisa antes de deploy si hay contenido sensible"
+    },
+    "overlap-rules": {
+      "marco-vs-andres": "Marco dice QUE URLs necesitan movimiento. Andres dice COMO redistribuir enlaces.",
+      "marco-vs-elena": "Marco observa el campo de batalla (nuestro sitio). Elena estudia al enemigo (competidores).",
+      "lucia-vs-pablo": "Lucia crea URLs nuevas. Pablo actualiza existentes. Lucia NO toca URLs antiguas salvo reescritura aprobada. Pablo NO crea URLs nuevas.",
+      "roberto-vs-diana": "Roberto propone cambios de monetizacion. Diana arbitra cuando monetizacion y marca/SEO chocan.",
+      "carmen-vs-miguel": "Carmen = salud y estabilidad. Miguel = cambios y releases. Pueden fusionarse si la operacion es simple."
+    }
+  },
+  "lastUpdated": "2026-03-26T18:00:00Z"
+}

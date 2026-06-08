@@ -1,0 +1,137 @@
+---
+import Calculadora from '../../components/Calculadora.astro';
+import MonedaWidgetAstro from '../../components/widgets/MonedaWidget.astro';
+import { monedas } from '../../data/monedas';
+import { paisBySlug } from '../../data/paises';
+import { convertir } from '../../lib/convertir-moneda';
+import { formatCurrency, localeFor } from '../../lib/i18n';
+import ratesData from '../../data/rates.json';
+
+export function getStaticPaths() {
+  return monedas.map((m) => ({ params: { moneda: m.slug }, props: { moneda: m } }));
+}
+
+const { moneda } = Astro.props;
+const pais = paisBySlug(moneda.paisSlug)!;
+const locale = localeFor(pais.slug);
+const SITE = 'https://decomprasporchina.com';
+
+const fechaTipoCambio = new Date(ratesData.fetchedAt).toLocaleDateString(locale, {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+const fechaActualizacion = ratesData.fetchedAt.slice(0, 10);
+
+const equivalenciasUsd = [5, 10, 20, 50, 100, 200];
+const equivalenciasCny = [50, 100, 200, 500, 1000];
+
+const title = `Precio AliExpress en ${moneda.nombre}: conversor ${new Date().getFullYear()}`;
+const description = `Convierte precios de AliExpress al ${moneda.nombre} (${moneda.iso}). Calculadora actualizada el ${fechaTipoCambio} con tabla rápida${moneda.iso === 'USD' ? ' para Ecuador, Panamá y El Salvador' : ` y nota de aduana para ${pais.nombre}`}.`;
+const intro = `Precios de AliExpress en yuanes (CNY) o dólares (USD) convertidos al ${moneda.nombre}. Tipo de cambio actualizado el ${fechaTipoCambio}.`;
+
+const alternates = monedas.map((m) => ({
+  hreflang: paisBySlug(m.paisSlug)!.hreflang,
+  href: `${SITE}/precio-aliexpress/${m.slug}/`,
+}));
+---
+
+<Calculadora
+  pais={pais}
+  herramienta="moneda"
+  title={title}
+  description={description}
+  intro={intro}
+  ctaAfiliado={{
+    headline: `Compra en AliExpress con precios en ${moneda.nombre}`,
+    description: `Ya sabes lo que vas a pagar. Explora millones de productos con envío gratuito y protección al comprador.`,
+    ctaText: 'Ir a AliExpress',
+    amazonQuery: pais.slug === 'espana' ? 'tendencias china' : undefined,
+  }}
+  fechaActualizacion={fechaActualizacion}
+  alternates={alternates}
+>
+  <MonedaWidgetAstro slot="widget" monedaDestino={moneda.iso} locale={locale} />
+
+  <div slot="tabla">
+    <h2>Equivalencias rápidas en {moneda.nombre}</h2>
+    <table class="equiv-table">
+      <thead>
+        <tr><th scope="col">USD</th><th scope="col">CNY</th><th scope="col">{moneda.iso}</th></tr>
+      </thead>
+      <tbody>
+        {equivalenciasUsd.map((usd) => {
+          const local = formatCurrency(convertir(usd, 'USD', moneda.iso, ratesData.rates), moneda.iso, locale);
+          const cny = (usd * ratesData.rates.CNY).toFixed(0);
+          return (
+            <tr>
+              <th scope="row">{`$${usd}`}</th>
+              <td>{cny} ¥</td>
+              <td>{local}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+
+    <h3>Desde yuanes (CNY)</h3>
+    <table class="equiv-table">
+      <thead><tr><th scope="col">CNY</th><th scope="col">{moneda.iso}</th></tr></thead>
+      <tbody>
+        {equivalenciasCny.map((cny) => {
+          const local = formatCurrency(convertir(cny, 'CNY', moneda.iso, ratesData.rates), moneda.iso, locale);
+          return (
+            <tr>
+              <th scope="row">{`${cny} ¥`}</th>
+              <td>{local}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+
+    <p class="rates-attrib">
+      Tipos de cambio por <a href="https://www.exchangerate-api.com" rel="nofollow noopener" target="_blank">Exchange Rate API</a>.
+      Actualizados el {fechaTipoCambio}.
+    </p>
+  </div>
+
+  <aside slot="extra" class="aduana-note">
+    <p>
+      <strong>¿Vas a pagar aduana?</strong>
+      {moneda.iso === 'USD' ? (
+        <Fragment>
+          Calcula los impuestos al recibir en{' '}
+          <a href="/aduana/china-a-ecuador/">Ecuador</a>,{' '}
+          <a href="/aduana/china-a-panama/">Panamá</a> o{' '}
+          <a href="/aduana/china-a-el-salvador/">El Salvador</a>.
+        </Fragment>
+      ) : (
+        <Fragment>
+          A este importe, al recibir en {pais.nombre} podrías pagar impuestos.{' '}
+          <a href={`/aduana/china-a-${pais.slug}/`}>Calcula lo que pagarás aquí</a>.
+        </Fragment>
+      )}
+    </p>
+  </aside>
+</Calculadora>
+
+<style>
+  .equiv-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: .95rem; }
+  .equiv-table th, .equiv-table td { padding: .5rem .75rem; text-align: left; border-bottom: 1px solid var(--clr-border); }
+  .equiv-table thead th { background: var(--clr-surface2); font-family: var(--font-display); font-weight: 600; }
+  .equiv-table tbody th { font-weight: 600; color: var(--clr-ink); }
+  .rates-attrib { font-size: .8rem; color: var(--clr-muted); margin-top: 1rem; }
+  .rates-attrib a { text-decoration: underline; }
+  .aduana-note {
+    margin: 1.5rem 0;
+    padding: .9rem 1rem;
+    background: var(--clr-amber-bg);
+    border-left: 4px solid var(--clr-amber);
+    border-radius: var(--r-sm);
+  }
+  .aduana-note p { margin: 0; }
+  .aduana-note a { text-decoration: underline; }
+  @media (max-width: 480px) {
+    .equiv-table { font-size: .85rem; }
+    .equiv-table th, .equiv-table td { padding: .4rem .5rem; }
+  }
+</style>

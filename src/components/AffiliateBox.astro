@@ -4,6 +4,8 @@
  * Appears after article content, contextual to the category.
  * Uses rel="nofollow sponsored" for legal compliance.
  */
+import { relAttrs } from '../lib/afiliados';
+
 export interface Props {
   headline: string;
   description: string;
@@ -26,7 +28,7 @@ const { headline, description, ctaText, ctaUrl, secondaryCta, platform } = Astro
     <a
       href={ctaUrl}
       target="_blank"
-      rel="nofollow sponsored noopener"
+      rel={relAttrs()}
       class="affiliate-box__btn affiliate-box__btn--primary"
     >
       {ctaText}
@@ -36,7 +38,7 @@ const { headline, description, ctaText, ctaUrl, secondaryCta, platform } = Astro
       <a
         href={secondaryCta.url}
         target="_blank"
-        rel="nofollow sponsored noopener"
+        rel={relAttrs()}
         class="affiliate-box__btn affiliate-box__btn--secondary"
       >
         {secondaryCta.text}
@@ -100,11 +102,14 @@ const { headline, description, ctaText, ctaUrl, secondaryCta, platform } = Astro
   .affiliate-box__btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.4rem;
     font-family: var(--font-body);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    padding: 0.65rem 1.25rem;
+    padding: 0.85rem 1.5rem;
+    min-height: 44px;
+    box-sizing: border-box;
     border-radius: var(--r-sm);
     text-decoration: none;
     transition: all 0.2s ease;
@@ -148,6 +153,7 @@ const { headline, description, ctaText, ctaUrl, secondaryCta, platform } = Astro
     .affiliate-box__btn {
       justify-content: center;
       width: 100%;
+      min-height: 48px;
     }
   }
 </style>

@@ -1,0 +1,10 @@
+{
+  "lastChecked": "2026-06-07T19:29:30Z",
+  "containerStatus": "SSH_FAILED",
+  "httpCode": "000TIMEOUT",
+  "responseTimeMs": 10004,
+  "sslExpiry": "CHECK_FAILED",
+  "sitemapCode": "000FAILED",
+  "pageErrors": 5,
+  "note": "Health check ejecutado desde sandbox sin acceso SSH al VPS — deploy del PR pendiente"
+}

@@ -1,0 +1,88 @@
+---
+import Calculadora from '../../components/Calculadora.astro';
+import AduanaWidgetAstro from '../../components/widgets/AduanaWidget.astro';
+import { paisBySlug } from '../../data/paises';
+import { reglas } from '../../data/aduana';
+import { localeFor } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return reglas.map((r) => ({ params: { pais: r.pais }, props: { regla: r } }));
+}
+const { regla } = Astro.props;
+const pais = paisBySlug(regla.pais)!;
+const locale = localeFor(pais.slug);
+const SITE = 'https://decomprasporchina.com';
+
+const title = `Aduana China → ${pais.nombre}: cuánto pagas al importar (${new Date().getFullYear()})`;
+const description = `Calcula impuestos al importar de China a ${pais.nombre}. IVA, aranceles y de minimis actualizados ${regla.fechaRevision}.`;
+const intro = `Estima los impuestos que pagarás al recibir un pedido de AliExpress, Temu o Shein desde China en ${pais.nombre}. Cifras verificadas en ${regla.fuenteNombre}.`;
+
+const alternates = reglas.map((r) => ({
+  hreflang: paisBySlug(r.pais)!.hreflang,
+  href: `${SITE}/aduana/china-a-${r.pais}/`,
+}));
+---
+
+<Calculadora
+  pais={pais}
+  herramienta="aduana"
+  title={title}
+  description={description}
+  intro={intro}
+  ctaAfiliado={{
+    headline: `Ya sabes lo que pagarás de aduana. Compra en AliExpress con confianza`,
+    description: `Conoce el coste total antes de pulsar comprar. Envío gratuito y protección al comprador.`,
+    ctaText: 'Ver ofertas en AliExpress',
+    amazonQuery: pais.slug === 'espana' ? 'importar de china' : undefined,
+  }}
+  fechaActualizacion={regla.fechaRevision}
+  alternates={alternates}
+>
+  <AduanaWidgetAstro slot="widget" regla={regla} locale={locale} />
+
+  <div slot="tabla">
+    <h2>Cómo se calcula: detalles del régimen</h2>
+    <dl class="aduana-detalle">
+      <dt>De minimis</dt>
+      <dd>{regla.deMinimisUSD === null ? 'No aplica' : regla.deMinimisUSD === 0 ? `Sin franquicia (paga desde el primer dólar)` : `Hasta US$${regla.deMinimisUSD}`}</dd>
+      <dt>IVA / IGV</dt>
+      <dd>{regla.ivaPct}%</dd>
+      <dt>Arancel general (China)</dt>
+      <dd>{regla.arancelGeneralPct}%</dd>
+      <dt>Base de cálculo</dt>
+      <dd>{regla.baseCalculo}</dd>
+    </dl>
+
+    <h3>Notas y particularidades</h3>
+    <ul class="aduana-notas">
+      {regla.notas.map((n) => <li>{n}</li>)}
+    </ul>
+
+    <p class="aduana-fuente">
+      Fuente oficial: <a href={regla.fuenteUrl} target="_blank" rel="nofollow noopener">{regla.fuenteNombre}</a>.
+      Última revisión: {regla.fechaRevision}.
+    </p>
+
+    {(regla.confianza === 'media' || regla.confianza === 'baja') && (
+      <aside class="aduana-confianza">
+        <strong>{regla.confianza === 'baja' ? 'Aviso importante:' : 'Nota sobre la precisión:'}</strong>
+        {regla.confianza === 'baja'
+          ? ` la cobertura informativa pública para ${pais.nombre} es limitada por la situación del país. Las cifras aquí son orientativas pero pueden estar desactualizadas. Confirma SIEMPRE con tu courier o con ${regla.fuenteNombre} antes de hacer el pedido.`
+          : ` el régimen tributario de mensajería en ${pais.nombre} es complejo y cambia con frecuencia. Esta calculadora aplica el procedimiento simplificado más común. Para envíos grandes, productos regulados o despacho formal, consulta con tu courier o un agente aduanal.`}
+      </aside>
+    )}
+  </div>
+</Calculadora>
+
+<style>
+  .aduana-detalle { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1rem; margin: 1rem 0; }
+  .aduana-detalle dt { font-weight: 600; }
+  .aduana-detalle dd { margin: 0; }
+  .aduana-notas { padding-left: 1.2rem; line-height: 1.7; }
+  .aduana-notas li { margin-bottom: .35rem; }
+  .aduana-fuente { font-size: .9rem; color: var(--clr-muted); margin-top: 1rem; }
+  .aduana-confianza {
+    margin-top: 1.5rem; padding: 1rem; background: var(--clr-amber-bg);
+    border-left: 4px solid var(--clr-amber); border-radius: var(--r-sm); font-size: .9rem;
+  }
+</style>

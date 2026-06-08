@@ -1,0 +1,79 @@
+{
+  "lastAudit": "2026-03-27T18:30:00Z",
+  "auditor": "Javier (Compliance Guardian)",
+  "scope": "site-wide — POST-DEPLOY verification",
+  "overallStatus": "PASS",
+  "postsScanned": 317,
+  "results": {
+    "affiliateDisclosure": "PASS — AffiliateBox.astro includes disclosure text on every post",
+    "relAttributes": "PASS — AffiliateBox uses rel=\"nofollow sponsored noopener\" on both primary and secondary CTAs. 0 inline affiliate links found in post content (all affiliate links are injected via component).",
+    "adsenseDensity": "PASS — max 2 ads per post (slot1 after P1, slot2 after P3). All 317 posts have type=\"post\".",
+    "cookieConsent": "PASS — gestionado por AdSense CMP (Google Consent Mode v2)",
+    "avisoLegal": "PASS — /aviso-legal/ completo: 11 secciones, LSSI-CE Art.10 + RGPD + LOPDGDD. Fecha: marzo 2026. Contacto: dtotvalles@gmail.com. Verified LIVE 2026-03-27.",
+    "politicaCookies": "PASS — /politica-de-cookies/ menciona Google AdSense, Amazon Associates Y AliExpress Portals. Fecha actualizada: marzo de 2026. Verified LIVE 2026-03-27.",
+    "xssSanitization": "PASS — cleanWpContent() sanitiza: <script> tags, event handlers (on*=), javascript: URLs, data:text/html en src, iframes no confiables, <object>/<embed>/<applet>/<form>, base64 en src",
+    "trademarkRisk": "PASS — 4 posts P0 renombrados: titulos ahora usan 'Alternativas a [marca]' sin 'replicas'. Verified LIVE 2026-03-27."
+  },
+  "trademarkAudit": {
+    "status": "FIXED",
+    "detail": "Los 4 posts P0 han sido renombrados. Verificado en produccion via curl 2026-03-27.",
+    "fixedDate": "2026-03-27",
+    "posts": [
+      {
+        "slug": "zapatillas-nike-replicas",
+        "previousTitle": "Zapatillas Nike replicas chinas",
+        "currentTitle": "Alternativas a Nike en AliExpress: Zapatillas Baratas (2026)",
+        "risk": "RESOLVED — no contiene replicas en title tag",
+        "severity": "P0",
+        "status": "FIXED"
+      },
+      {
+        "slug": "replicas-adidas-aliexpress",
+        "previousTitle": "Replicas Adidas en AliExpress 2026: Donde Encontrar las Mejores Alternativas",
+        "currentTitle": "Alternativas a Adidas en AliExpress 2026: Vendedores Fiables",
+        "risk": "RESOLVED — no contiene replicas en title tag",
+        "severity": "P0",
+        "status": "FIXED"
+      },
+      {
+        "slug": "replicas-jordan-aliexpress",
+        "previousTitle": "Replicas Jordan en AliExpress 2026: Como Encontrar Alternativas de Calidad",
+        "currentTitle": "Alternativas a Jordan en AliExpress 2026: Calidad + Precio",
+        "risk": "RESOLVED — no contiene replicas en title tag",
+        "severity": "P0",
+        "status": "FIXED"
+      },
+      {
+        "slug": "comprar-zapatillas-vans",
+        "previousTitle": "Comprar Zapatillas Vans en China Originales o replicas en AliExpress?",
+        "currentTitle": "Comprar Zapatillas Vans en AliExpress: Guia Completa (2026)",
+        "risk": "RESOLVED — no contiene replicas ni originales en title tag",
+        "severity": "P0",
+        "status": "FIXED"
+      }
+    ]
+  },
+  "riskPosts": [
+    { "slug": "lightsaber-replicas", "riskWord": "replicas", "severity": "P1", "status": "pending" },
+    { "slug": "compra-botas-australianas-ugg-baratas-en-china-originales", "riskWord": "originales + UGG", "severity": "P2", "status": "pending" },
+    { "slug": "camisetas-gas-monkey", "riskWord": "originales", "severity": "P2", "status": "pending" }
+  ],
+  "fixes": [
+    { "priority": "P0", "issue": "4 posts usaban replicas + marca registrada en titulo", "fix": "Renombrados a 'Alternativas a [marca]'", "status": "FIXED", "fixedDate": "2026-03-27", "verifiedLive": true },
+    { "priority": "P0", "issue": "Cookie consent banner", "fix": "Gestionado por AdSense CMP — Google Consent Mode v2", "status": "resolved" },
+    { "priority": "P1", "issue": "/aviso-legal/ compliant LSSI-CE + RGPD", "fix": "Pagina creada con 11 secciones legales", "status": "resolved" },
+    { "priority": "P1", "issue": "/politica-de-cookies/ no mencionaba AliExpress Portals", "fix": "Seccion de AliExpress Portals anadida + fecha actualizada a marzo 2026", "status": "FIXED", "fixedDate": "2026-03-27", "verifiedLive": true },
+    { "priority": "P1", "issue": "2 posts mas con replicas/originales en titulo", "fix": "Reformular titulos", "status": "pending" },
+    { "priority": "P2", "issue": "2 posts con originales + marca", "fix": "Clarificar intent editorial", "status": "pending" }
+  ],
+  "securityAudit": {
+    "xssSanitization": "PASS",
+    "scriptStripping": "PASS — <script> tags and contents removed",
+    "eventHandlerStripping": "PASS — inline on* handlers removed (both quoted and unquoted)",
+    "javascriptProtocol": "PASS — javascript: in href/src/action replaced with #",
+    "dataProtocol": "PASS — data:text/html in src replaced with #",
+    "iframeFiltering": "PASS — only YouTube/Google/Maps iframes allowed",
+    "dangerousTags": "PASS — <object>, <embed>, <applet>, <form> stripped",
+    "base64Payloads": "PASS — base64 in src attributes blocked"
+  }
+}

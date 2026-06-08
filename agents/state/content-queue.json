@@ -1,3 +1,37 @@
 {
-  "queue": []
+  "queue": [
+    {
+      "id": "cq-001",
+      "status": "proposed",
+      "proposedBy": "seo-sentinel",
+      "proposedDate": "2026-03-26",
+      "type": "optimization",
+      "target": "/escoger-tu-talla-ropa-china/",
+      "action": "Rewrite title + meta description for higher CTR. Current CTR ~0.6% at position 4-7. Target: 5%+ CTR.",
+      "priority": "high",
+      "estimatedImpact": "+50 clicks/week"
+    },
+    {
+      "id": "cq-002",
+      "status": "proposed",
+      "proposedBy": "seo-sentinel",
+      "proposedDate": "2026-03-26",
+      "type": "geo-content",
+      "target": "site-wide",
+      "action": "GEO optimization for Peru (pos 7.2) and Chile (pos 9.8). Add LATAM pricing, local terminology, country-specific buying guides.",
+      "priority": "high",
+      "estimatedImpact": "Improve LATAM positions to page 1"
+    },
+    {
+      "id": "cq-003",
+      "status": "proposed",
+      "proposedBy": "seo-sentinel",
+      "proposedDate": "2026-03-26",
+      "type": "audit",
+      "target": "site-wide",
+      "action": "Content audit: identify posts with 0 impressions over 3 months. Consolidate thin/duplicate posts. Consider noindex or 301 for weakest performers.",
+      "priority": "medium",
+      "estimatedImpact": "Improve crawl budget efficiency, lift overall domain quality"
+    }
+  ]
 }

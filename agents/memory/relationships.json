@@ -1,0 +1,115 @@
+{
+  "lastUpdated": "2026-03-26T18:00:00Z",
+  "agents": {
+    "editor-jefe": {
+      "layer": 1,
+      "human": "Diana",
+      "receivesFrom": ["seo-sentinel", "competitor-watch", "measurement-analyst", "revenue-analyst", "cro-strategist", "compliance-guardian"],
+      "sendsTo": ["content-writer", "content-refresher", "geo-optimizer", "link-architect"],
+      "owns": ["agents/state/week-plan.json"],
+      "frequency": "Mon AM (plan) + Sun PM (review)"
+    },
+    "seo-sentinel": {
+      "layer": 2,
+      "human": "Marco",
+      "receivesFrom": ["measurement-analyst"],
+      "sendsTo": ["editor-jefe", "content-writer", "content-refresher", "geo-optimizer"],
+      "owns": ["agents/state/seo-baseline.json", "agents/state/content-queue.json"],
+      "frequency": "Weekly (Monday)"
+    },
+    "competitor-watch": {
+      "layer": 2,
+      "human": "Elena",
+      "receivesFrom": ["seo-sentinel"],
+      "sendsTo": ["editor-jefe", "content-writer", "content-refresher"],
+      "owns": ["agents/state/competitor-intel.json"],
+      "frequency": "Weekly"
+    },
+    "measurement-analyst": {
+      "layer": 2,
+      "human": "Tomas",
+      "receivesFrom": ["ALL (validates data from everyone)"],
+      "sendsTo": ["editor-jefe", "ALL (data quality alerts)"],
+      "owns": ["agents/state/kpi-registry.json"],
+      "frequency": "Weekly + on-demand"
+    },
+    "content-writer": {
+      "layer": 3,
+      "human": "Lucia",
+      "receivesFrom": ["editor-jefe", "seo-sentinel", "competitor-watch"],
+      "sendsTo": ["deploy-bot", "revenue-analyst", "link-architect", "compliance-guardian"],
+      "owns": [],
+      "frequency": "Per task (2-3/week)"
+    },
+    "content-refresher": {
+      "layer": 3,
+      "human": "Pablo",
+      "receivesFrom": ["editor-jefe", "seo-sentinel", "cro-strategist", "link-architect"],
+      "sendsTo": ["deploy-bot", "compliance-guardian"],
+      "owns": ["agents/state/refresh-tracker.json"],
+      "frequency": "3 posts/week"
+    },
+    "geo-optimizer": {
+      "layer": 3,
+      "human": "Valentina",
+      "receivesFrom": ["editor-jefe", "seo-sentinel"],
+      "sendsTo": ["deploy-bot", "content-writer"],
+      "owns": [],
+      "frequency": "Bi-weekly"
+    },
+    "link-architect": {
+      "layer": 3,
+      "human": "Andres",
+      "receivesFrom": ["editor-jefe", "seo-sentinel", "content-writer"],
+      "sendsTo": ["content-refresher", "deploy-bot"],
+      "owns": ["agents/state/link-map.json"],
+      "frequency": "Bi-weekly"
+    },
+    "revenue-analyst": {
+      "layer": 4,
+      "human": "Roberto",
+      "receivesFrom": ["seo-sentinel", "measurement-analyst"],
+      "sendsTo": ["editor-jefe", "content-writer", "content-refresher", "cro-strategist"],
+      "owns": ["agents/state/revenue-index.json"],
+      "frequency": "Weekly + post-deploy"
+    },
+    "cro-strategist": {
+      "layer": 4,
+      "human": "Sara",
+      "receivesFrom": ["revenue-analyst", "measurement-analyst"],
+      "sendsTo": ["editor-jefe", "content-refresher"],
+      "owns": ["agents/state/cro-scores.json"],
+      "frequency": "Bi-weekly"
+    },
+    "site-doctor": {
+      "layer": 5,
+      "human": "Carmen",
+      "receivesFrom": ["deploy-bot"],
+      "sendsTo": ["editor-jefe", "deploy-bot"],
+      "owns": ["agents/state/site-health.json"],
+      "frequency": "Sunday + post-deploy"
+    },
+    "deploy-bot": {
+      "layer": 5,
+      "human": "Miguel",
+      "receivesFrom": ["content-writer", "content-refresher", "geo-optimizer", "link-architect"],
+      "sendsTo": ["site-doctor"],
+      "owns": ["agents/state/last-deploy.json"],
+      "frequency": "On demand (after content changes)"
+    },
+    "compliance-guardian": {
+      "layer": 6,
+      "human": "Javier",
+      "receivesFrom": ["content-writer", "content-refresher", "editor-jefe"],
+      "sendsTo": ["editor-jefe", "content-writer", "content-refresher"],
+      "owns": ["agents/state/compliance-log.json"],
+      "frequency": "Per new/updated post + quarterly full audit"
+    }
+  },
+  "flowProtocol": {
+    "newContent": "SEO Sentinel(oportunidad) -> Editor Jefe(aprueba) -> Content Writer(escribe) -> Compliance Guardian(revisa) -> Deploy Bot(publica) -> Site Doctor(verifica)",
+    "refreshContent": "SEO Sentinel(URL baja) -> Editor Jefe(prioriza) -> Content Refresher(actualiza) -> Compliance Guardian(revisa si sensible) -> Deploy Bot(publica)",
+    "weeklyPlanning": "Measurement Analyst(dashboard) + SEO Sentinel(report) + Competitor Watch(intel) -> Editor Jefe(plan semanal) -> todos",
+    "emergencyDeploy": "Site Doctor(alerta P0) -> Deploy Bot(rollback) -> Editor Jefe(notifica owner)"
+  }
+}

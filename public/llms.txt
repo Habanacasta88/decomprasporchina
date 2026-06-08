@@ -8,8 +8,8 @@
 - **Idioma**: Español (España / Latinoamérica)
 - **Nicho**: Compras online · Tiendas chinas · AliExpress · Shein · TEMU · Moda · Tecnología
 - **Tipo de contenido**: Guías editoriales independientes, análisis de tiendas, reseñas de productos, consejos de compra
-- **Última actualización**: 2025
-- **Artículos publicados**: 297
+- **Última actualización**: 2026-06-07
+- **Artículos publicados**: 319 posts + 14 calculadoras moneda + 15 calculadoras aduana + 6 tallas país + hubs = 392 páginas
 
 ## Páginas principales
 
@@ -31,6 +31,54 @@
 | Tecnología | 21 | /categoria/tecnologia | Gadgets, móviles, auriculares, smartwatches |
 | Calzado | 20 | /categoria/calzado | Zapatillas, botas, guías de tallas |
 | Xiaomi | 5 | /categoria/xiaomi | Productos Xiaomi en tiendas chinas |
+
+## Herramientas / Calculadoras
+
+Hub principal:
+- /escoger-tu-talla-ropa-china/ — Calculadora de tallas chinas (golden page)
+- /precio-aliexpress/ — Hub conversor de precio AliExpress por moneda
+- /aduana/ — Hub calculadora aduana China → país
+
+Conversor de moneda (14 monedas, cubre 16+ países):
+- /precio-aliexpress/peso-chileno/
+- /precio-aliexpress/peso-mexicano/
+- /precio-aliexpress/sol-peruano/
+- /precio-aliexpress/peso-colombiano/
+- /precio-aliexpress/peso-argentino/
+- /precio-aliexpress/euro/
+- /precio-aliexpress/dolar/ (multi-país: Ecuador, Panamá, El Salvador)
+- /precio-aliexpress/bolivar-venezolano/
+- /precio-aliexpress/quetzal/
+- /precio-aliexpress/colon-costarricense/
+- /precio-aliexpress/peso-uruguayo/
+- /precio-aliexpress/boliviano/
+- /precio-aliexpress/peso-dominicano/
+
+Calculadora de aduana (15 países):
+- /aduana/china-a-chile/
+- /aduana/china-a-mexico/
+- /aduana/china-a-peru/
+- /aduana/china-a-colombia/
+- /aduana/china-a-argentina/
+- /aduana/china-a-espana/
+- /aduana/china-a-ecuador/
+- /aduana/china-a-venezuela/
+- /aduana/china-a-panama/
+- /aduana/china-a-guatemala/
+- /aduana/china-a-costa-rica/
+- /aduana/china-a-uruguay/
+- /aduana/china-a-bolivia/
+- /aduana/china-a-republica-dominicana/
+- /aduana/china-a-el-salvador/
+
+Tallas chinas por país (6 páginas + golden page):
+- /escoger-tu-talla-ropa-china/ — Hub general
+- /tallas-chinas-a-chilenas/
+- /tallas-chinas-a-mexicanas/
+- /tallas-chinas-a-peruanas/
+- /tallas-chinas-a-colombianas/
+- /tallas-chinas-a-argentinas/
+- /tallas-chinas-a-espanolas/
 
 ## Artículos destacados
 

@@ -1,0 +1,53 @@
+{
+  "decisions": [
+    {
+      "date": "2026-03-26T12:00:00Z",
+      "agent": "content-writer",
+      "decision": "Created 21 new articles covering monetization, LATAM tallas, editorial, and content gaps",
+      "reasoning": "GSC data showed LATAM traffic potential + gap analysis identified missing topics",
+      "outcome": "317 posts total, deployed successfully",
+      "lesson": "Always verify duplicates first — 6 topics already existed and were skipped"
+    },
+    {
+      "date": "2026-03-26T14:00:00Z",
+      "agent": "revenue-analyst",
+      "decision": "Configured AdSense + AliExpress + Amazon affiliate monetization",
+      "reasoning": "Site had zero monetization despite 16 clicks/week traffic",
+      "outcome": "100% ad coverage (317/317 posts), 5 slug-specific CTAs, 8 category CTAs",
+      "lesson": "type:'post' field is critical — missing it on 8 articles initially caused invisible ads"
+    },
+    {
+      "date": "2026-03-26T16:00:00Z",
+      "agent": "site-doctor",
+      "decision": "Ran first health check — all systems nominal",
+      "reasoning": "Post-deploy verification needed after major content + monetization changes",
+      "outcome": "HTTP 200 on all pages, SSL valid until June, container healthy",
+      "lesson": "Health check script works reliably for basic monitoring"
+    },
+    {
+      "date": "2026-03-26T16:30:00Z",
+      "agent": "seo-sentinel",
+      "decision": "Established W13 baseline and proposed 3 content queue items",
+      "reasoning": "First automated SEO run — need baseline before measuring improvement",
+      "outcome": "Baseline saved, 3 actions proposed (CTR fix, GEO, content audit)",
+      "lesson": "Ahrefs MCP tools don't work with current plan — need alternative GSC access"
+    },
+    {
+      "date": "2026-03-26T18:00:00Z",
+      "agent": "editor-jefe",
+      "decision": "Agent system v2 deployed: 13 agents with soul + 4-layer memory + structured protocols",
+      "reasoning": "User feedback identified gaps: no orchestrator, no refresher, no link architect, no compliance, no CRO, no measurement. Added 7 new agents organized in 6 layers.",
+      "outcome": "13 soul files, 13 slash commands, 4 memory files, org chart with boundaries and overlap rules",
+      "lesson": "Agent system needs governance layer (Diana) to prevent uncoordinated work. Protocols must be structured JSON, not free text."
+    },
+    {
+      "date": "2026-03-26T18:30:00Z",
+      "agent": "content-refresher",
+      "decision": "Optimized golden page: seoTitle 75→56 chars, seoDescription 195→145 chars, 0→8 internal links",
+      "reasoning": "Title was truncated by Google at ~60 chars — the [Calculadora 2026] hook was invisible. Meta also truncated. Zero internal links meant the page was an isolated node losing link equity.",
+      "outcome": "Title/meta now fully visible in SERP. 8 internal links to country pages, shoe converter, Shein guide, sujetador guide, buying guide.",
+      "kpiExpected": "CTR 0.6% → 3-5% in 4 weeks = +30-50 clicks/week",
+      "lesson": "Always check char count for seoTitle (≤60) and seoDescription (≤155). Google truncation kills CTR."
+    }
+  ]
+}

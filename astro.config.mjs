@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import preact from '@astrojs/preact';
 import postsData from './src/data/posts.json' with { type: 'json' };
 import pagesData from './src/data/pages.json' with { type: 'json' };
 
@@ -9,7 +10,7 @@ const SITE = 'https://decomprasporchina.com';
 
 // Posts that are noindex in [slug].astro — must be excluded from sitemap
 // (cleaned: removed 49 cambiandopilas car-battery slugs that don't exist in this project)
-const noindexSlugs = new Set([]);
+const noindexSlugs = /** @type {Set<string>} */ (new Set());
 
 // Build a slug -> modified date lookup for posts and pages
 // Dates in posts.json use "YYYY-MM-DD HH:MM:SS" format (space separator, not T)
@@ -28,6 +29,7 @@ export default defineConfig({
   site: SITE,
   integrations: [
     mdx(),
+    preact({ compat: false }),
     sitemap({
       // Exclude: noindex posts, paginated archive pages (blog/2+, categoria/slug/N)
       filter: (url) => {

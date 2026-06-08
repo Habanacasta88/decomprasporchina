@@ -39,6 +39,25 @@ export function cleanWpContent(html: string): string {
         if (match.includes('loading=')) return match;
         return `<iframe${before}${src}${after} loading="lazy">`;
       })
+    // === Security: sanitize potentially malicious HTML from WP migration ===
+    // Remove <script> tags and their contents
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    // Remove inline event handlers (onclick, onerror, onload, etc.)
+    .replace(/\s+on[a-z]+\s*=\s*["'][^"']*["']/gi, '')
+    .replace(/\s+on[a-z]+\s*=\s*[^\s>"']*/gi, '')
+    // Remove javascript: protocol in href/src/action attributes
+    .replace(/(href|src|action)\s*=\s*["']javascript:[^"']*["']/gi, '$1="#"')
+    // Remove data: protocol in src (potential XSS vector)
+    .replace(/src\s*=\s*["']data:text\/html[^"']*["']/gi, 'src="#"')
+    // Remove <iframe> tags not from trusted sources (YouTube/Google)
+    .replace(/<iframe(?![^>]*src="https:\/\/(?:www\.youtube\.com|www\.google\.com|maps\.google\.com))[^>]*>[\s\S]*?<\/iframe>/gi, '')
+    // Remove <object>, <embed>, <applet> tags entirely
+    .replace(/<(object|embed|applet)[\s\S]*?<\/\1>/gi, '')
+    .replace(/<(object|embed|applet)[^>]*\/?\s*>/gi, '')
+    // Remove <form> tags (prevent phishing forms in migrated content)
+    .replace(/<form[\s\S]*?<\/form>/gi, '')
+    // Remove base64-encoded content in src attributes (potential payload)
+    .replace(/src\s*=\s*["'][^"']*base64[^"']*["']/gi, 'src="#"')
     // Clean up excess whitespace
     .replace(/\n{3,}/g, '\n\n')
     .trim();
@@ -219,6 +238,47 @@ export function addInternalLinks(html: string, currentSlug: string): string {
     { pattern: /\bsmartwatch\s+(?:chinos?|baratos?)\b/i, url: '/mejores-smartwatch-chinos-baratos/', exclude: ['mejores-smartwatch-chinos-baratos', 'mejores-relojes-samsung'] },
     { pattern: /\bTemu\s+(?:vs?|o)\s+Shein\b/i, url: '/temu-vs-shein/', exclude: ['temu-vs-shein', 'temu-vs-aliexpress'] },
     { pattern: /\bShein\s+(?:vs?|o)\s+Temu\b/i, url: '/temu-vs-shein/', exclude: ['temu-vs-shein', 'shein-comprar-opiniones'] },
+    // Auto-link terms added by Link Architect (2026-03-26) — targeting 285 orphan posts
+    { pattern: /\bchaqueta(?:s)?\s+(?:para\s+)?(?:hombre|mujer|invierno)\b/i, url: '/chaquetas-para-hombres/', exclude: ['chaquetas-para-hombres'] },
+    { pattern: /\bXiaomi\b(?!\s*[<.])/i, url: '/categoria/xiaomi/', exclude: [] },
+    { pattern: /\bjoy(?:as?|ería)\s+(?:en\s+)?(?:casa|AliExpress|china)\b/i, url: '/limpiar-joyas-en-casa/', exclude: ['limpiar-joyas-en-casa'] },
+    { pattern: /\bShein\b(?!\s*(?:vs|[<.]))/i, url: '/shein-comprar-opiniones/', exclude: ['shein-comprar-opiniones', 'temu-vs-shein', 'tallas-shein-guia-equivalencias'] },
+    { pattern: /\bdropshipping\b/i, url: '/proveedores-dropshipping-ropa/', exclude: ['proveedores-dropshipping-ropa'] },
+    { pattern: /\bcalcetines?\s+(?:deportivos?|running|ciclismo)\b/i, url: '/calcetines-deportivos/', exclude: ['calcetines-deportivos'] },
+    { pattern: /\bgafas?\s+(?:de\s+)?sol\b/i, url: '/gafas-de-sol-aliexpress/', exclude: ['gafas-de-sol-aliexpress'] },
+    { pattern: /\bpeluca(?:s)?\b/i, url: '/mejores-vendedores-de-pelucas-china/', exclude: ['mejores-vendedores-de-pelucas-china'] },
+    { pattern: /\bdisfraz(?:es)?\b/i, url: '/disfraces-de-halloween-para-ninos/', exclude: ['disfraces-de-halloween-para-ninos'] },
+    { pattern: /\bcosplay\b/i, url: '/cosplays/', exclude: ['cosplays'] },
+    { pattern: /\bfunda(?:s)?\s+(?:de\s+)?(?:m[oó]vil|tel[eé]fono|iPhone|Samsung|silicona)\b/i, url: '/mejores-fundas-movil-aliexpress/', exclude: ['mejores-fundas-movil-aliexpress'] },
+    { pattern: /\brobot\s+aspirador\b/i, url: '/elegir-el-mejor-robot-aspirador-en-aliexpres/', exclude: ['elegir-el-mejor-robot-aspirador-en-aliexpres'] },
+    { pattern: /\bcamiseta(?:s)?\s+(?:de\s+)?f[uú]tbol\b/i, url: '/comprar-camisetas-de-futbol-en-china/', exclude: ['comprar-camisetas-de-futbol-en-china'] },
+    { pattern: /\bropa\s+(?:de\s+)?beb[eé]\b/i, url: '/tiendas-ropa-de-bebe-en-china/', exclude: ['tiendas-ropa-de-bebe-en-china'] },
+    { pattern: /\breproductor(?:es)?\s+multimedia\b/i, url: '/reproductores-multimedia/', exclude: ['reproductores-multimedia'] },
+    { pattern: /\btiendas?\s+(?:de\s+)?tallas?\s+grandes?\b/i, url: '/ropa-tallas-grandes/', exclude: ['ropa-tallas-grandes'] },
+    // Auto-link patterns added by Link Architect (2026-03-27) — targeting 24 remaining orphans
+    { pattern: /\bcomprar\s+en\s+AliExpress\b/i, url: '/como-comprar-en-aliexpress-2026/', exclude: ['como-comprar-en-aliexpress-2026'] },
+    { pattern: /\btabla\s+de\s+tallas?\b/i, url: '/escoger-tu-talla-ropa-china/', exclude: ['escoger-tu-talla-ropa-china'] },
+    { pattern: /\bropa\s+barata\b/i, url: '/tiendas-ropa-barata-aliexpress/', exclude: ['tiendas-ropa-barata-aliexpress'] },
+    { pattern: /\bpagar?\s+con\s+PayPal\b/i, url: '/como-pagar-con-paypal-en-aliexpress/', exclude: ['como-pagar-con-paypal-en-aliexpress'] },
+    { pattern: /\bba[nñ]ador(?:es)?\b/i, url: '/mejores-vendedores-de-banadores-para-mujer-en-aliexpress/', exclude: ['mejores-vendedores-de-banadores-para-mujer-en-aliexpress'] },
+    { pattern: /\bcupones?\s+(?:de\s+)?AliExpress\b/i, url: '/cupones-aliexpress/', exclude: ['cupones-aliexpress'] },
+    { pattern: /\babrigos?\s+(?:de\s+)?china|abrigos?\s+baratos?\b/i, url: '/comprar-abrigos-en-china/', exclude: ['comprar-abrigos-en-china'] },
+    { pattern: /\bZaful\b(?!\s*[<.])/i, url: '/zaful/', exclude: ['zaful'] },
+    { pattern: /\bbrochas?\s+(?:de\s+)?maquillaje\b/i, url: '/mejores-brochas-de-maquillaje-en-aliexpress/', exclude: ['mejores-brochas-de-maquillaje-en-aliexpress'] },
+    { pattern: /\bcamiseta(?:s)?\s+(?:de\s+)?mujer\b/i, url: '/camiseta-mujer-verano/', exclude: ['camiseta-mujer-verano'] },
+    // C5 — cross-links aduana ↔ moneda hacia los nuevos hubs (2026-06)
+    { pattern: /\baduana(?:\s+(?:de\s+)?china)?\b/i, url: '/aduana/', exclude: ['aduana-aliexpress', 'nuevo-arancel-compras-china-2026'] },
+    { pattern: /\baranceles?\s+(?:de\s+)?(?:importaci[óo]n|china)\b/i, url: '/aduana/', exclude: [] },
+    { pattern: /\bprecio(?:s)?\s+(?:en\s+)?(?:euros?|d[oó]lares?|pesos?|soles?)\b/i, url: '/precio-aliexpress/', exclude: ['precio-aliexpress'] },
+    { pattern: /\bcambio\s+yuan\b/i, url: '/precio-aliexpress/', exclude: [] },
+    { pattern: /\bcuanto\s+(?:vale|cuesta|sale)\s+(?:en\s+)?(?:euros|pesos)\b/i, url: '/precio-aliexpress/', exclude: [] },
+    // B3 — reciprocidad tallas → aduana/moneda por país (2026-06)
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+chile\b/i, url: '/aduana/china-a-chile/', exclude: ['china-a-chile'] },
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+m[eé]xico\b/i, url: '/aduana/china-a-mexico/', exclude: ['china-a-mexico'] },
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+per[uú]\b/i, url: '/aduana/china-a-peru/', exclude: ['china-a-peru'] },
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+colombia\b/i, url: '/aduana/china-a-colombia/', exclude: ['china-a-colombia'] },
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+argentina\b/i, url: '/aduana/china-a-argentina/', exclude: ['china-a-argentina'] },
+    { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+espa[ñn]a\b/i, url: '/aduana/china-a-espana/', exclude: ['china-a-espana'] },
   ];
 
   // Filter out links TO the current page
@@ -234,7 +294,7 @@ export function addInternalLinks(html: string, currentSlug: string): string {
     result = result.replace(
       // Match paragraphs and replace only first occurrence of the term
       /<p([^>]*)>([\s\S]*?)<\/p>/gi,
-      (fullP, attrs, inner) => {
+      (fullP: string, attrs: string, inner: string) => {
         if (linked) return fullP;
         // Skip if term doesn't appear in this paragraph
         if (!pattern.test(inner)) return fullP;
@@ -247,12 +307,12 @@ export function addInternalLinks(html: string, currentSlug: string): string {
         const newInner = inner.replace(
           // Split by <a> tags, replace in non-link segments only
           /(<a[^>]*>[\s\S]*?<\/a>)|([^<]+)/gi,
-          (chunk, linkChunk, textChunk) => {
+          (chunk: string, linkChunk: string, textChunk: string) => {
             if (linkChunk) return linkChunk; // already a link, skip
             if (replaced || !textChunk) return chunk;
             if (pattern.test(textChunk)) {
               replaced = true;
-              return textChunk.replace(pattern, (match) => {
+              return textChunk.replace(pattern, (match: string) => {
                 return `<a href="${url}" class="internal-link">${match}</a>`;
               });
             }
