@@ -1,13 +1,9 @@
 {
-  "deployedAt": "2026-03-26T19:20:00Z",
-  "method": "docker-manual",
-  "imageTag": "decomprasporchina:latest",
-  "postsCount": 317,
-  "buildTimeSeconds": 2.22,
-  "postDeployStatus": "ok",
-  "responseTimeMs": 325,
-  "changes": [
-    "Aviso Legal: página completa LSSI-CE + RGPD + LOPDGDD (11 secciones)",
-    "Compliance: avisoLegal FAIL → PASS, cookieConsent FAIL → PASS"
-  ]
+  "deployedAt": "2026-06-08T13:39:51.832Z",
+  "commit": "2c342a0df0c0e2bed4b9aeca8ff8669deaa5df34",
+  "branch": "feat/cluster-completo",
+  "totalPages": 402,
+  "postsCount": 328,
+  "source_server": "162.55.129.125",
+  "notes": "Deploy del cluster-completo (cluster tallas LATAM + calculadora zapatos + PR #1 calculadoras mergeado). 42 URLs nuevas live."
 }
