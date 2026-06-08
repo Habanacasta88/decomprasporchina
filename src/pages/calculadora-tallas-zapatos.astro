@@ -1,0 +1,110 @@
+---
+// src/pages/calculadora-tallas-zapatos.astro
+import Base from '../layouts/Base.astro';
+import ZapatosWidget from '../components/widgets/ZapatosWidget.astro';
+import AffiliateBox from '../components/AffiliateBox.astro';
+import { aliexpress, amazonEs } from '../lib/afiliados';
+import { TABLA_ZAPATOS } from '../data/tallas-zapatos';
+
+const title = 'Calculadora de tallas de zapatos chinos: CN, EU, US, UK, JP (2026)';
+const description = 'Convierte tallas de zapatos entre sistemas China, Europa, US (mujer/hombre), UK y Japón. Tabla completa + calculadora online para AliExpress, Shein y Temu.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Calculadora de tallas de zapatos',
+  description,
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+};
+---
+
+<Base title={title} description={description} schema={schema}>
+  <div class="container" style="max-width:760px;padding:2rem 1rem 3rem">
+    <h1>Calculadora de tallas de zapatos chinos</h1>
+    <p class="zapatos-intro">
+      Convierte tu talla de zapato entre los sistemas chino (CN/EU), estadounidense
+      (US mujer y hombre), británico (UK) y japonés (JP). Útil para comprar en
+      AliExpress, Shein, Temu o cualquier tienda asiática.
+    </p>
+
+    <ZapatosWidget />
+
+    <h2>Tabla completa de equivalencias</h2>
+    <p>
+      Si prefieres consultar la tabla completa sin usar la calculadora, aquí tienes
+      todas las conversiones entre los 6 sistemas más usados:
+    </p>
+
+    <div class="zapatos-tabla-wrapper">
+      <table class="zapatos-tabla">
+        <thead>
+          <tr>
+            <th>CN / EU</th>
+            <th>US mujer</th>
+            <th>US hombre</th>
+            <th>UK</th>
+            <th>JP</th>
+            <th>Pie (cm)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {TABLA_ZAPATOS.map((f) => (
+            <tr>
+              <td><strong>{f.CN}</strong></td>
+              <td>{f['US-mujer']}</td>
+              <td>{f['US-hombre']}</td>
+              <td>{f.UK}</td>
+              <td>{f.JP}</td>
+              <td>{f.cm}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Consejos para acertar con la talla</h2>
+    <ol class="zapatos-tips">
+      <li><strong>Mide tu pie en cm:</strong> ponte de pie sobre una hoja con el talón pegado a la pared y marca la punta del dedo más largo. Mide la distancia.</li>
+      <li><strong>Suma 0,5-1 cm:</strong> añade margen para que el pie no quede prensado. Si estás entre dos tallas, pide la mayor.</li>
+      <li><strong>Lee reseñas:</strong> muchos vendedores chinos tienen patrones más estrechos. Las reseñas con fotos te dicen si el ajuste es como esperas.</li>
+      <li><strong>Consulta la tabla del vendedor:</strong> aunque esta tabla es estándar, cada marca puede variar ±0,5. La tabla del producto prevalece.</li>
+    </ol>
+
+    <AffiliateBox
+      headline="Encuentra zapatos al mejor precio en AliExpress"
+      description="Ya sabes tu talla. Explora miles de modelos de calzado con envío gratuito y protección al comprador."
+      ctaText="Ver zapatos en AliExpress"
+      ctaUrl={aliexpress()}
+      secondaryCta={{ text: 'Zapatos en Amazon', url: amazonEs({ q: 'zapatillas deporte' }) }}
+      platform="both"
+    />
+
+    <h2>Otras herramientas</h2>
+    <ul class="zapatos-otras">
+      <li><a href="/escoger-tu-talla-ropa-china/">Conversor de tallas de ropa china</a></li>
+      <li><a href="/precio-aliexpress/">Conversor de precio AliExpress</a></li>
+      <li><a href="/aduana/">Calculadora de aduana e impuestos</a></li>
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .zapatos-intro { font-size: 1rem; color: var(--clr-ink2); line-height: 1.6; margin: 0 0 1.5rem; }
+  .zapatos-tabla-wrapper { overflow-x: auto; margin: 1rem 0 2rem; }
+  .zapatos-tabla { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  .zapatos-tabla th, .zapatos-tabla td {
+    padding: .5rem .75rem; text-align: left; border-bottom: 1px solid var(--clr-border);
+  }
+  .zapatos-tabla thead th { background: var(--clr-surface2); font-family: var(--font-display); }
+  .zapatos-tips { line-height: 1.7; padding-left: 1.5rem; margin: 1rem 0; }
+  .zapatos-tips li { margin-bottom: .5rem; }
+  .zapatos-otras { list-style: none; padding: 0; display: grid; gap: .5rem; margin: 1rem 0 2rem; }
+  .zapatos-otras a {
+    display: block; padding: .75rem 1rem; background: var(--clr-surface);
+    border: 1px solid var(--clr-border); border-radius: var(--r-sm);
+    color: var(--clr-link); font-weight: 600;
+  }
+  .zapatos-otras a:hover { background: var(--clr-surface2); }
+</style>
