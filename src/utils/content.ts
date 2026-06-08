@@ -279,6 +279,9 @@ export function addInternalLinks(html: string, currentSlug: string): string {
     { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+colombia\b/i, url: '/aduana/china-a-colombia/', exclude: ['china-a-colombia'] },
     { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+argentina\b/i, url: '/aduana/china-a-argentina/', exclude: ['china-a-argentina'] },
     { pattern: /\bcomprar\s+(?:en\s+)?aliexpress\s+desde\s+espa[ñn]a\b/i, url: '/aduana/china-a-espana/', exclude: ['china-a-espana'] },
+    // Fase 3 — patterns hacia /calculadora-tallas-zapatos/
+    { pattern: /\btallas?\s+(?:de\s+)?zapatos?\s+chin(?:o|a|os|as)\b/i, url: '/calculadora-tallas-zapatos/', exclude: ['calculadora-tallas-zapatos'] },
+    { pattern: /\bconvertir?\s+talla\s+(?:de\s+)?calzado\b/i, url: '/calculadora-tallas-zapatos/', exclude: [] },
   ];
 
   // Filter out links TO the current page
