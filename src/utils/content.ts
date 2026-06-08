@@ -282,6 +282,24 @@ export function addInternalLinks(html: string, currentSlug: string): string {
     // Fase 3 — patterns hacia /calculadora-tallas-zapatos/
     { pattern: /\btallas?\s+(?:de\s+)?zapatos?\s+chin(?:o|a|os|as)\b/i, url: '/calculadora-tallas-zapatos/', exclude: ['calculadora-tallas-zapatos'] },
     { pattern: /\bconvertir?\s+talla\s+(?:de\s+)?calzado\b/i, url: '/calculadora-tallas-zapatos/', exclude: [] },
+    // Cluster cierre — patterns país-específicos hacia /precio-aliexpress/{moneda}/ y /aduana/china-a-{pais}/ (2026-06-08)
+    // Monedas — patterns derivados del nombre de la moneda local + país
+    { pattern: /\bpeso(?:s)?\s+chileno(?:s)?\b/i, url: '/precio-aliexpress/peso-chileno/', exclude: ['precio-aliexpress', 'peso-chileno'] },
+    { pattern: /\bpeso(?:s)?\s+mexicano(?:s)?\b/i, url: '/precio-aliexpress/peso-mexicano/', exclude: ['precio-aliexpress', 'peso-mexicano'] },
+    { pattern: /\bsol(?:es)?\s+peruano(?:s)?\b/i, url: '/precio-aliexpress/sol-peruano/', exclude: ['precio-aliexpress', 'sol-peruano'] },
+    { pattern: /\bpeso(?:s)?\s+colombiano(?:s)?\b/i, url: '/precio-aliexpress/peso-colombiano/', exclude: ['precio-aliexpress', 'peso-colombiano'] },
+    { pattern: /\bpeso(?:s)?\s+argentino(?:s)?\b/i, url: '/precio-aliexpress/peso-argentino/', exclude: ['precio-aliexpress', 'peso-argentino'] },
+    { pattern: /\bbol[íi]var(?:es)?\s+venezolano(?:s)?\b/i, url: '/precio-aliexpress/bolivar-venezolano/', exclude: ['precio-aliexpress', 'bolivar-venezolano'] },
+    { pattern: /\bquetzal(?:es)?\b/i, url: '/precio-aliexpress/quetzal/', exclude: ['precio-aliexpress', 'quetzal'] },
+    { pattern: /\bpeso(?:s)?\s+uruguayo(?:s)?\b/i, url: '/precio-aliexpress/peso-uruguayo/', exclude: ['precio-aliexpress', 'peso-uruguayo'] },
+    { pattern: /\bpeso(?:s)?\s+dominicano(?:s)?\b/i, url: '/precio-aliexpress/peso-dominicano/', exclude: ['precio-aliexpress', 'peso-dominicano'] },
+    // Aduana — patterns país-contexto específicos
+    { pattern: /\baduana\s+(?:en\s+|para\s+|de\s+|a\s+)?chile\b/i, url: '/aduana/china-a-chile/', exclude: ['china-a-chile'] },
+    { pattern: /\baduana\s+(?:en\s+|para\s+|de\s+|a\s+)?m[eé]xico\b/i, url: '/aduana/china-a-mexico/', exclude: ['china-a-mexico'] },
+    { pattern: /\baduana\s+(?:en\s+|para\s+|de\s+|a\s+)?per[uú]\b/i, url: '/aduana/china-a-peru/', exclude: ['china-a-peru'] },
+    { pattern: /\baduana\s+(?:en\s+|para\s+|de\s+|a\s+)?colombia\b/i, url: '/aduana/china-a-colombia/', exclude: ['china-a-colombia'] },
+    { pattern: /\baduana\s+(?:en\s+|para\s+|de\s+|a\s+)?argentina\b/i, url: '/aduana/china-a-argentina/', exclude: ['china-a-argentina'] },
+    { pattern: /\baduana\s+(?:en\s+|para\s+|de\s+|a\s+)?espa[ñn]a\b/i, url: '/aduana/china-a-espana/', exclude: ['china-a-espana'] },
   ];
 
   // Filter out links TO the current page
