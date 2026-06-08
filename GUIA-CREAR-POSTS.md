@@ -173,10 +173,10 @@ grep -c 'affiliate-box' dist/mi-nuevo-articulo/index.html
 docker buildx build --platform linux/amd64 -t decomprasporchina:latest --load .
 
 # Transferir al VPS
-docker save decomprasporchina:latest | ssh root@168.119.125.218 "docker load"
+docker save decomprasporchina:latest | ssh deploy@162.55.129.125 "docker load"
 
 # Restart del contenedor
-ssh root@168.119.125.218 "docker stop decomprasporchina && docker rm decomprasporchina && docker run -d --name decomprasporchina --network coolify --restart unless-stopped \
+ssh deploy@162.55.129.125 "docker stop decomprasporchina && docker rm decomprasporchina && docker run -d --name decomprasporchina --network coolify --restart unless-stopped \
   -l 'traefik.enable=true' \
   -l 'traefik.http.routers.decomprasporchina.rule=Host(\`decomprasporchina.com\`) || Host(\`www.decomprasporchina.com\`)' \
   -l 'traefik.http.routers.decomprasporchina.entrypoints=https' \
@@ -190,7 +190,7 @@ ssh root@168.119.125.218 "docker stop decomprasporchina && docker rm decompraspo
 
 1. **Verificar en producción:**
    ```bash
-   ssh root@168.119.125.218 "docker exec decomprasporchina curl -s -o /dev/null -w '%{http_code}' http://localhost/mi-nuevo-articulo/"
+   ssh deploy@162.55.129.125 "docker exec decomprasporchina curl -s -o /dev/null -w '%{http_code}' http://localhost/mi-nuevo-articulo/"
    # Debe devolver 200
    ```
 

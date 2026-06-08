@@ -9,8 +9,8 @@
       "owner": "Miguel (deploy-bot)",
       "title": "Deploy PR #1 mergeado al VPS",
       "description": "Las 32 URLs calculadoras y los nuevos clusters están en main pero NO en producción. last-deploy.json sigue en 2026-03-26.",
-      "status": "blocked",
-      "blocker": "SSH host key cambió en VPS — owner debe verificar (ssh-keygen -R 168.119.125.218 + re-aceptar)"
+      "status": "in_progress",
+      "blocker": "RESUELTO — VPS migrado a servidor dedicado 162.55.129.125 (Hetzner AX41). SSH funciona vía 'deploy@162.55.129.125' o alias 'dedicado'."
     },
     {
       "id": "W24-002",

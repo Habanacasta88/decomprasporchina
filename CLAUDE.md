@@ -6,7 +6,7 @@
 - **Nicho**: Guías de compras en tiendas chinas (AliExpress, Shein, TEMU, etc.)
 - **Stack**: Astro SSG + nginx (Docker) + Traefik + Let's Encrypt
 - **GitHub**: Habanacasta88/decomprasporchina (público)
-- **VPS**: 168.119.125.218 | red coolify
+- **VPS**: 162.55.129.125 | red coolify (Hetzner AX41 dedicado, Falkenstein — migrado 2026-03-29 desde 168.119.125.218)
 - **Fecha migración**: 2026-03-15
 - **Última actualización**: 2026-06-08 (post-merge calculadoras + cluster-completo branch)
 - **Ruta local**: /dev/decomprasporchina/ (independiente de /dev/Migraciones/)
@@ -91,10 +91,10 @@ source ~/.nvm/nvm.sh && nvm use 22 && npm run build
 docker buildx build --platform linux/amd64 -t decomprasporchina:latest --load .
 
 # Transfer a VPS
-docker save decomprasporchina:latest | ssh deploy@168.119.125.218 "docker load"
+docker save decomprasporchina:latest | ssh deploy@162.55.129.125 "docker load"
 
 # Run container
-ssh deploy@168.119.125.218 "docker stop decomprasporchina; docker rm decomprasporchina; docker run -d \
+ssh deploy@162.55.129.125 "docker stop decomprasporchina; docker rm decomprasporchina; docker run -d \
   --name decomprasporchina --network coolify --restart unless-stopped \
   -l 'traefik.enable=true' \
   -l 'traefik.http.routers.decomprasporchina.rule=Host(\`decomprasporchina.com\`) || Host(\`www.decomprasporchina.com\`)' \
@@ -290,8 +290,8 @@ contentPart1 → AdUnit(slot1) → contentPart2 → AffiliateBox → AdUnit(slot
 - Ownership correcto de HTML, cache, logs, PID
 
 ### SSH — Acceso al VPS
-- **Deploy**: `deploy@168.119.125.218` (grupo docker, sin sudo)
-- **Admin**: `root@168.119.125.218` (solo para tareas administrativas)
+- **Deploy**: `deploy@162.55.129.125` (grupo docker, sin sudo)
+- **Admin**: `root@162.55.129.125` (solo para tareas administrativas)
 - **REGLA**: deploy.sh y agentes SIEMPRE usan `deploy@`, NUNCA `root@`
 
 ## nginx.conf (config general)
