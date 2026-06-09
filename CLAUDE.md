@@ -258,6 +258,8 @@ contentPart1 → AdUnit(slot1) → contentPart2 → AffiliateBox → AdUnit(slot
 - L018: `limit_req_zone` va en el contexto `http {}`, NO en `server {}` — nginx.conf es un include de `conf.d/`, no el nginx.conf principal
 - L019: Posts sin `<p>` tags en body → `splitAtParagraph()` falla → 0 ads inyectados. Verificar siempre
 - L020: Font `@import` en CSS es render-blocking — usar `<link>` en HTML con preconnect. Reducir weights al mínimo
+- L021: `/404.html` dentro de `try_files` se sirve como archivo normal → soft-404 con HTTP 200. Usar `error_page 404 /404.html;` + `try_files ... =404` para status 404 real
+- L022: HTML sin `Cache-Control` → los navegadores aplican heuristic caching (~10% del age desde `Last-Modified`); tras un deploy los visitantes ven contenido viejo durante días. Usar `Cache-Control: no-cache` en HTML (revalida → 304) y dejar los assets hasheados con `immutable` (incidente 2026-06-08)
 
 ## Seguridad (hardening 2026-03-27)
 
