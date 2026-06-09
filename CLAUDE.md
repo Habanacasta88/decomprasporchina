@@ -6,13 +6,19 @@
 - **Nicho**: Guías de compras en tiendas chinas (AliExpress, Shein, TEMU, etc.)
 - **Stack**: Astro SSG + nginx (Docker) + Traefik + Let's Encrypt
 - **GitHub**: Habanacasta88/decomprasporchina (público)
-- **VPS**: 168.119.125.218 | red coolify
+- **VPS**: 162.55.129.125 | red coolify (Hetzner AX41 dedicado, Falkenstein — migrado 2026-03-29 desde 168.119.125.218)
 - **Fecha migración**: 2026-03-15
-- **Última actualización**: 2026-03-29 (CRO + linking + deploy)
+- **Última actualización**: 2026-06-08 (post-merge calculadoras + cluster-completo branch)
 - **Ruta local**: /dev/decomprasporchina/ (independiente de /dev/Migraciones/)
 
-## Contenido actual
-- **317 posts** + 7 páginas + 8 categorías = **360 páginas estáticas**
+## Contenido actual (W24 — post-merge PR #1 + cluster-completo en preparación)
+- **319 posts** (317 base + 2 tallas AR/ES + 9 tallas LATAM secundarios pendientes de mergear desde feat/cluster-completo)
+- **7 páginas + 8 categorías** legacy
+- **Hubs calculadoras dinámicas** (mergeadas en main 2026-06-07):
+  - 14 URLs `/precio-aliexpress/[moneda]/` (13 monedas + hub)
+  - 16 URLs `/aduana/china-a-[pais]/` (15 países + hub)
+- **Total páginas build**: 392 en main, 402 en feat/cluster-completo
+- **15 países LATAM cubiertos en aduana** (Chile, México, Perú, Colombia, Argentina, España + Ecuador, Venezuela, Panamá, Guatemala, Costa Rica, Uruguay, Bolivia, R. Dominicana, El Salvador)
 - **296 imágenes** originales (22.8 MB)
 - **21 artículos nuevos** creados en marzo 2026
 - **Idioma**: Español (targeting España + LATAM)
@@ -85,10 +91,10 @@ source ~/.nvm/nvm.sh && nvm use 22 && npm run build
 docker buildx build --platform linux/amd64 -t decomprasporchina:latest --load .
 
 # Transfer a VPS
-docker save decomprasporchina:latest | ssh deploy@168.119.125.218 "docker load"
+docker save decomprasporchina:latest | ssh deploy@162.55.129.125 "docker load"
 
 # Run container
-ssh deploy@168.119.125.218 "docker stop decomprasporchina; docker rm decomprasporchina; docker run -d \
+ssh deploy@162.55.129.125 "docker stop decomprasporchina; docker rm decomprasporchina; docker run -d \
   --name decomprasporchina --network coolify --restart unless-stopped \
   -l 'traefik.enable=true' \
   -l 'traefik.http.routers.decomprasporchina.rule=Host(\`decomprasporchina.com\`) || Host(\`www.decomprasporchina.com\`)' \
@@ -252,6 +258,8 @@ contentPart1 → AdUnit(slot1) → contentPart2 → AffiliateBox → AdUnit(slot
 - L018: `limit_req_zone` va en el contexto `http {}`, NO en `server {}` — nginx.conf es un include de `conf.d/`, no el nginx.conf principal
 - L019: Posts sin `<p>` tags en body → `splitAtParagraph()` falla → 0 ads inyectados. Verificar siempre
 - L020: Font `@import` en CSS es render-blocking — usar `<link>` en HTML con preconnect. Reducir weights al mínimo
+- L021: `/404.html` dentro de `try_files` se sirve como archivo normal → soft-404 con HTTP 200. Usar `error_page 404 /404.html;` + `try_files ... =404` para status 404 real
+- L022: HTML sin `Cache-Control` → los navegadores aplican heuristic caching (~10% del age desde `Last-Modified`); tras un deploy los visitantes ven contenido viejo durante días. Usar `Cache-Control: no-cache` en HTML (revalida → 304) y dejar los assets hasheados con `immutable` (incidente 2026-06-08)
 
 ## Seguridad (hardening 2026-03-27)
 
@@ -284,8 +292,8 @@ contentPart1 → AdUnit(slot1) → contentPart2 → AffiliateBox → AdUnit(slot
 - Ownership correcto de HTML, cache, logs, PID
 
 ### SSH — Acceso al VPS
-- **Deploy**: `deploy@168.119.125.218` (grupo docker, sin sudo)
-- **Admin**: `root@168.119.125.218` (solo para tareas administrativas)
+- **Deploy**: `deploy@162.55.129.125` (grupo docker, sin sudo)
+- **Admin**: `root@162.55.129.125` (solo para tareas administrativas)
 - **REGLA**: deploy.sh y agentes SIEMPRE usan `deploy@`, NUNCA `root@`
 
 ## nginx.conf (config general)

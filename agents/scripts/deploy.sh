@@ -2,7 +2,7 @@
 set -euo pipefail
 
 PROJECT_DIR="/Users/yoelcastano/dev/decomprasporchina"
-VPS="deploy@168.119.125.218"
+VPS="deploy@162.55.129.125"
 IMAGE="decomprasporchina:latest"
 CONTAINER="decomprasporchina"
 DEPLOY_LOCK="$PROJECT_DIR/agents/state/deploy-lock"
@@ -54,7 +54,7 @@ ssh "$VPS" "
 echo "==> Phase 5: Post-deploy verification"
 sleep 5
 # --resolve apunta a la IP del VPS directamente (Cloudflare proxied DNS puede no servir desde el propio servidor)
-RESOLVE_OPT="--resolve decomprasporchina.com:443:168.119.125.218"
+RESOLVE_OPT="--resolve decomprasporchina.com:443:162.55.129.125"
 HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}" --max-time 15 $RESOLVE_OPT "$DOMAIN/" || echo "FAILED")
 RESPONSE_MS=$(curl -o /dev/null -s -w "%{time_total}" --max-time 15 $RESOLVE_OPT "$DOMAIN/" | awk '{printf "%.0f\n", $1*1000}' || echo "0")
 

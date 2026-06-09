@@ -2,7 +2,7 @@
 set -euo pipefail
 
 DOMAIN="https://decomprasporchina.com"
-VPS="168.119.125.218"
+VPS="162.55.129.125"
 CONTAINER="decomprasporchina"
 PROJECT_DIR="/Users/yoelcastano/dev/decomprasporchina"
 REPORT_DIR="$PROJECT_DIR/agents/reports/health"

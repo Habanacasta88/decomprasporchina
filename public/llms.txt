@@ -38,6 +38,7 @@ Hub principal:
 - /escoger-tu-talla-ropa-china/ — Calculadora de tallas chinas (golden page)
 - /precio-aliexpress/ — Hub conversor de precio AliExpress por moneda
 - /aduana/ — Hub calculadora aduana China → país
+- /calculadora-tallas-zapatos/ — Calculadora de tallas de zapatos universal (CN/EU/US/UK/JP)
 
 Conversor de moneda (14 monedas, cubre 16+ países):
 - /precio-aliexpress/peso-chileno/
@@ -71,7 +72,7 @@ Calculadora de aduana (15 países):
 - /aduana/china-a-republica-dominicana/
 - /aduana/china-a-el-salvador/
 
-Tallas chinas por país (6 páginas + golden page):
+Tallas chinas por país (15 páginas + golden page):
 - /escoger-tu-talla-ropa-china/ — Hub general
 - /tallas-chinas-a-chilenas/
 - /tallas-chinas-a-mexicanas/
@@ -79,6 +80,15 @@ Tallas chinas por país (6 páginas + golden page):
 - /tallas-chinas-a-colombianas/
 - /tallas-chinas-a-argentinas/
 - /tallas-chinas-a-espanolas/
+- /tallas-chinas-a-ecuatorianas/
+- /tallas-chinas-a-venezolanas/
+- /tallas-chinas-a-panamenas/
+- /tallas-chinas-a-guatemaltecas/
+- /tallas-chinas-a-costarricenses/
+- /tallas-chinas-a-uruguayas/
+- /tallas-chinas-a-bolivianas/
+- /tallas-chinas-a-dominicanas/
+- /tallas-chinas-a-salvadorenas/
 
 ## Artículos destacados
 

@@ -46,7 +46,7 @@
 - **Triggers**: Deploy Bot (if container needs restart), Revenue Analyst (if ad issues found)
 
 ## What I've Learned (bootstrap)
-- Container runs on VPS 168.119.125.218 in coolify network with Traefik
+- Container runs on servidor dedicado 162.55.129.125 (Hetzner AX41 Falkenstein) in coolify network with Traefik. Migración desde VPS viejo 168.119.125.218 completada 2026-03-29.
 - SSL via Let's Encrypt HTTP-01 challenge through Traefik — auto-renews if DNS is correct
 - DNS is STILL pending on Cloudflare — this is the biggest risk factor
 - AdSense needs `type: "post"` in posts.json — missing this field = invisible ad slots

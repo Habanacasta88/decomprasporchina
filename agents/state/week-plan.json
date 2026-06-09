@@ -1,227 +1,63 @@
 {
-  "week": "2026-W14",
-  "createdBy": "editor-jefe",
-  "createdAt": "2026-03-27T22:00:00Z",
-  "previousWeek": "2026-W13",
-  "goalProgress": {
-    "revenueTarget": "100 EUR/month",
-    "currentRevenue": "1-3 EUR/month",
-    "pctOfTarget": 2,
-    "clicksTarget": 250,
-    "currentClicks": 16,
-    "pctClicksTarget": 6.4,
-    "daysRemaining": 76,
-    "note": "Golden page CTR optimization deployed W13 — expect first CTR uplift signal by W15-W16"
-  },
-  "w13Review": {
-    "completed": [
-      "WP-001: Golden page CTR optimization (seoTitle 75→56 chars, seoDescription 195→145 chars, +8 internal links)",
-      "Compliance audit completed — 7 risk posts identified (4 P0, 1 P1, 2 P2)",
-      "Link audit completed — 272 orphan posts mapped, 38 auto-link patterns active",
-      "Security hardening done in code (CSP, HSTS, XSS sanitization, container hardening)"
-    ],
-    "carriedOver": [
-      "P0: 4 trademark risk post titles still need renaming",
-      "P1: Security hardening deploy pending",
-      "P1: DNS Cloudflare A records not yet configured (user task)",
-      "P1: GSC sitemap + 21 new URL indexation pending"
-    ],
-    "siteHealth": {
-      "containerStatus": "Up",
-      "httpCode": 200,
-      "responseTimeMs": 261,
-      "sslExpiry": "2026-06-14",
-      "sitemapCode": 200
-    }
-  },
+  "week": "W24",
+  "weekStart": "2026-06-08",
+  "lastUpdated": "2026-06-08T00:00:00Z",
+  "context": "Post-merge PR #1 (32 URLs calculadoras live) + cluster-completo en preparación (cluster tallas LATAM + calculadora zapatos)",
   "priorities": [
     {
-      "id": "W14-001",
-      "task": "Rename 4 P0 trademark risk post titles: zapatillas-nike-replicas, replicas-adidas-aliexpress, replicas-jordan-aliexpress, comprar-zapatillas-vans. Replace 'replicas + marca' with 'alternativas/estilo similar' phrasing",
-      "assignedTo": "compliance-guardian",
-      "supportedBy": "content-refresher",
-      "status": "pending",
-      "priority": "P0",
-      "deadline": "2026-03-31",
-      "expectedImpact": "Eliminate trademark infringement risk before scaling traffic",
-      "ice": { "impact": 9, "confidence": 10, "ease": 8 },
-      "acceptanceCriteria": [
-        "4 post titles no longer contain 'replicas' + brand name",
-        "seoTitle updated in posts.json (<=60 chars each)",
-        "seoDescription updated if it also references replicas (<=155 chars)",
-        "Slugs remain unchanged (no 301s needed — only title/meta change)",
-        "Content body reviewed for explicit replica-selling language"
-      ]
+      "id": "W24-001",
+      "owner": "Miguel (deploy-bot)",
+      "title": "Deploy PR #1 mergeado al VPS",
+      "description": "Las 32 URLs calculadoras y los nuevos clusters están en main pero NO en producción. last-deploy.json sigue en 2026-03-26.",
+      "status": "in_progress",
+      "blocker": "RESUELTO — VPS migrado a servidor dedicado 162.55.129.125 (Hetzner AX41). SSH funciona vía 'deploy@162.55.129.125' o alias 'dedicado'."
     },
     {
-      "id": "W14-002",
-      "task": "Deploy security hardening + all W13 changes to production (CSP, HSTS, XSS sanitization, golden page optimization, trademark title fixes from W14-001)",
-      "assignedTo": "deploy-bot",
+      "id": "W24-002",
+      "owner": "Marco (seo-sentinel)",
+      "title": "Submit sitemap a GSC + URL Inspection de las 32 URLs nuevas",
+      "description": "dist/sitemap-0.xml ya incluye las URLs nuevas. Tras deploy: submit en Search Console + pedir indexación manual de las 5-10 URLs prioritarias.",
       "status": "pending",
-      "priority": "P0",
-      "deadline": "2026-04-01",
-      "dependsOn": ["W14-001"],
-      "expectedImpact": "Production gets security headers + CTR-optimized golden page + compliant titles",
-      "ice": { "impact": 9, "confidence": 9, "ease": 9 },
-      "acceptanceCriteria": [
-        "Build succeeds locally (npm run build)",
-        "Docker image built with --platform linux/amd64",
-        "Container running on VPS via deploy@168.119.125.218",
-        "HTTP 200 on homepage + golden page + sitemap",
-        "Security headers present (CSP, HSTS, X-Frame-Options) verified via curl -I",
-        "AdSense not broken by CSP (verify in browser Network tab)",
-        "Response time <500ms"
-      ]
+      "depends_on": "W24-001"
     },
     {
-      "id": "W14-003",
-      "task": "Reduce orphan posts from 272 to <200. Add manual internal links to top 40 orphan posts by content size. Add 10 new auto-link patterns to content.ts targeting Deporte, Accesorios, and Tecnologia clusters",
-      "assignedTo": "link-architect",
-      "supportedBy": "content-refresher",
-      "status": "pending",
-      "priority": "P1",
-      "deadline": "2026-04-03",
-      "expectedImpact": "Better crawlability, link equity flow to 72+ previously orphaned pages, improved positions",
-      "ice": { "impact": 8, "confidence": 7, "ease": 5 },
-      "acceptanceCriteria": [
-        "Orphan count reduced from 272 to <200",
-        "Top 5 orphan posts by size all have 3+ internal links each",
-        "/tiendas-chinas-online/ hub activated (was 0 incoming, 0 spokes)",
-        "New auto-link patterns added for Deporte and Accesorios categories",
-        "Link health score improved from 2/10 to 4+/10",
-        "No broken internal links introduced"
-      ]
+      "id": "W24-003",
+      "owner": "Marco + Tomas",
+      "title": "Refrescar seo-baseline.json con datos GSC actuales",
+      "description": "seo-baseline.json congelado en W13 (marzo). 10 semanas sin baseline real. Imposible medir impacto del CRO/golden page fix sin esto.",
+      "status": "pending"
     },
     {
-      "id": "W14-004",
-      "task": "Submit sitemap to GSC and request indexation of 21 new URLs created in March 2026",
-      "assignedTo": "user",
-      "supportedBy": "seo-sentinel",
-      "status": "pending",
-      "priority": "P1",
-      "deadline": "2026-04-02",
-      "expectedImpact": "21 new pages indexed → potential +100-200 impressions/week within 2-4 weeks",
-      "ice": { "impact": 7, "confidence": 8, "ease": 9 },
-      "acceptanceCriteria": [
-        "Sitemap submitted in GSC",
-        "All 21 new URLs submitted for indexation via URL Inspection tool",
-        "Coverage report checked — no indexing errors"
-      ]
+      "id": "W24-004",
+      "owner": "Andres (link-architect)",
+      "title": "Mejora link equity hacia hubs nuevos",
+      "description": "Aplicado este sprint: 15 nuevos auto-link patterns hacia /precio-aliexpress/{moneda}/ y /aduana/china-a-{pais}/. Verificar inbound count tras build.",
+      "status": "done",
+      "completed": "2026-06-08"
     },
     {
-      "id": "W14-005",
-      "task": "Rename 1 P1 trademark risk post (lightsaber-replicas) and review 2 P2 posts (compra-botas-australianas-ugg-baratas, camisetas-gas-monkey) for compliance",
-      "assignedTo": "compliance-guardian",
-      "status": "pending",
-      "priority": "P1",
-      "deadline": "2026-04-03",
-      "expectedImpact": "Clean up remaining trademark risk posts",
-      "ice": { "impact": 6, "confidence": 9, "ease": 8 },
-      "acceptanceCriteria": [
-        "lightsaber-replicas title reworded",
-        "P2 posts reviewed — either titles clarified or marked as acceptable editorial use",
-        "compliance-log.json updated with resolutions"
-      ]
+      "id": "W24-005",
+      "owner": "Carmen (site-doctor)",
+      "title": "Verificar renovación SSL (Let's Encrypt expira ~2026-06-14)",
+      "description": "Tras deploy: health-check.sh debe confirmar nuevo cert. Si <14 dias, forzar renovación manual via Traefik.",
+      "status": "blocked",
+      "depends_on": "W24-001"
     },
     {
-      "id": "W14-006",
-      "task": "Activate /tiendas-chinas-online/ as a hub page: add intro paragraph with links to 10+ spoke posts, add it to auto-link patterns, ensure spoke posts link back",
-      "assignedTo": "link-architect",
-      "supportedBy": "content-writer",
-      "status": "pending",
-      "priority": "P1",
-      "deadline": "2026-04-03",
-      "expectedImpact": "Activate highest-content orphan (55k chars) as a strong hub — potential to rank for 'tiendas chinas online'",
-      "ice": { "impact": 8, "confidence": 6, "ease": 6 },
-      "acceptanceCriteria": [
-        "/tiendas-chinas-online/ has 5+ outgoing internal links to spoke posts",
-        "10+ posts link to /tiendas-chinas-online/ (via auto-link or manual)",
-        "Hub cluster status updated from orphan-hub to needs-work or strong in link-map.json"
-      ]
+      "id": "W24-006",
+      "owner": "Diana",
+      "title": "Refresh CLAUDE.md y MEMORY.md con cifras post-merge",
+      "description": "317 posts → 319 posts + 32 hubs dinamicos + 1 calculadora zapatos = 401+ paginas. Actualizar contadores y sección 'Calculadoras dinámicas'.",
+      "status": "partial",
+      "note": "CLAUDE.md contadores ya refrescados este sprint; resta sección detallada"
     },
     {
-      "id": "W14-007",
-      "task": "Golden page content refresh: add LATAM pricing section (Peruvian Soles, Chilean Pesos, Mexican Pesos), local terminology, improve FAQ section with 3 new questions targeting PE/CL queries",
-      "assignedTo": "content-refresher",
-      "supportedBy": "geo-optimizer",
-      "status": "pending",
-      "priority": "P2",
-      "deadline": "2026-04-04",
-      "expectedImpact": "Improve positions in PE (7.2→5) and CL (9.8→7) — these markets already rank better than ES",
-      "ice": { "impact": 7, "confidence": 6, "ease": 5 },
-      "acceptanceCriteria": [
-        "LATAM pricing added with local currency references",
-        "3 new FAQ questions added (targeting PE/CL search intent)",
-        "seoDescription already optimized (145 chars) — no change needed",
-        "refresh-tracker.json updated with changes"
-      ]
-    },
-    {
-      "id": "W14-008",
-      "task": "Write 2 new articles from content queue: (1) Tallas TEMU guide (gap identified by competitor-watch), (2) Mejores productos Xiaomi AliExpress 2026 (activates Xiaomi cluster)",
-      "assignedTo": "content-writer",
-      "status": "pending",
-      "priority": "P2",
-      "deadline": "2026-04-04",
-      "expectedImpact": "2 new pages targeting verified gaps, +3 internal links each, feed Xiaomi and Tallas clusters",
-      "ice": { "impact": 6, "confidence": 5, "ease": 5 },
-      "acceptanceCriteria": [
-        "2 new posts added to posts.json with type: 'post'",
-        "seoTitle <=60 chars, seoDescription <=155 chars",
-        "3+ internal links per article",
-        "Affiliate links with proper rel='nofollow sponsored noopener'",
-        "No duplicate slugs or titles (L001)",
-        "content-queue.json updated"
-      ]
+      "id": "W24-007",
+      "owner": "Diana",
+      "title": "Decidir Fase 4 plan-pendientes (cluster comprar-desde 9 países)",
+      "description": "Plan en docs/superpowers/plans/2026-06-08-pendientes-suite.md. Owner decidió NO ejecutar Fase 4 esta iteración por riesgo de duplicate content. Reevaluar tras datos GSC frescos.",
+      "status": "deferred"
     }
   ],
-  "blockers": [
-    {
-      "issue": "DNS Cloudflare not configured",
-      "owner": "user",
-      "urgency": "P1",
-      "status": "carried-from-W13",
-      "action": "Create A records: decomprasporchina.com + www → 168.119.125.218 (DNS only, not proxied)"
-    },
-    {
-      "issue": "No live GSC API access via Ahrefs",
-      "owner": "user",
-      "urgency": "P1",
-      "status": "carried-from-W13",
-      "action": "Connect GSC API directly or upgrade Ahrefs plan for live data"
-    },
-    {
-      "issue": "CSP may break AdSense in production",
-      "owner": "deploy-bot",
-      "urgency": "P2",
-      "status": "new",
-      "action": "After deploy W14-002, verify AdSense loads correctly. If blocked, check browser console for CSP violations and update nginx.conf whitelist"
-    }
-  ],
-  "agentAssignments": {
-    "compliance-guardian": ["W14-001", "W14-005"],
-    "deploy-bot": ["W14-002"],
-    "link-architect": ["W14-003", "W14-006"],
-    "seo-sentinel": ["W14-004 (support)"],
-    "content-refresher": ["W14-001 (support)", "W14-003 (support)", "W14-007"],
-    "geo-optimizer": ["W14-007 (support)"],
-    "content-writer": ["W14-006 (support)", "W14-008"],
-    "user": ["W14-004 (GSC manual)", "DNS Cloudflare setup"]
-  },
-  "weeklyKPIs": {
-    "orphanPostsTarget": "<200 (from 272)",
-    "linkHealthScoreTarget": "4+ (from 2)",
-    "trademarkRiskPostsResolved": "5 of 7",
-    "newContentPublished": 2,
-    "deployCompleted": true,
-    "securityHeadersLive": true
-  },
-  "nextWeekPreview": [
-    "W15: Monitor golden page CTR uplift (first signal expected)",
-    "W15: CRO audit on top 5 money pages (Sara)",
-    "W15: GEO optimization batch for PE/CL (Valentina)",
-    "W15: Content audit — identify 0-impression posts for consolidation (cq-003)",
-    "W15: Add slug-specific CTAs to 15 candidate posts (Roberto)",
-    "W15: Verify 21 new URLs indexed in GSC"
-  ]
+  "archive_note": "Plan W14 (marzo 2026) movido a context histórico — tareas resueltas: trademark fixes, security hardening deploy, orphans, CRO golden page."
 }
